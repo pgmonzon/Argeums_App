@@ -23,9 +23,13 @@ export class LoginService {
     
     const json = JSON.stringify(user);
     console.log(this.auth);
-    const params = 'authorization=' + this.auth + '&API_ClienteID='+this.api;
-    const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }); 
-    return this._http.post(this.url + 'autorizar', params, {headers: headers})
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('authorization', this.auth);
+    headers.append('API_ClienteID', this.api);
+    const options = new RequestOptions({headers: headers});
+
+    return this._http.post(this.url + 'autorizar', options)
                      .map(res => res.json());
   }
 
