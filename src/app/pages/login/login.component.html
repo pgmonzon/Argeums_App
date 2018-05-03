@@ -4,10 +4,14 @@
     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
     <div class="container">
       <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
+      
         <form #formUser="ngForm" (ngSubmit)="onSubmit()" class="form" >
           <div class="card card-login card-hidden">
+            
+
             <div class="card-header card-header-rose text-center">
-              <h4 class="card-title">Log in</h4>
+              <h4 class="card-title">Entrá</h4>
+            
               <!-- <div class="social-line">
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
                   <i class="fa fa-facebook-square"></i>
@@ -29,7 +33,7 @@
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input #name="ngModel" name="name" [(ngModel)]="user.name" type="text" class="form-control" placeholder="Usuario...">
+                  <input #usuario="ngModel" name="usuario" [(ngModel)]="user.usuario" type="text" class="form-control" placeholder="Usuario...">
                 </div>
               </span>
               <!-- <span class="bmd-form-group">
@@ -49,12 +53,12 @@
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input #password="ngModel" name="password" [(ngModel)]="user.password"  type="password" class="form-control" placeholder="Clave...">
+                  <input #clave="ngModel" name="clave" [(ngModel)]="user.clave"  type="password" class="form-control" placeholder="Clave...">
                 </div>
               </span>
             </div>
             <div class="card-footer justify-content-center">
-              <input type="submit" value="login" class="btn btn-danger btn-block btn-round">
+              <input type="submit" value="Vamos" class="btn btn-danger btn-block btn-round">
             </div>
           </div>
         </form>

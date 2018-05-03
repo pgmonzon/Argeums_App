@@ -13,6 +13,7 @@ export class LoginService {
   public auth='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjQwNTk3NTYsInBhcyI6IkxJTHJUZnR3TC11ZkJITk4tbUlKZWpfUW1RPT0iLCJ1c3IiOiJkZXYifQ.H63e3TxsL5FCZsb0Rpayjjy4ueW2Gzwhw1L5iufk9Bw';
   public identity;
   public token;
+  private headers= new Headers({'Content-Type':'application/x-www-form-urlencoded'});
   constructor(private _http: Http) {
     this.url = global.url;
     this.api = api.API_ClienteID;
@@ -33,11 +34,30 @@ export class LoginService {
                      .map(res => res.json());
   }
 
-  signup(user_to_login) {
-    const json = JSON.stringify(user_to_login);
-    const params = 'json=' + json;
-    const headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
-    return this._http.post(this.url + 'user/login', params, {headers: headers})
+
+  test4()
+  {
+    //const json = JSON.stringify();
+    //const params = 'json=' + json;
+    this.headers.set('Authorization',this.auth)
+    return this._http.post(this.url + 'testPostHeader', {"api_clienteID": "yangee_desarrollo" }, {headers: this.headers})
+                    .map(res => res.json());
+  }
+
+
+  generateToken(user) { 
+    const json = JSON.stringify(user);
+    //const params = 'json=' + json;
+    this.headers.set('Authorization',this.auth)
+    return this._http.post(this.url + 'tokenCliente', json, {headers: this.headers})
+                    .map(res => res.json());
+  }
+
+  signup(token) {
+    console.log(token);
+    const params = {"api_clienteID": "yangee_desarrollo" };
+    this.headers.set('Authorization',token)
+    return this._http.post(this.url + 'autorizar', {"api_clienteID": "app_desarrollo" }, {headers: this.headers})
                     .map(res => res.json());
   }
 

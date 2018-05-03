@@ -24,6 +24,7 @@ export interface TableData2 {
     templateUrl: 'extendedtable.component.html'
 })
 
+
 export class ExtendedTableComponent implements OnInit {
     public tableData1: TableData;
     public tableData2: TableData2;

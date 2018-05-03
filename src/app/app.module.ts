@@ -48,7 +48,10 @@ import { FixedpluginModule} from './shared/fixedplugin/fixedplugin.module';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
+
 import { AppRoutes } from './app.routing';
+import { AuthGuard } from './auth/auth-guard.service';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   exports: [
@@ -82,7 +85,9 @@ import { AppRoutes } from './app.routing';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+   
+    
   ]
 })
 export class MaterialModule {}
@@ -99,13 +104,20 @@ export class MaterialModule {}
         SidebarModule,
         NavbarModule,
         FooterModule,
-        FixedpluginModule
+        FixedpluginModule,
+        
+
+   
     ],
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        AuthLayoutComponent
+        AuthLayoutComponent,
+       
     ],
+    providers: [AuthGuard,AuthService],
+
     bootstrap:    [ AppComponent ]
 })
+
 export class AppModule { }

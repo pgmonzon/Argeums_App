@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public identity;
     public token;
     public errorMessage;
+    public accountDontExist;
+    public camposIncorrectos;
 
     constructor(
         private element: ElementRef, 
@@ -31,6 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.accountDontExist=null;
+        this.camposIncorrectos=null;
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
         const body = document.getElementsByTagName('body')[0];
@@ -42,33 +46,79 @@ export class LoginComponent implements OnInit, OnDestroy {
             card.classList.remove('card-hidden');
         }, 700);
         this.user = {
-            'name': '',
-            'password': '',
-            'iat':new Date(),
+            'usuario': '',
+            'clave': '',
+            'audience':'app_desarrollo',
           };
     }
 
     onSubmit() {
-        console.log(this.user);
-    
-    
-        this._loginService.login(this.user).subscribe(
+        this._loginService.generateToken(this.user).subscribe(
           response => {
-              //const identity = response;
-              //this.identity = identity;
-           console.log(response);
-            //localStorage.setItem('identity', JSON.stringify(identity));
-            // GET TOKEN
+                this.sendlogin(response.token);
         },
         error => {
             this.errorMessage = <any>error;
             if (this.errorMessage != null) {
-            console.log(this.errorMessage);
-            alert('Error en la petición');
+                this.showNotification('top','center','Completá los campos');
             }
         }
         );
       }
+
+    sendlogin(token){
+        this._loginService.signup(token).subscribe(
+            response => {
+                    const identity = response;
+                    if(identity.estado!= "ERROR"){
+                        this.identity = identity;
+                        localStorage.setItem('identity', JSON.stringify(identity));
+                        window.location.href = '';
+
+                    }
+                    else{
+                        this.showNotification('top','center',identity.mensaje);
+
+                    }
+            
+
+          },
+          error => {
+              this.errorMessage = <any>error;
+              if (this.errorMessage != null) {
+                this.showNotification('top','center','Usuario o clave incorrecta');
+
+              }
+          }
+          );
+    }
+
+
+
+    showNotification(from: any, align: any,text: any) {
+    
+        $.notify({
+            icon: 'notifications',
+            message: text
+        }, {
+            type: 'danger',
+            timer: 5000,
+            placement: {
+                from: from,
+                align: align
+            },
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">' +
+          		'<button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
+          		'<i class="material-icons" data-notify="icon">notifications</i> ' +
+          		'<span data-notify="title">{1}</span> ' +
+          		'<span data-notify="message">{2}</span>' +
+          		'<div class="progress" data-notify="progressbar">' +
+          			'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+          		'</div>' +
+          		'<a href="{3}" target="{4}" data-notify="url"></a>' +
+          	'</div>'
+        });
+    }
     sidebarToggle() {
         var toggleButton = this.toggleButton;
         var body = document.getElementsByTagName('body')[0];

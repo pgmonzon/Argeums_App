@@ -1,8 +1,8 @@
 export class User {
     constructor(
       public id: number,
-      public name: string,
-      public password: string,
-      public iat: Date,
+      public usuario: string,
+      public clave: string,
+      public audience: string,
       ) {}
   }

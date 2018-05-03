@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../app.module';
 
+
 import { ButtonsComponent } from './buttons/buttons.component';
 import { ComponentsRoutes } from './components.routing';
 import { GridSystemComponent } from './grid/grid.component';
@@ -12,6 +13,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { PanelsComponent } from './panels/panels.component';
 import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
+import { TestComponent } from './test/test.component';
+import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
 
 @NgModule({
   imports: [
@@ -27,7 +30,9 @@ import { TypographyComponent } from './typography/typography.component';
       NotificationsComponent,
       PanelsComponent,
       SweetAlertComponent,
-      TypographyComponent
+      TypographyComponent,
+      TestComponent,
+      TipoUnidadComponent
   ]
 })
 
