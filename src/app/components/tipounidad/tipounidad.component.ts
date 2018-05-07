@@ -7,30 +7,14 @@ import 'rxjs/add/operator/map';
 import {  OnInit, AfterViewInit } from '@angular/core';
 
 
-declare var $: any;
-declare interface TableData {
-    headerRow: string[];
-    dataRows: string[][];
-}
-declare interface TableWithCheckboxes {
-    id?: number;
-    ischecked?: boolean;
-    product_name: string;
-    type: string;
-    quantity: number;
-    price: any;
-    amount: string;
-}
-
 declare interface DataTable {
     headerRow: string[];
     footerRow: string[];
     dataRows: string[][];
   }
-export interface TableData2 {
-    headerRow: string[];
-    dataRows: TableWithCheckboxes[];
-}
+  
+  declare const $: any;
+  
 
 @Component({
     selector: 'tipo-unidad-cmp',
@@ -40,7 +24,6 @@ export interface TableData2 {
 })
 
 export class TipoUnidadComponent {
-    public tableData2: TableData2;
     public tipounidad;
     public token;
     public errorMessage;
@@ -49,6 +32,7 @@ export class TipoUnidadComponent {
     private identity;
     public ideliminado;
     public donttable;
+    public showrecuperar;
 
     public dataTable: DataTable;
 
@@ -56,7 +40,7 @@ export class TipoUnidadComponent {
         private _TipoUnidadService: TipounidadService) {
 
     }
-public key=[];
+    public key=[];
     ngOnInit() {
         this.donttable=true;
          $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
@@ -74,8 +58,8 @@ public key=[];
                 this.dataTipounidad =response;
                 if(response.estado!= "ERROR"){
                     this.dataTable = {
-                        headerRow: [ 'Tipo unidad','Estado'],
-                        footerRow: [ 'Tipo unidad','Estado'],
+                        headerRow: [ 'Tipo unidad','Estado','Borrar'],
+                        footerRow: [ 'Tipo unidad','Estado','Borrar'],
             
                         dataRows:response
                 }
@@ -85,8 +69,8 @@ public key=[];
                     this.donttable=false;
 
                     this.dataTable = {
-                        headerRow: [ 'Tipo unidad','Estado'],
-                        footerRow: [ 'Tipo unidad','Estado'],
+                        headerRow: [ 'Tipo unidad','Estado','Borrar'],
+                        footerRow: [ 'Tipo unidad','Estado','Borrar'],
             
                         dataRows:[[ '','']]
                          }           
@@ -122,16 +106,11 @@ public key=[];
                             };
                             $("#myModal").modal("hide");
                             this.donttable=true;
-
                         }
                         else{
                             this.donttable=false;
-
                             this.showNotification('top', 'center', response.mensaje, 'danger');
-
-                        }
-     
-
+                        }   
                 },
                 error => {
                     this.errorMessage = <any>error;
@@ -153,15 +132,15 @@ public key=[];
                 this.dataTipounidad =response;
                 if(response.estado!= "ERROR"){
                     this.dataTable = {
-                        headerRow: [ 'Tipo unidad','Estado'],
-                        footerRow: [ 'Tipo unidad','Estado'],
+                        headerRow: [ 'Tipo unidad','Estado','Borrar'],
+                        footerRow: [ 'Tipo unidad','Estado','Borrar'],
             
                         dataRows:response
                 }
                 }else{
                     this.dataTable = {
-                        headerRow: [ 'Tipo unidad','Estado'],
-                        footerRow: [ 'Tipo unidad','Estado'],
+                        headerRow: [ 'Tipo unidad','Estado','Borrar'],
+                        footerRow: [ 'Tipo unidad','Estado','Borrar'],
             
                         dataRows:[[ '','']]
                          }           
@@ -266,6 +245,7 @@ public key=[];
                 this.All();
                 this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
                 $("#myModalEDITAR").modal("hide");
+                this.showrecuperar=true;
 
             },
             error => {
@@ -276,6 +256,28 @@ public key=[];
         );
      
     }
+
+  public Recuperar() {
+    if(    this.ideliminado != ''    ){
+      this._TipoUnidadService.recuperar( this.ideliminado, this.identity.token).subscribe(
+        response => {
+          this.All();
+          this.showNotification('top', 'center', response.mensaje, 'success');
+          this.showrecuperar=false;
+
+        },
+        error => {
+          this.errorMessage = <any>error;
+          if (this.errorMessage != null) {
+          }
+        }
+      );
+    }
+    else{
+      this.showNotification('top', 'center', 'No hay documento para recuperar', 'warning');
+
+    }
+  }
    
     showNotification(from: any, align: any, text: any, color: any) {
 
@@ -321,15 +323,12 @@ public key=[];
                     '<div class="progress" data-notify="progressbar">' +
                     '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
                     '</div>' +
-                    '<div><button (click)="recuperar(id)" class="btn btn-success text-right recuperar">Recuperar</button> </div>' +
                     '<a href="{3}" target="{4}" data-notify="url"></a>' +
                     '</div>'
             });
     }
 
-        recuperar(id){
-                console.log(id);
-        }
+       
     ngAfterViewInit() {
         $('#datatables').DataTable({
             dom: 'Bfrtip',

@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        localStorage.removeItem('identity');
+
         this.accountDontExist=null;
         this.camposIncorrectos=null;
         var navbar : HTMLElement = this.element.nativeElement;
@@ -53,15 +55,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+
         this._loginService.generateToken(this.user).subscribe(
           response => {
                 this.sendlogin(response.token);
+
         },
         error => {
             this.errorMessage = <any>error;
             if (this.errorMessage != null) {
                 this.showNotification('top','center','Completá los campos');
             }
+
         }
         );
       }

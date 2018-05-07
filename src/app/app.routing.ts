@@ -24,10 +24,9 @@ export const AppRoutes: Routes = [
           {
         path: '',
         canActivate: [AuthGuard], //added canActivate and AuthGuard service
-
         loadChildren: './dashboard/dashboard.module#DashboardModule'
     }, {
-        path: 'proveedores',
+        path: 'personal',
         canActivate: [AuthGuard], //added canActivate and AuthGuard service
         loadChildren: './components/components.module#ComponentsModule'
     },{
@@ -43,7 +42,7 @@ export const AppRoutes: Routes = [
         path: 'widgets',
         loadChildren: './widgets/widgets.module#WidgetsModule'
     }, {
-        path: 'charts',
+        path: 'trafico',
         loadChildren: './charts/charts.module#ChartsModule'
     }, {
         path: 'calendar',

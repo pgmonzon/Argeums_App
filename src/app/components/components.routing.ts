@@ -10,6 +10,9 @@ import { TypographyComponent } from './typography/typography.component';
 import { TestComponent } from './test/test.component';
 
 import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
+import { CategoriasComponent } from './categorias/categorias.component';
+import { SindicatoComponent } from './sindicato/sindicato.component';
+import { CuentaGastoComponent } from './cuenta-gasto/cuenta-gasto.component';
 
 export const ComponentsRoutes: Routes = [
     {
@@ -60,13 +63,33 @@ export const ComponentsRoutes: Routes = [
             path: 'test',
             component: TestComponent
         }]
-    }
-    ,
+    },
     {
         path: '',
         children: [ {
             path: 'tipoUnidades',
             component: TipoUnidadComponent
+        }]
+    },
+    {
+        path: '',
+        children: [ {
+            path: 'categorias',
+            component: CategoriasComponent
+        }]
+    },
+    {
+        path: '',
+        children: [ {
+            path: 'basicoSindicatos',
+            component: SindicatoComponent
+        }]
+    },
+    {
+        path: '',
+        children: [ {
+            path: 'cuentaGastos',
+            component: CuentaGastoComponent
         }]
     }
 ];

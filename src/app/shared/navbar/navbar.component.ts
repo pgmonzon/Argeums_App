@@ -146,6 +146,10 @@ export class NavbarComponent implements OnInit {
         }
         return 'Dashboard';
     }
+    public exit(){
+        window.location.href = 'pages/login';
+    }
+
     getPath() {
         return this.location.prepareExternalUrl(this.location.path());
     }

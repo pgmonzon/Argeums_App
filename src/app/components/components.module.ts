@@ -3,8 +3,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../app.module';
-
-
 import { ButtonsComponent } from './buttons/buttons.component';
 import { ComponentsRoutes } from './components.routing';
 import { GridSystemComponent } from './grid/grid.component';
@@ -15,6 +13,9 @@ import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
 import { TestComponent } from './test/test.component';
 import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
+import { CategoriasComponent } from './categorias/categorias.component';
+import { SindicatoComponent } from './sindicato/sindicato.component';
+import { CuentaGastoComponent } from './cuenta-gasto/cuenta-gasto.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,10 @@ import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
       SweetAlertComponent,
       TypographyComponent,
       TestComponent,
-      TipoUnidadComponent
+      TipoUnidadComponent,
+      CategoriasComponent,
+      SindicatoComponent,
+      CuentaGastoComponent
   ]
 })
 
