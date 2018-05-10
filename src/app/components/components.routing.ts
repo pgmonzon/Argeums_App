@@ -9,10 +9,9 @@ import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
 import { TestComponent } from './test/test.component';
 
-import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SindicatoComponent } from './sindicato/sindicato.component';
-import { CuentaGastoComponent } from './cuenta-gasto/cuenta-gasto.component';
+import { PersonalComponent } from './personal/personal.component';
 
 export const ComponentsRoutes: Routes = [
     {
@@ -67,13 +66,6 @@ export const ComponentsRoutes: Routes = [
     {
         path: '',
         children: [ {
-            path: 'tipoUnidades',
-            component: TipoUnidadComponent
-        }]
-    },
-    {
-        path: '',
-        children: [ {
             path: 'categorias',
             component: CategoriasComponent
         }]
@@ -84,12 +76,13 @@ export const ComponentsRoutes: Routes = [
             path: 'basicoSindicatos',
             component: SindicatoComponent
         }]
-    },
+    }
+    ,
     {
         path: '',
         children: [ {
-            path: 'cuentaGastos',
-            component: CuentaGastoComponent
+            path: 'personal',
+            component: PersonalComponent
         }]
     }
 ];

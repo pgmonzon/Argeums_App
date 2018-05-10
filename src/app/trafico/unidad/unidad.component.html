@@ -1,0 +1,315 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" style="border-radius:50% " mat-raised-button
+          class=" bg-danger" data-toggle="modal" data-target="#myModal">
+          <i style="font-size: 60px; color:white;cursor: pointer;" class="material-icons">add</i>
+        </button>
+
+
+        <!-- Classic Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Alta unidad</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <span class="bmd-form-group">
+                        <div class="input-group">
+                          <!-- <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">assignment
+                              </i>
+                            </span>
+                          </div> -->
+                          <div class="col-md-12">
+                            <br>
+                            <span class="text-center text-danger">{{completecampo}}</span>
+                            <div class="row">
+
+                              <div class="col-md-6">
+                                <input #unidad="ngModel" name="unidad" [(ngModel)]="Unidad.unidad" type="text" class="form-control" placeholder="Unidad...">
+                                <br>
+
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input #vtv="ngModel" name="vtv" [(ngModel)]="Unidad.vtv " matInput [matDatepicker]="picker" placeholder="vtv" (click)="picker.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input #ruta="ngModel" name="ruta" [(ngModel)]="Unidad.ruta" matInput [matDatepicker]="ruta" placeholder="ruta" (click)="ruta.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="ruta"></mat-datepicker-toggle>
+                                  <mat-datepicker #ruta></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input #poliza="ngModel" name="poliza" [(ngModel)]="Unidad.poliza" matInput [matDatepicker]="poliza" placeholder="poliza"
+                                    (click)="poliza.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="poliza"></mat-datepicker-toggle>
+                                  <mat-datepicker #poliza></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input #seguro="ngModel" name="seguro" [(ngModel)]="Unidad.seguro" matInput [matDatepicker]="seguro" placeholder="seguro"
+                                    (click)="seguro.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="seguro"></mat-datepicker-toggle>
+                                  <mat-datepicker #seguro></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <!-- <div class="col-md-6">
+                                <select class="form-control" #propia="ngModel" name="propia" [(ngModel)]="Unidad.propia" required>
+                                  <option [ngValue]=""></option>
+                                  <option [ngValue]="true">True</option>
+                                  <option [ngValue]="false">false</option>
+                                </select>
+                              </div> -->
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <mat-select placeholder="Propia" #propia="ngModel" name="propia" [(ngModel)]="Unidad.propia">
+                                    <mat-option *ngFor="let propia of selectpropia" [value]="propia.value">
+                                      {{ propia.viewValue }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
+
+                          </div>
+
+
+                        </div>
+                      </span>
+
+                    </div>
+                    <div class="card-footer justify-content-center">
+                    </div>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                      <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                      <input type="submit" value="Crear" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- EDITAR TIPO -->
+        <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">EDITAR</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <span class="bmd-form-group">
+                        <div class="input-group">
+                          <div class="col-md-12">
+                            <br>
+                            <span class="text-center text-danger">{{completecampo}}</span>
+                            <div class="row">
+
+                              <div class="col-md-6">
+                                <input #unidad="ngModel" name="unidad" [(ngModel)]="Unidad.unidad" type="text" class="form-control" placeholder="Unidad...">
+                                <br>
+
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input #vtv="ngModel" name="vtvedit" [(ngModel)]="Unidad.vtv " matInput [matDatepicker]="pickeredit" placeholder="vtv" (click)="pickeredit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="pickeredit"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickeredit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input name="rutaedit" [(ngModel)]="Unidad.ruta" matInput [matDatepicker]="rutaedit" placeholder="ruta" (click)="rutaedit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="rutaedit"></mat-datepicker-toggle>
+                                  <mat-datepicker #rutaedit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input name="polizaedit" [(ngModel)]="Unidad.poliza" matInput [matDatepicker]="polizaedit" placeholder="poliza" (click)="polizaedit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="polizaedit"></mat-datepicker-toggle>
+                                  <mat-datepicker #polizaedit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input name="seguroedit" [(ngModel)]="Unidad.seguro" matInput [matDatepicker]="seguroedit" placeholder="seguro" (click)="seguroedit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="seguroedit"></mat-datepicker-toggle>
+                                  <mat-datepicker #seguroedit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <!-- <div class="col-md-6">
+                                <select class="form-control" #propia="ngModel" name="propia" [(ngModel)]="Unidad.propia" required>
+                                  <option [ngValue]=""></option>
+                                  <option [ngValue]="true">True</option>
+                                  <option [ngValue]="false">false</option>
+
+                                </select>
+                              </div> -->
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                    <mat-select placeholder="Propia" #propia="ngModel" name="propia" [(ngModel)]="Unidad.propia" >
+                                      <mat-option *ngFor="let propia of selectpropia" [value]="propia.value">
+                                        {{ propia.viewValue }}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </span>
+
+                    </div>
+                    <div class="card-footer justify-content-center">
+                    </div>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+
+                      <input type="submit" value="Guardar" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">Unidades</h4>
+
+          </div>
+          <div class="card-body">
+            <div class="toolbar" *ngIf="showrecuperar== true">
+              <br>
+              <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
+                <i class="material-icons ">replay</i>
+              </button>
+
+            </div>
+            <div class="">
+
+              <div class="material-datatables">
+                <table id="datatables" class="table table-striped table-no-bordered table-hover  " cellspacing="6" width="100%" style="width:100%">
+                  <thead *ngIf="donttable != false">
+                    <tr>
+                      <th>{{ dataTable.headerRow[0] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[1] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[2] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[3] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[4] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[5] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[6] }}</th>
+                      <th class="text-right">{{ dataTable.headerRow[7] }}</th>
+
+                    </tr>
+                  </thead>
+                  <tfoot *ngIf="donttable != false">
+                    <tr>
+                      <th>{{ dataTable.footerRow[0] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[1] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[2] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[3] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[4] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[5] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[6] }}</th>
+
+                      <th class="text-right">{{ dataTable.footerRow[7] }}</th>
+
+
+                    </tr>
+                  </tfoot>
+                  <tbody *ngIf="donttable != false">
+                    <tr *ngFor="let row of dataTable.dataRows">
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.unidad}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.vtv | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.ruta | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.poliza | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.seguro | date :'dd-MM-yy'}}</td>
+
+                      <td style="cursor: pointer;"  class="text-center" *ngIf="row.propia == true" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR" >
+                        <i class="material-icons text-success">check</i>
+
+                      </td>
+                      <td style="cursor: pointer;"   class="text-center" *ngIf="row.propia == false" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR" >
+                        <i  class="material-icons text-danger">close</i>
+
+                      </td>
+                      <td class="text-center" *ngIf="row.activo == true">
+                        <i style="cursor: pointer;" (click)="desabilitar(row.id)" class="material-icons text-success">check</i>
+
+                      </td>
+                      <td class="text-center" *ngIf="row.activo == false">
+                        <i (click)="habilitar(row.id)" style="cursor: pointer;" class="material-icons text-danger">close</i>
+
+                      </td>
+                      <td class="text-right">
+                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="eliminar(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                          <i class="material-icons">delete</i>
+                        </a>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

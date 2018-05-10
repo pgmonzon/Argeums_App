@@ -2,3 +2,10 @@
 .form-check .form-check-input:checked  .form-check-sign .check {
     background: green !important;
 }
+
+@media (min-width: 576px){
+    .modal-dialog {
+        margin: 1.75rem auto;
+        width: 900px !important;
+    }
+}

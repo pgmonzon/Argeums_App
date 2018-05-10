@@ -1,0 +1,14 @@
+@media (min-width: 576px){
+    .modal-dialog {
+        width: 900px !important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .modal-dialog {
+        width: 900px !important;
+    }
+}
+.modal-dialog {
+    width: 900px !important;
+}

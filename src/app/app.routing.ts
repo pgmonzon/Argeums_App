@@ -39,11 +39,11 @@ export const AppRoutes: Routes = [
         path: 'maps',
         loadChildren: './maps/maps.module#MapsModule'
     }, {
-        path: 'widgets',
+        path: 'clientes',
         loadChildren: './widgets/widgets.module#WidgetsModule'
     }, {
         path: 'trafico',
-        loadChildren: './charts/charts.module#ChartsModule'
+        loadChildren: './trafico/charts.module#ChartsModule'
     }, {
         path: 'calendar',
         loadChildren: './calendar/calendar.module#CalendarModule'
@@ -51,8 +51,12 @@ export const AppRoutes: Routes = [
         path: '',
         loadChildren: './userpage/user.module#UserModule'
     }, {
-        path: '',
-        loadChildren: './timeline/timeline.module#TimelineModule'
+        path: 'viajes',
+        loadChildren: './viajes/timeline.module#TimelineModule'
+    }
+    , {
+        path: 'transportistas',
+        loadChildren: './widgets/widgets.module#WidgetsModule'
     }
   ]}, {
       path: '',

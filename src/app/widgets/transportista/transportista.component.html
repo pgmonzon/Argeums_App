@@ -1,0 +1,905 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" style="border-radius:50% " mat-raised-button
+            class=" bg-danger" data-toggle="modal" data-target="#myModal">
+            <i style="font-size: 60px; color:white;cursor: pointer;" class="material-icons">add</i>
+          </button>
+  
+  
+          <!-- Classic Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Alta Transportista</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+                <div class="modal-body">
+  
+                  <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
+                    <div class=" card-login card-hidden">
+                      <div class="card-body ">
+                        <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                        <span class="bmd-form-group">
+                          <div class="">
+                            <div class=" ">
+                              <div class="card-header ">
+                                <h4 class="card-title">
+                                  <small class="description">
+                                    <div class="Row">
+                                      <div class="col-md-6 offset-3">
+                                        <span class="text-center text-danger">{{completecampo}}</span>
+  
+                                        <span class="bmd-form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                <i class="material-icons">account_circle
+                                                </i>
+                                              </span>
+                                            </div>
+                                            <input #transportista="ngModel" name="transportista" [(ngModel)]="transportistas.transportista" type="text" class="form-control" placeholder="transportista...">
+                                            <br>
+                                          </div>
+                                        </span>
+                                        <span class="bmd-form-group">
+                                            <div class="input-group">
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                  <i class="material-icons">mail
+                                                  </i>
+                                                </span>
+                                              </div>
+                                              <input #mail="ngModel" name="mail" [(ngModel)]="transportistas.mail" type="text" class="form-control" placeholder="mail...">
+                                              <br>
+                                            </div>
+                                          </span>
+                                      </div>
+                                    </div>
+                                  </small>
+                                </h4>
+                              </div>
+                              <div class="card-body ">
+                                <ul class="nav nav-pills nav-pills-warning" role="tablist">
+  
+                                  <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#link2" role="tablist">
+                                      Contactos
+                                    </a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link " data-toggle="tab" href="#link3" role="tablist">
+                                      Tarifarios
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div class="tab-content tab-space">
+                                  <div class="tab-pane active" id="link1">
+  
+                                  </div>
+                                  <div class="tab-pane active" id="link2">
+  
+                                    <form #formContacto="ngForm" (ngSubmit)="onContacto()" class="form">
+                                      <div class="row">
+                                        <div class="col-md-4">
+                                          <input #nombre="ngModel" name="nombre" [(ngModel)]="contactos.nombre" type="text" class="form-control" placeholder="Nombre...">
+                                        </div>
+                                        <div class="col-md-4">
+                                          <input #cargo="ngModel" name="cargo" [(ngModel)]="contactos.cargo" type="text" class="form-control" placeholder="Cargo...">
+                                        </div>
+                                        <div class=" col-md-4">
+                                          <input #telefono="ngModel" name="telefono" [(ngModel)]="contactos.telefono" type="text" class="form-control" placeholder="Telefono...">
+                                        </div>
+                                      </div>
+                                      <div class="row">
+  
+                                      </div>
+                                      <br>
+                                      <div class="row">
+                                        <div class="col-md-6 offset-3">
+                                          <input type="submit" value="Agregá" class="btn btn-success ">
+                                        </div>
+                                      </div>
+                                      <br />
+                                    </form>
+                                    <br />
+                                    <p class="text-center" *ngIf="contactosarray != ''"> Lista de contactos agregados</p>
+                                    <table id="contactotable" class="table" *ngIf="contactosarray != ''">
+                                      <thead>
+                                        <tr>
+                                          <th>Nombre</th>
+                                          <th>Cargo</th>
+                                          <th>Telefono</th>
+                                          <th>Borrar</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let row of contactosarray">
+                                          <td> {{row['nombre']}} </td>
+                                          <td> {{row['cargo']}} </td>
+                                          <td> {{row['telefono']}} </td>
+                                          <td>
+                                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="remove(row['telefono'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                              <i class="material-icons">delete</i>
+                                            </a>
+                                          </td>
+  
+                                        </tr>
+                                      </tbody>
+                                      <tfoot>
+                                        <tr>
+                                          <th>Nombre</th>
+                                          <th>Cargo</th>
+                                          <th>Telefono</th>
+                                          <th>Borrar</th>
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                  </div>
+                                  <div class="tab-pane " id="link3">
+                                    <form #formContacto="ngForm" (ngSubmit)="onTarifario()" class="form">
+                                      <div class="row">
+                                        <div class="col-md-6 offset-3">
+                                          <input #tarifario="ngModel" name="tarifario" [(ngModel)]="tarifarios.tarifario" type="text" class="form-control text-center tarifario"
+                                            placeholder="Tarifario...">
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <!-- <label for="">Tipo</label>
+                                          <select class="form-control" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo"required>
+                                            <option *ngFor="let tip of tipotarifario" [value]="tipo.value">{{tip.viewValue }}</option>
+                                          </select> -->
+  
+                                          <mat-form-field>
+                                            <mat-select placeholder="Tipo Unidad" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo" (change)="onChange($event)">
+                                              <mat-option *ngFor="let tip of tipotarifario" [value]="tip.value">
+                                                {{ tip.viewValue }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <!-- <select class="form-control" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
+                                                <option *ngFor="let tipo of tipounidades" [value]="tipo.id">{{tipo.tipo_unidad}}</option>
+                                              </select> -->
+                                          <mat-form-field>
+                                            <mat-select placeholder="Tipo Unidad" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
+                                              <mat-option *ngFor="let tipo of tipounidades" [value]="tipo.id">
+                                                {{ tipo.tipo_unidad }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                        </div>
+  
+                                      </div>
+                                      <br>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <mat-form-field>
+                                            <input #vigenteDesde="ngModel" name="vigenteDesde" [(ngModel)]="tarifarios.vigenteDesde" matInput [matDatepicker]="vigenteDesde"
+                                              placeholder="vigenteDesde" (click)="vigenteDesde.open()">
+                                            <mat-datepicker-toggle matSuffix [for]="vigenteDesde"></mat-datepicker-toggle>
+                                            <mat-datepicker #vigenteDesde></mat-datepicker>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+  
+                                          <mat-form-field>
+                                            <input class="vigenteDesde" #vigenteHasta="ngModel" name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHasta"
+                                              placeholder="vigenteHasta" (click)="vigenteHasta.open()">
+                                            <mat-datepicker-toggle matSuffix [for]="vigenteHasta"></mat-datepicker-toggle>
+                                            <mat-datepicker #vigenteHasta></mat-datepicker>
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class="row">
+                                        <div class="col-md-4">
+                                          <label for="">Importe</label>
+                                          <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" type="number" class="form-control text-center importe"
+                                            placeholder="Importe...">
+                                        </div>
+                                        <div class="col-md-4 kmDesde">
+                                          <label for="">kmDesde</label>
+                                          <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" type="number" class="form-control text-center "
+                                            placeholder="kmDesde...">
+                                        </div>
+                                        <div class="col-md-4 kmHasta ">
+                                          <label for="">kmHasta</label>
+                                          <input #kmHasta="ngModel" name="kmHasta" step="0.01" [(ngModel)]="tarifarios.kmHasta" type="number" class="form-control text-center "
+                                            placeholder="kmHasta...">
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class="Locacion">
+                                        <hr>
+                                        <form #formRecorrido="ngForm" (ngSubmit)="onRecorrido()" class="form ">
+  
+                                          <div class="row">
+  
+                                            <div class="col-md-4">
+                                              <mat-form-field>
+                                                <mat-select placeholder="Locacion" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="recorrido.locacion_id">
+                                                  <mat-option *ngFor="let tipo of tipounidades" [value]="tipo.id">
+                                                    {{ tipo.tipo_unidad }}
+                                                  </mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <input type="submit" value="Agregá" class="btn btn-success ">
+  
+                                            </div>
+                                            <div class="col-md-4">
+                                              <table class="table">
+                                                  <thead>
+                                                        <tr>
+                                                          <th>Locaciones</th>
+                                                        </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr *ngFor="let row of recorridoarray">
+                                                          <td>{{row['locacion_id']}}</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </form>
+                                      </div>
+  
+                                      <hr>
+                                      <br>
+                                      <input type="submit" value="Agregá" class="btn btn-success ">
+  
+                                      <br />
+                                    </form>
+                                    <br />
+                                    <br />
+                                    <p class="text-center" *ngIf="tarifariosarray != ''"> Lista de tarifario agregados</p>
+                                    <table class="table" *ngIf="tarifariosarray != ''">
+                                      <thead>
+                                        <tr>
+                                          <th>tarifario</th>
+                                          <th>tipo</th>
+                                          <th>tipoUnidad</th>
+                                          <th>importe</th>
+                                          <th>vigenteDesde</th>
+                                          <th>vigenteHasta</th>
+                                          <th>kmDesde</th>
+                                          <th>KmHasta</th>
+                                          <!-- <th>recorrido</th> -->
+                                          <th>Borrar</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let row of tarifariosarray">
+                                          <td> {{row['tarifario']}} </td>
+                                          <td> {{row['tipo']}} </td>
+                                          <div *ngFor="let tipo of tipounidades">
+                                            <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
+                                          </div>
+                                          <td> {{row['importe']}} </td>
+                                          <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
+                                          <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
+                                          <td> {{row['kmDesde']}} </td>
+                                          <td> {{row['kmHasta']}} </td>
+                                          <!-- <td>
+                                            <tr *ngFor="let ren of row['recorrido']" >
+                                                  <td>{{ren['locacion_id']}}</td>
+                                            </tr>
+                                          </td> -->
+                                          <td>
+                                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="removeTarifario(row['tarifario'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                              <i class="material-icons">delete</i>
+                                            </a>
+                                          </td>
+  
+                                        </tr>
+                                      </tbody>
+                                      <tfoot>
+                                        <tr>
+                                          <th>tarifario</th>
+                                          <th>tipo</th>
+                                          <th>tipoUnidad</th>
+                                          <th>importe</th>
+                                          <th>vigenteDesde</th>
+                                          <th>vigenteHasta</th>
+                                          <th>kmDesde</th>
+                                          <th>KmHasta</th>
+                                          <th>Borrar</th>
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </span>
+  
+                      </div>
+                      <div class="card-footer justify-content-center">
+                      </div>
+                      <div class="modal-footer">
+  
+                        <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                        <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                        <input type="submit" value="Crear" class="btn btn-success ">
+  
+                      </div>
+                    </div>
+                  </form>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Alta transportista</h4>
+                    <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      <i class="material-icons">clear</i>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+    
+                    <form #formUnidad="ngForm" (ngSubmit)="onEdit()" class="form">
+                      <div class=" card-login card-hidden">
+                        <div class="card-body ">
+                          <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                          <span class="bmd-form-group">
+                            <div class="">
+                              <div class=" ">
+                                <div class="card-header ">
+                                  <h4 class="card-title">
+                                    <small class="description">
+                                      <div class="Row">
+                                        <div class="col-md-6 offset-3">
+                                          <span class="text-center text-danger">{{completecampo}}</span>
+    
+                                          <span class="bmd-form-group">
+                                            <div class="input-group">
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                  <i class="material-icons">account_circle
+                                                  </i>
+                                                </span>
+                                              </div>
+                                              <input #transportista="ngModel" name="transportista" [(ngModel)]="transportistas.transportista" type="text" class="form-control" placeholder="Transportista...">
+                                              <br>
+                                            </div>
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </h4>
+                                </div>
+                                <div class="card-body ">
+                                  <ul class="nav nav-pills nav-pills-warning" role="tablist">
+    
+                                    <li class="nav-item">
+                                      <a class="nav-link active" data-toggle="tab" href="#link2edit" role="tablist">
+                                        Contactos
+                                      </a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="nav-link " data-toggle="tab" href="#link3edit" role="tablist">
+                                        Tarifarios
+                                      </a>
+                                    </li>
+                                  </ul>
+                                  <div class="tab-content tab-space">
+                                    <div class="tab-pane active" id="link1">
+    
+                                    </div>
+                                    <div class="tab-pane active" id="link2edit">
+    
+                                      <form #formContacto="ngForm" (ngSubmit)="onContacto()" class="form">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <input #nombre="ngModel" name="nombre" [(ngModel)]="contactos.nombre" type="text" class="form-control" placeholder="Nombre...">
+                                          </div>
+                                          <div class="col-md-4">
+                                            <input #cargo="ngModel" name="cargo" [(ngModel)]="contactos.cargo" type="text" class="form-control" placeholder="Cargo...">
+                                          </div>
+                                          <div class=" col-md-4">
+                                            <input #telefono="ngModel" name="telefono" [(ngModel)]="contactos.telefono" type="text" class="form-control" placeholder="Telefono...">
+                                          </div>
+                                        </div>
+                                        <div class="row">
+    
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                          <div class="col-md-6 offset-3">
+                                            <input type="submit" value="Agregá" class="btn btn-success ">
+                                          </div>
+                                        </div>
+                                        <br />
+                                      </form>
+                                      <br />
+                                      <p class="text-center" *ngIf="contactosarray != ''"> Lista de contactos agregados</p>
+                                      <table id="contactotable" class="table" *ngIf="contactosarray != ''">
+                                        <thead>
+                                          <tr>
+                                            <th>Nombre</th>
+                                            <th>Cargo</th>
+                                            <th>Telefono</th>
+                                            <th>Borrar</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let row of contactosarray">
+                                            <td> {{row['nombre']}} </td>
+                                            <td> {{row['cargo']}} </td>
+                                            <td> {{row['telefono']}} </td>
+                                            <td>
+                                              <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="remove(row['telefono'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                                <i class="material-icons">delete</i>
+                                              </a>
+                                            </td>
+    
+                                          </tr>
+                                        </tbody>
+                                        <tfoot>
+                                          <tr>
+                                            <th>Nombre</th>
+                                            <th>Cargo</th>
+                                            <th>Telefono</th>
+                                            <th>Borrar</th>
+                                          </tr>
+                                        </tfoot>
+                                      </table>
+                                    </div>
+                                    <div class="tab-pane " id="link3edit">
+                                      <form #formContacto="ngForm" (ngSubmit)="onTarifario()" class="form">
+                                        <div class="row">
+                                          <div class="col-md-6 offset-3">
+                                            <input #tarifario="ngModel" name="tarifario" [(ngModel)]="tarifarios.tarifario" type="text" class="form-control text-center tarifario"
+                                              placeholder="Tarifario...">
+                                          </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <!-- <label for="">Tipo</label>
+                                            <select class="form-control" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo"required>
+                                              <option *ngFor="let tip of tipotarifario" [value]="tipo.value">{{tip.viewValue }}</option>
+                                            </select> -->
+    
+                                            <mat-form-field>
+                                              <mat-select placeholder="Tipo Unidad" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo" (change)="onChange($event)">
+                                                <mat-option *ngFor="let tip of tipotarifario" [value]="tip.value">
+                                                  {{ tip.viewValue }}
+                                                </mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <!-- <select class="form-control" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
+                                                  <option *ngFor="let tipo of tipounidades" [value]="tipo.id">{{tipo.tipo_unidad}}</option>
+                                                </select> -->
+                                            <mat-form-field>
+                                              <mat-select placeholder="Tipo Unidad" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
+                                                <mat-option *ngFor="let tipo of tipounidades" [value]="tipo.id">
+                                                  {{ tipo.tipo_unidad }}
+                                                </mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+    
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <mat-form-field>
+                                              <input  name="vigenteDesde" [(ngModel)]="tarifarios.vigenteDesde" matInput [matDatepicker]="vigenteDesdeedit"
+                                                placeholder="vigenteDesde" (click)="vigenteDesdeedit.open()">
+                                              <mat-datepicker-toggle matSuffix [for]="vigenteDesdeedit"></mat-datepicker-toggle>
+                                              <mat-datepicker #vigenteDesdeedit></mat-datepicker>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-6">
+    
+                                            <mat-form-field>
+                                              <input class="vigenteDesde"  name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHastaedit"
+                                                placeholder="vigenteHasta" (click)="vigenteHastaedit.open()">
+                                              <mat-datepicker-toggle matSuffix [for]="vigenteHastaedit"></mat-datepicker-toggle>
+                                              <mat-datepicker #vigenteHastaedit></mat-datepicker>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <label for="">Importe</label>
+                                            <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" type="number" class="form-control text-center importe"
+                                              placeholder="Importe...">
+                                          </div>
+                                          <div class="col-md-4 kmDesde">
+                                            <label for="">kmDesde</label>
+                                            <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" type="number" class="form-control text-center "
+                                              placeholder="kmDesde...">
+                                          </div>
+                                          <div class="col-md-4 kmHasta ">
+                                            <label for="">kmHasta</label>
+                                            <input #kmHasta="ngModel" name="kmHasta" step="0.01" [(ngModel)]="tarifarios.kmHasta" type="number" class="form-control text-center "
+                                              placeholder="kmHasta...">
+                                          </div>
+                                        </div>
+                                        <br>
+                                        <div class="Locacion">
+                                          <hr>
+                                          <form #formRecorrido="ngForm" (ngSubmit)="onRecorrido()" class="form ">
+    
+                                            <div class="row">
+    
+                                              <div class="col-md-4">
+                                                <mat-form-field>
+                                                  <mat-select placeholder="Locacion" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="recorrido.locacion_id">
+                                                    <mat-option *ngFor="let tipo of tipounidades" [value]="tipo.id">
+                                                      {{ tipo.tipo_unidad }}
+                                                    </mat-option>
+                                                  </mat-select>
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-md-4">
+                                                <input type="submit" value="Agregá" class="btn btn-success ">
+    
+                                              </div>
+                                              <div class="col-md-4">
+                                                <table class="table">
+                                                    <thead>
+                                                          <tr>
+                                                            <th>Locaciones</th>
+                                                          </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let row of recorridoarray">
+                                                            <td>{{row['locacion_id']}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                              </div>
+                                            </div>
+                                          </form>
+                                        </div>
+    
+                                        <hr>
+                                        <br>
+                                        <input type="submit" value="Agregá" class="btn btn-success ">
+    
+                                        <br />
+                                      </form>
+                                      <br />
+                                      <br />
+                                      <p class="text-center" *ngIf="tarifariosarray != ''"> Lista de tarifario agregados</p>
+                                      <table class="table" *ngIf="tarifariosarray != ''">
+                                        <thead>
+                                          <tr>
+                                            <th>tarifario</th>
+                                            <th>tipo</th>
+                                            <th>tipoUnidad</th>
+                                            <th>importe</th>
+                                            <th>vigenteDesde</th>
+                                            <th>vigenteHasta</th>
+                                            <th>kmDesde</th>
+                                            <th>KmHasta</th>
+                                            <!-- <th>recorrido</th> -->
+                                            <th>Borrar</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let row of tarifariosarray">
+                                            <td> {{row['tarifario']}} </td>
+                                            <td> {{row['tipo']}} </td>
+                                            <div *ngFor="let tipo of tipounidades">
+                                              <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
+                                            </div>
+                                            <td> {{row['importe']}} </td>
+                                            <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
+                                            <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
+                                            <td> {{row['kmDesde']}} </td>
+                                            <td> {{row['kmHasta']}} </td>
+                                            <!-- <td>
+                                              <tr *ngFor="let ren of row['recorrido']" >
+                                                    <td>{{ren['locacion_id']}}</td>
+                                              </tr>
+                                            </td> -->
+                                            <td>
+                                              <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="removeTarifario(row['tarifario'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                                <i class="material-icons">delete</i>
+                                              </a>
+                                            </td>
+    
+                                          </tr>
+                                        </tbody>
+                                        <tfoot>
+                                          <tr>
+                                            <th>tarifario</th>
+                                            <th>tipo</th>
+                                            <th>tipoUnidad</th>
+                                            <th>importe</th>
+                                            <th>vigenteDesde</th>
+                                            <th>vigenteHasta</th>
+                                            <th>kmDesde</th>
+                                            <th>KmHasta</th>
+                                            <th>Borrar</th>
+                                          </tr>
+                                        </tfoot>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </span>
+    
+                        </div>
+                        <div class="card-footer justify-content-center">
+                        </div>
+                        <div class="modal-footer">
+    
+                          <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                          <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                          <input type="submit" value="Guardar" class="btn btn-success ">
+    
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+    
+                </div>
+              </div>
+            </div>
+          <div class="modal fade" id="myModalRecorrido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Contactos</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>locacion</th>
+  
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of recorridoarray">
+                          <td> {{row['locacion_id']}} </td>
+  
+  
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>locacion</th>
+  
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <div *ngIf="modalcontactomensaje !=true ">
+                    <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button   mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL CONTACTO -->
+          <div class="modal fade" id="myModalContacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Contactos</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Cargo</th>
+                          <th>Telefono</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of modalContactoshow">
+                          <td> {{row['nombre']}} </td>
+                          <td> {{row['cargo']}} </td>
+                          <td> {{row['telefono']}} </td>
+  
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Cargo</th>
+                          <th>Telefono</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <div *ngIf="modalcontactomensaje !=true ">
+                    <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button  mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL TARIFARIO -->
+  
+          <div id="tamaño" class="modal fade " tabindex="-1" id="myModalTarifario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-small modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title color">Tarifario</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+                <div class="modal-body pading">
+                  <div class="col-md-8 offset-1">
+                    <table class="table ">
+                      <thead>
+                        <tr>
+                          <th>tarifario</th>
+                          <th>tipo</th>
+                          <th>tipoUnidad</th>
+                          <th>importe</th>
+                          <th>vigenteDesde</th>
+                          <th>vigenteHasta</th>
+                          <th>kmDesde</th>
+                          <th>kmHasta</th>
+                          <th>recorrido</th>
+  
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of modaltarifarios">
+                          <td> {{row['tarifario']}} </td>
+                          <td> {{row['tipo']}} </td>
+                          <div *ngFor="let tipo of tipounidades">
+                            <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
+  
+                          </div>
+                          <td> {{row['importe']}} </td>
+                          <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
+                          <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
+                          <td> {{row['kmDesde']}} </td>
+                          <td> {{row['kmHasta']}} </td>
+                          <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalRecorrido(row['tarifario'])" data-target="#myModalRecorrido">Ver Detalle</td>
+  
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>tarifario</th>
+                          <th>tipo</th>
+                          <th>tipoUnidad</th>
+                          <th>importe</th>
+                          <th>vigenteDesde</th>
+                          <th>vigenteHasta</th>
+                          <th>kmDesde</th>
+                          <th>kmHasta</th>
+                          <th>recorrido</th>
+  
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <div *ngIf="modalcontactomensaje !=true ">
+                    <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button  mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">assignment</i>
+              </div>
+              <h4 class="card-title">Transportista</h4>
+  
+            </div>
+            <div class="card-body">
+              <div class="toolbar" *ngIf="showrecuperar== true">
+                <br>
+                <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
+                  <i class="material-icons ">replay</i>
+                </button>
+  
+              </div>
+              <div class="">
+  
+                <div class="material-datatables">
+                  <table id="datatables" class="table table-striped  table-hover  " cellspacing="6" width="100%" style="width:100%">
+                    <thead *ngIf="donttable != false">
+                      <tr>
+                        <th *ngFor="let row of dataTable.headerRow" class="text-center">{{ row }}</th>
+                      </tr>
+                    </thead>
+                    <tfoot *ngIf="donttable != false">
+                      <tr>
+                        <th *ngFor="let row of dataTable.footerRow" class="text-center">{{ row }}</th>
+  
+                      </tr>
+                    </tfoot>
+                    <tbody *ngIf="donttable != false">
+                      <tr *ngFor="let row of dataTable.dataRows">
+                        <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.transportista}}</td>
+                        <!-- <td>
+                          <tr *ngFor="let contacto of row.contactos">
+                            <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{contacto.nombre}}</td>
+                          </tr>
+                        </td>
+                        <td>
+                          <tr>
+                            <td *ngFor="let a of row.tarifarios" class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)"
+                              data-target="#myModalEDITAR">{{a.tarifario}}</td>
+                          </tr>
+                        </td> -->
+                        <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalContacto(row.id)" data-target="#myModalContacto">Ver Detalle</td>
+                        <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalTarifario(row.id)" data-target="#myModalTarifario">Ver Detalle</td>
+                        <td class="text-center" *ngIf="row.activo == true">
+                          <i style="cursor: pointer;" (click)="desabilitar(row.id)" class="material-icons text-success">check</i>
+  
+                        </td>
+                        <td class="text-center" *ngIf="row.activo == false">
+                          <i (click)="habilitar(row.id)" style="cursor: pointer;" class="material-icons text-danger">close</i>
+  
+                        </td>
+                        <td class="text-right">
+                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="eliminar(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                            <i class="material-icons">delete</i>
+                          </a>
+  
+                        </td>
+  
+  
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>

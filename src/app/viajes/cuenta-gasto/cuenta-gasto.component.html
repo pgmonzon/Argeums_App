@@ -12,7 +12,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Alta Categoria</h4>
+                <h4 class="modal-title">Alta Cuenta Gastos</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -31,7 +31,7 @@
                               </i>
                             </span>
                           </div>
-                          <input #categoria="ngModel" name="Categoria" [(ngModel)]="Categoria.categoria" type="text" class="form-control" placeholder="Categoria...">
+                          <input #categoria="ngModel" name="Categoria" [(ngModel)]="CuentaGasto.cuenta_gasto" type="text" class="form-control" placeholder="CuentaGasto...">
                           <br>
                           <span class="text-center text-danger">{{completecampo}}</span>
                         </div>
@@ -80,7 +80,7 @@
                               </i>
                             </span>
                           </div>
-                          <input #categorias="ngModel" name="categorias" [(ngModel)]="Categoria.categoria" type="text" class="form-control" placeholder="categoria...">
+                          <input #categoria="ngModel" name="Categoria" [(ngModel)]="CuentaGasto.cuenta_gasto" type="text" class="form-control" placeholder="CuentaGasto...">
                           <br>
                           <span class="text-center text-danger">{{completecampo}}</span>
                         </div>
@@ -110,7 +110,7 @@
             <div class="card-icon">
               <i class="material-icons">assignment</i>
             </div>
-            <h4 class="card-title">Categorias</h4>
+            <h4 class="card-title">Cuenta Gastos</h4>
 
           </div>
           <div class="card-body">
@@ -143,7 +143,7 @@
                   </tfoot>
                   <tbody *ngIf="donttable != false">
                     <tr *ngFor="let row of dataTable.dataRows">
-                      <td style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.categoria}}</td>
+                      <td style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.cuenta_gasto}}</td>
 
                       <td  class="text-center"*ngIf="row.activo == true">
                         <i style="cursor: pointer;" (click)="desabilitar(row.id)" class="material-icons text-success">check</i>

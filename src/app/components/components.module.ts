@@ -12,10 +12,9 @@ import { PanelsComponent } from './panels/panels.component';
 import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
 import { TestComponent } from './test/test.component';
-import { TipoUnidadComponent } from './tipounidad/tipounidad.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SindicatoComponent } from './sindicato/sindicato.component';
-import { CuentaGastoComponent } from './cuenta-gasto/cuenta-gasto.component';
+import { PersonalComponent } from './personal/personal.component';
 
 @NgModule({
   imports: [
@@ -33,10 +32,9 @@ import { CuentaGastoComponent } from './cuenta-gasto/cuenta-gasto.component';
       SweetAlertComponent,
       TypographyComponent,
       TestComponent,
-      TipoUnidadComponent,
       CategoriasComponent,
       SindicatoComponent,
-      CuentaGastoComponent
+      PersonalComponent
   ]
 })
 

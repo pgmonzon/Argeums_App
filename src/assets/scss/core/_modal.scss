@@ -70,14 +70,17 @@
   .modal-body + .modal-footer {
     padding-top: 0;
   }
+
 }
 .modal-backdrop {
   background: rgba(0,0,0,0.3);
 }
 
 .modal{
+
     .modal-dialog{
         margin-top: 100px;
+        width: 900px !important;
 
         &.modal-login{
             width: 360px;
@@ -170,7 +173,7 @@
 }
 
 .modal-small{
-    width: 300px;
+    width: 900px !important;
     margin: 0 auto;
 
     .modal-body{
