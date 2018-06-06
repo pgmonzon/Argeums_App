@@ -25,7 +25,11 @@ export class TransportistaService {
     return this._http.post(this.url + 'transportistas/-transportista/9999',{"cliente": ""} ,{headers: this.headers})
                     .map(res => res.json());
   }
-
+  getLocacionAll(token){
+    this.headers.set('Authorization',token)
+    return this._http.post(this.url + 'locaciones/-locacion/9999',{"locacion": "","direccion": ""} ,{headers: this.headers})
+                    .map(res => res.json());
+  }
   getTipoUnidad(token){
     this.headers.set('Authorization',token)
     return this._http.post(this.url + 'tipoUnidades/-tipo_unidad/9999',{"tipo_unidad": ""} ,{headers: this.headers})

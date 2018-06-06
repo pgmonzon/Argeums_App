@@ -1,0 +1,278 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button class="btn bg-success "
+          style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
+          <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
+        </button>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"> Facturación</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form #formCategoria="ngForm" (ngSubmit)="onSubmit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #letra="ngModel" name="letra" [(ngModel)]="factura.letra" type="text" class="form-control text-center" placeholder="Letra...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #suc="ngModel" name="suc" [(ngModel)]="factura.suc" type="text" class="form-control text-center" placeholder="Sucursal...">
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <input #fecha="ngModel" name="fecha" [(ngModel)]="factura.fecha" class="text-center" matInput [matDatepicker]="fechaHora"
+                              (click)="fechaHora.open()" placeholder="Fecha">
+                            <mat-datepicker-toggle matSuffix [for]="fechaHora"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaHora></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <input #vencimiento="ngModel" name="vencimiento" [(ngModel)]="factura.vencimiento" class="text-center" matInput [matDatepicker]="vencimiento"
+                              (click)="vencimiento.open()" placeholder="Vencimiento">
+                            <mat-datepicker-toggle matSuffix [for]="vencimiento"></mat-datepicker-toggle>
+                            <mat-datepicker #vencimiento></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #numero="ngModel" name="numero" [(ngModel)]="factura.numero" type="text" class="form-control text-center" placeholder="Numero...">
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="factura.cliente_id" (change)="onChange($event)">
+                              <div *ngFor="let client of clienteAll">
+                                <mat-option *ngIf=" client.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="client.id" disabled>
+                                  <p> {{ client.cliente }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" client.activo==true" [value]="client.id">
+                                  <p> {{ client.cliente }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #descripcion="ngModel" name="descripcion" [(ngModel)]="factura.descripcion" type="text" class="form-control text-center"
+                            placeholder="descripcion...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #neto="ngModel" name="neto" [(ngModel)]="factura.neto" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="importe...">
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #iva105="ngModel" name="iva105" [(ngModel)]="factura.iva105" type="number" step="0.00001" min="0" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="iva105...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #iva21="ngModel" name="iva21" [(ngModel)]="factura.iva21" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="iva21...">
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #total="ngModel" name="total" [(ngModel)]="factura.total" type="number" step="0.00001" min="0" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="total...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #cuentaIngreso="ngModel" name="cuentaIngreso" [(ngModel)]="factura.cuentaIngreso" type="text" class="form-control text-center"
+                            placeholder="Cuenta Ingreso...">
+                        </div>
+                      </div>
+
+                      <!-- <input #categoria="ngModel" name="Categoria" [(ngModel)]="" type="text" class="form-control" placeholder="CuentaGasto..."> -->
+                      <br>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr>
+                            <th>FechaHora</th>
+                            <th>Recorrido</th>
+
+                            <th>Valor</th>
+                            <th>Peaje</th>
+                            <th>Adic.</th>
+
+                            <th></th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of facturasViajes">
+                            <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
+                            <td> {{row.recorrido}}</td>
+                           
+
+                            <td>${{row.valorViaje}}</td>
+                            <td> ${{row.peajes}}</td>
+                            <td> ${{row.importe}}</td>
+                            <th class="text-center">
+                              <div class="form-check text-center">
+                                <label class="form-check-label text-center">
+                                  <input class="form-check-input text-center" (click)="agregarFactura(row.id,row.fechaHora,row.recorrido,row.valorViaje,row.peajes,row.importe,$event)"
+                                    type="checkbox" value="">
+                                  <span class="form-check-sign text-center">
+                                    <span class="check text-center"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </th>
+
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td>Total:</td>
+                            <td>${{tablatotal}}</td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <input type="submit" value="Facturar" class="btn btn-success ">
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="myModalVer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content ">
+                <div class="modal-header">
+                  <h4 class="modal-title text-center">ViajesFactura</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+                <div class="modal-body ">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                              <th>FechaHora</th>
+                              <th>Recorrido</th>
+                              <th>Valor</th>
+  
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of verviajesFacturas">
+                              <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
+                              <td> {{row.recorrido}}</td>
+                              <td> ${{row.valor}}</td>
+                           
+                            </tr>
+                        
+  
+                          </tbody>
+                    </table>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">assignment</i>
+              </div>
+              <h4 class="card-title">Facturación</h4>
+            </div>
+            <div class="card-body">
+              <div class="toolbar">
+              </div>
+              <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6" width="100%" style="width:100%">
+                  <thead *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">letra</th>
+                      <th class="text-center">suc</th>
+                      <th class="text-center">numero </th>
+                      <th class="text-center">fecha</th>
+                      <th class="text-center">vencimiento</th>
+                      <th class="text-center">cliente</th>
+                      <th class="text-center">descripcion</th>
+                      <th class="text-center">neto</th>
+                      <th class="text-center">iva105</th>
+                      <th class="text-center">iva21 </th>
+                      <th class="text-center">total</th>
+                      <th class="text-center">cuentaIngreso</th>
+                      <th class="text-center">viajesFact</th>
+                    </tr>
+                  </thead>
+                  <tfoot *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">letra</th>
+                      <th class="text-center">suc</th>
+                      <th class="text-center">numero </th>
+                      <th class="text-center">fecha</th>
+                      <th class="text-center">vencimiento</th>
+                      <th class="text-center">cliente</th>
+                      <th class="text-center">descripcion</th>
+                      <th class="text-center">neto</th>
+                      <th class="text-center">iva105</th>
+                      <th class="text-center">iva21 </th>
+                      <th class="text-center">total</th>
+                      <th class="text-center">cuentaIngreso</th>
+                      <th class="text-center">viajesFact</th>
+                    </tr>
+                  </tfoot>
+                  <tbody *ngIf="donttable != false">
+                      <tr *ngFor="let row of autorizacionArray" >
+                        <td class="text-center"> {{row.letra}}</td>
+                        <td class="text-center"> {{row.suc}}</td>
+                        <td class="text-center"> {{row.numero}}</td>
+                        <td class="text-center"> {{row.fecha | date :'dd-MM-yy '}}</td>
+                        <td class="text-center"> {{row.vencimiento | date :'dd-MM-yy '}}</td>
+                        <td class="text-center"> {{row.cliente}}</td>
+                        <td class="text-center"> {{row.descripcion}}</td>
+                        <td class="text-center"> ${{row.neto}}</td>
+                        <td class="text-center"> ${{row.iva105}}</td>
+                        <td class="text-center"> ${{row.iva21}}</td>
+                        <td class="text-center"> ${{row.total}}</td>
+                        <td class="text-center"> {{row.cuentaIngreso}}</td>
+                        <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="verviajeFact(row.id)" data-target="#myModalVer" > ver </td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>

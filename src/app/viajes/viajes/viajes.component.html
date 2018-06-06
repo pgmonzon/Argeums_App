@@ -1,0 +1,920 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button class="btn bg-success "
+          style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
+          <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
+        </button>
+        <!-- Classic Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"> VIAJES</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                
+                <form #formCategoria="ngForm" (ngSubmit)="onSubmit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="Viajes.cliente_id">
+                              <div *ngFor="let client of clienteAll">
+                                <mat-option *ngIf=" client.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="client.id" disabled>
+                                  <p> {{ client.cliente }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" client.activo==true" [value]="client.id">
+                                  <p> {{ client.cliente }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Tipo Unidad " #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="Viajes.tipoUnidad_id">
+                              <mat-option *ngFor="let tipounidad of tipoUnidadAll" [value]="tipounidad.id">
+                                {{ tipounidad.tipo_unidad }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+
+
+                      </div>
+                      <div class="row">
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Transportista" #transportista_id="ngModel" name="transportista_id" [(ngModel)]="Viajes.transportista_id">
+                              <div *ngFor="let transp of transportistaAll">
+                                <mat-option *ngIf=" transp.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="transp.id" disabled>
+                                  <p> {{ transp.transportista }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" transp.activo==true" [value]="transp.id">
+                                  <p> {{ transp.transportista }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Unidad" #unidad_id="ngModel" name="unidad_id" [(ngModel)]="Viajes.unidad_id">
+                              <div *ngFor="let uni of unidadAll">
+                                <mat-option *ngIf=" uni.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="uni.id" disabled>
+                                  <p> {{ uni.unidad }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" uni.activo==true" [value]="uni.id">
+                                  <p> {{ uni.unidad }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Personal" #unidad_id="ngModel" name="personal_id" [(ngModel)]="Viajes.personal_id">
+                              <div *ngFor="let pers of personalAll">
+                                <mat-option *ngIf=" pers.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="pers.id" disabled>
+                                  <p> {{ pers.apellido }}, {{ pers.nombre }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" pers.activo==true" [value]="pers.id">
+                                  <p> {{ pers.apellido }}, {{ pers.nombre }} </p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <input #peajes="ngModel" name="peajes" [(ngModel)]="Viajes.peajes" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control" placeholder="peajes...">
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+
+                          <mat-form-field>
+                            <input #fechaHora="ngModel" name="fechaHora" [(ngModel)]="Viajes.fechaHora" matInput [matDatepicker]="fechaHora" placeholder="fecha"
+                              (click)="fechaHora.open()">
+                            <mat-datepicker-toggle matSuffix [for]="fechaHora"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaHora></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-inline col-md-6">
+                          <label class="text-success" for="">Hora</label>
+                          <input placeholder="hora" value="00:00" id="hora" placeholder="Hora" class="form-control datetimepicker col-md-10 text-center"
+                            type="time">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="vuelta" #vuelta="ngModel" name="vuelta" [(ngModel)]="Viajes.vuelta">
+                              <mat-option *ngFor="let vul of arrayvueltas" [value]="vul.value">
+                                {{ vul.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="tipo" #tipo="ngModel" name="tipo" [(ngModel)]="Viajes.tipo">
+                              <mat-option *ngFor="let tip of arraytipo" [value]="tip.value">
+                                {{ tip.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #importe="ngModel" name="importe" [(ngModel)]="Viajes.importe" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control" placeholder="importe...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #adicional="ngModel" name="adicional" [(ngModel)]="Viajes.adicional" type="text" class="form-control" placeholder="adicional...">
+                        </div>
+                      </div>
+                   
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width ">
+                            <textarea #observaciones="ngModel" name="observaciones" [(ngModel)]="Viajes.observaciones" matInput placeholder="Observaciones"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <input id="kilometraje" #kilometraje="ngModel" name="kilometraje" [(ngModel)]="Viajes.kilometraje" type="text" class="form-control text-center"
+                            placeholder="kilometraje..." disabled>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <form #formLocaciones="ngForm" (ngSubmit)="onLocaciones()" class="form">
+                        <h4 class="text-center">Paradas</h4>
+                        <hr>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <mat-form-field>
+                              <mat-select placeholder="Paradas" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="paradas.locacion_id">
+                                <div *ngFor="let loca of locacionesAll">
+                                  <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
+                                    <p> {{ loca.locacion }}(inactivo)</p>
+                                  </mat-option>
+                                  <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
+                                    <p> {{ loca.locacion }} </p>
+                                  </mat-option>
+                                </div>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="submit" value="AGREGÁ" class="btn btn-success ">
+                          </div>
+                          <div class="col-md-4">
+                            <table class="table table-responsive">
+                              <thead>
+                                <tr>
+                                  <th>Paradas</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let la of locacionesArray">
+                                  <td>{{la["locacion"]}} </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="card-footer justify-content-center">
+                    </div>
+                    <hr>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                      <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                      <input type="submit" value="CREÁ" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- Classic Modal myModalEDITAR -->
+        <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"> VIAJES</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="Viajes.cliente_id">
+                              <div *ngFor="let client of clienteAll">
+                                <mat-option *ngIf=" client.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="client.id" disabled>
+                                  <p> {{ client.cliente }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" client.activo==true" [value]="client.id">
+                                  <p> {{ client.cliente }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Tipo Unidad " #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="Viajes.tipoUnidad_id">
+                              <mat-option *ngFor="let tipounidad of tipoUnidadAll" [value]="tipounidad.id">
+                                {{ tipounidad.tipo_unidad }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+
+
+                      </div>
+                      <div class="row">
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Transportista" #transportista_id="ngModel" name="transportista_id" [(ngModel)]="Viajes.transportista_id">
+                              <div *ngFor="let transp of transportistaAll">
+                                <mat-option *ngIf=" transp.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="transp.id" disabled>
+                                  <p> {{ transp.transportista }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" transp.activo==true" [value]="transp.id">
+                                  <p> {{ transp.transportista }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Unidad" #unidad_id="ngModel" name="unidad_id" [(ngModel)]="Viajes.unidad_id">
+                              <div *ngFor="let uni of unidadAll">
+                                <mat-option *ngIf=" uni.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="uni.id" disabled>
+                                  <p> {{ uni.unidad }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" uni.activo==true" [value]="uni.id">
+                                  <p> {{ uni.unidad }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="Personal" #unidad_id="ngModel" name="personal_id" [(ngModel)]="Viajes.personal_id">
+                              <div *ngFor="let pers of personalAll">
+                                <mat-option *ngIf=" pers.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="pers.id" disabled>
+                                  <p> {{ pers.apellido }}, {{ pers.nombre }} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" pers.activo==true" [value]="pers.id">
+                                  <p> {{ pers.apellido }}, {{ pers.nombre }} </p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <input #peajes="ngModel" name="peajes" [(ngModel)]="Viajes.peajes" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control" placeholder="peajes...">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+
+                          <mat-form-field>
+                            <input name="fechaHora" [(ngModel)]="Viajes.fechaHora" matInput [matDatepicker]="fechaHoraedit" placeholder="fecha" (click)="fechaHoraedit.open()">
+                            <mat-datepicker-toggle matSuffix [for]="fechaHoraedit"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaHoraedit></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-inline col-md-6">
+                          <label class="text-success" for="">Hora</label>
+                          <input value="00:00" id="horaedit" placeholder="Hora" class="form-control datetimepicker col-md-10 text-center" type="time">
+
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="vuelta" #vuelta="ngModel" name="vuelta" [(ngModel)]="Viajes.vuelta">
+                              <mat-option *ngFor="let vul of arrayvueltas" [value]="vul.value">
+                                {{ vul.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-select placeholder="tipo" #tipo="ngModel" name="tipo" [(ngModel)]="Viajes.tipo">
+                              <mat-option *ngFor="let tip of arraytipo" [value]="tip.value">
+                                {{ tip.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #importe="ngModel" name="importe" [(ngModel)]="Viajes.importe" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control" placeholder="importe...">
+                        </div>
+                        <div class="col-md-6">
+                          <input #adicional="ngModel" name="adicional" [(ngModel)]="Viajes.adicional" type="text" class="form-control" placeholder="adicional...">
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input #remitosDetalle="ngModel" name="remitosDetalle" [(ngModel)]="Viajes.remitosDetalle" type="text" class="form-control"
+                            placeholder="remitosDetalle...">
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width ">
+                            <textarea #observaciones="ngModel" name="observaciones" [(ngModel)]="Viajes.observaciones" matInput placeholder="Observaciones"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <input id="kilometraje" #kilometraje="ngModel" name="kilometraje" [(ngModel)]="Viajes.kilometraje" type="text" class="form-control text-center"
+                            placeholder="kilometraje..." disabled>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <form #formLocaciones="ngForm" (ngSubmit)="onLocaciones()" class="form">
+                        <h4 class="text-center">Paradas</h4>
+                        <hr>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <mat-form-field>
+                              <mat-select placeholder="Paradas" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="paradas.locacion_id">
+                                <div *ngFor="let loca of locacionesAll">
+                                  <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
+                                    <p> {{ loca.locacion }}(inactivo)</p>
+                                  </mat-option>
+                                  <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
+                                    <p> {{ loca.locacion }} </p>
+                                  </mat-option>
+                                </div>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="submit" value="AGREGÁ" class="btn btn-success ">
+                          </div>
+                          <div class="col-md-4">
+                            <table class="table table-responsive">
+                              <thead>
+                                <tr>
+                                  <th>Paradas</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let la of locacionesArray">
+                                  <td>{{la["locacion"]}} </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="card-footer justify-content-center">
+                    </div>
+                    <hr>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                      <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- EDITAR TIPO -->
+        <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">VIAJES</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <span class="bmd-form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">assignment
+                              </i>
+                            </span>
+                          </div>
+                          <!-- <input #categoria="ngModel" name="Categoria" [(ngModel)]="CuentaGasto.cuenta_gasto" type="text" class="form-control" placeholder="CuentaGasto..."> -->
+                          <br>
+                          <span class="text-center text-danger">{{completecampo}}</span>
+                        </div>
+                      </span>
+
+                    </div>
+                    <div class="card-footer justify-content-center">
+                    </div>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+
+                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- MODAL PARADAS -->
+        <div class="modal fade" id="ModalParadas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">Paradas</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-striped table-no-bordered table-hover ">
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of modalParadas">
+                      <td>
+                        {{row.locacion}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL ValorViajeDistinto -->
+        <div class="modal fade" id="ValorViajeDistinto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">ValorViaje</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-striped table-no-bordered table-hover ">
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="modalValorDistinto != ''">
+                      <td>
+                        {{modalValorDistinto.autValor}}
+                      </td>
+                      <td>
+                        {{modalValorDistinto.autValorViajeFecha | date :'dd-MM-yy'}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL ValorViajeIgual -->
+        <div class="modal fade" id="ValorViajeIgual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">ValorViaje</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+
+                <form #ValorViajeIgualForm="ngForm" (ngSubmit)="onValorViajeIgualForm()" class="form">
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input #importe="ngModel" name="importe" [(ngModel)]="ValorViaje.importe" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                        class="form-control" placeholder="Valor Sugerido..." required>
+                      <span class="text-danger" *ngIf="!importe.valid && importe.touched">Complete el Importe</span>
+
+                    </div>
+                    <div class="col-md-6">
+                      <input type="submit" value="Autorizar" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--MODAL CostoViajeDistinto -->
+        <div class="modal fade" id="CostoViajeDistinto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">CostoViaje</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-striped table-no-bordered table-hover ">
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="modalCostoDistinto != ''">
+                      <td>
+                        {{modalCostoDistinto.autCosto }}
+                      </td>
+                      <td>
+                        {{modalCostoDistinto.autCostoViajeFecha | date :'dd-MM-yy'}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL CostoViajeIgual -->
+        <div class="modal fade" id="CostoViajeIgual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">CostoViaje</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+
+                <form #CostoIgualForm="ngForm" (ngSubmit)="onCostoIgualForm()" class="form">
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input #importe="ngModel" name="importe" [(ngModel)]="ValorViaje.importe" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                        class="form-control" placeholder="Valor Sugerido..." required>
+                      <span class="text-danger" *ngIf="!importe.valid && importe.touched">Complete el Importe</span>
+
+                    </div>
+                    <div class="col-md-6">
+                      <input type="submit" value="Autorizar" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--MODAL ESTADO -->
+        <div class="modal fade" id="ESTADOMODAL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">ESTADO</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-striped table-no-bordered table-hover ">
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="modalestado != ''">
+                      <td>
+                        {{modalestado.canceladoUsuario}}
+                      </td>
+                      <td>
+                        {{modalestado.canceladoFecha | date :'dd-MM-yy'}}
+                      </td>
+                      <td>
+                        {{modalestado.canceladoObser}}
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--MODAL REMITOS AUTORIZADO -->
+        <div class="modal fade" id="REMITOMODAL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">REMITOS</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-striped table-no-bordered table-hover ">
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="modalremito != ''">
+                      <td>
+                        {{modalremito.remitosUsuario}}
+                      </td>
+                      <td>
+                        {{modalremito.remitosFecha | date :'dd-MM-yy'}}
+                      </td>
+
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--MODAL CANCELAR VIAJE -->
+        <div class="modal fade" id="CANCELARMODAL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">CANCELAR VIAJE</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <form #formObservacion="ngForm" (ngSubmit)="onObservacion()" class="form">
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <mat-form-field class="example-full-width ">
+                        <textarea #observacion="ngModel" name="observacion" [(ngModel)]="Observaciones.observacion" matInput placeholder="Observaciones"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">No</button>
+
+                  <input type="submit" value="Si, estoy seguro!" class="btn btn-success ">
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!--MODAL TELEFONOS PERSONAL -->
+        <div class="modal fade" id="telefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">Teléfono</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <p>
+                  {{telefonopersona}}
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">Viajes</h4>
+
+          </div>
+          <div class="card-body">
+            <div class="toolbar" *ngIf="showrecuperar== true">
+              <br>
+              <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
+                <i class="material-icons ">replay</i>
+              </button>
+
+            </div>
+            <div class="">
+
+              <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover table-responsive  " cellspacing="6" width="100%" style="width:100%">
+                  <thead *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">Hora</th>
+                      <th class="text-center">Vta</th>
+                      <th class="text-center">Cliente</th>
+                      <th class="text-center">T.Unidad</th>
+                      <th class="text-center">Transportista</th>
+                      <th class="text-center">Unidad</th>
+                      <th class="text-center">Personal</th>
+                      <th class="text-center">Tipo</th>
+                      <th class="text-center">Recorrido</th>
+                      <th class="text-center">Km</th>
+                      <th class="text-center">Regreso</th>
+                      <th class="text-center">Tarif</th>
+                      <th class="text-center">Valor</th>
+                      <th class="text-center">Tarif</th>
+                      <th class="text-center">Costo</th>
+                      <th class="text-center">Peaje</th>
+                      <th class="text-center">Adic</th>
+                      <th class="text-center">Imp</th>
+                      <th class="text-center">Obser</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Detalle</th>
+                      <th class="text-center">Remitos</th>
+
+                    </tr>
+                  </thead>
+                  <tfoot *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">Hora</th>
+                      <th class="text-center">Vta</th>
+                      <th class="text-center">Cliente</th>
+                      <th class="text-center">T.Unidad</th>
+                      <th class="text-center">Transportista</th>
+                      <th class="text-center">Unidad</th>
+                      <th class="text-center">Personal</th>
+                      <th class="text-center">Tipo</th>
+                      <th class="text-center">Recorrido</th>
+                      <th class="text-center">Km</th>
+                      <th class="text-center">Regreso</th>
+                      <th class="text-center">Tarif</th>
+                      <th class="text-center">Valor</th>
+                      <th class="text-center">Tarif</th>
+                      <th class="text-center">Costo</th>
+                      <th class="text-center">Peaje</th>
+                      <th class="text-center">Adic</th>
+                      <th class="text-center">Imp</th>
+                      <th class="text-center">Obser</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Detalle</th>
+                      <th class="text-center">Remitos</th>
+                    </tr>
+                  </tfoot>
+                  <tbody *ngIf="donttable != false">
+                    <tr *ngFor="let row of viajesArray">
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.fechaHora | date :'HH:mma'}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.vuelta}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.cliente}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.tipoUnidad}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.transportista}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.unidad}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="telefono(row.id)" data-target="#telefono">{{row.personal}}</td>
+                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.tipo}}</td>
+                      <td class="text-center text-info" style="cursor: pointer;" data-toggle="modal" (click)="ModalParadas(row.id)" data-target="#ModalParadas">{{row.recorrido}}</td>
+                      <td class="text-center">{{row.kilometraje}}Km</td>
+                      <td class="text-center">{{row.regreso}}Km</td>
+
+                      <td class="text-center">{{row.tarifarioCliente}}</td>
+
+                      <td class="text-center text-success" style="cursor: pointer;" *ngIf="row.autValorViaje_id != '111111111111111111111111'"
+                        data-toggle="modal" (click)="ValorViajeDistinto(row.id)" data-target="#ValorViajeDistinto">
+                        ${{row.valorViaje}}
+                      </td>
+                      <td class="text-center text-success" style="cursor: pointer;" *ngIf="row.autValorViaje_id == '111111111111111111111111'"
+                        data-toggle="modal" (click)="ValorViajeIgual(row.id)" data-target="#ValorViajeIgual">
+                        ${{row.valorViaje}}
+                      </td>
+
+                      <td class="text-center">{{row.tarifarioTransportista}}</td>
+
+                      <td class="text-center text-success" style="cursor: pointer;" *ngIf="row.autCostoViaje_id != '111111111111111111111111'"
+                        data-toggle="modal" (click)="CostoViajeDistinto(row.id)" data-target="#CostoViajeDistinto">
+                        ${{row.costoViaje}}
+                      </td>
+                      <td class="text-center text-success" style="cursor: pointer;" *ngIf="row.autCostoViaje_id == '111111111111111111111111'"
+                        data-toggle="modal" (click)="CostoViajeIgual(row.id)" data-target="#CostoViajeIgual">
+                        ${{row.costoViaje}}
+
+                      </td>
+
+                      <td class="text-center">${{row.peajes}}</td>
+                      <td class="text-center">{{row.adicional}}</td>
+                      <td class="text-center">${{row.importe}}</td>
+
+                      <td class="text-center">{{row.observaciones}}</td>
+
+
+                      <td class="text-center text-danger " style="cursor: pointer;" *ngIf="row.estado == 'Cancelado'" data-toggle="modal" (click)="estado(row.id)"
+                        data-target="#ESTADOMODAL">
+                        Cancelado
+                      </td>
+                      <td class="text-center text-success" *ngIf="row.estado != 'Cancelado'" style="cursor: pointer;" data-toggle="modal" (click)="cancelarestado(row.id)"
+                        data-target="#CANCELARMODAL">
+                        <i class="material-icons text-success">check</i>
+                      </td>
+                      <td class="text-center">{{row.remitosDetalle}}</td>
+
+
+                      <td class="text-center text-danger " style="cursor: pointer;" *ngIf="row.remitos == true" data-toggle="modal" (click)="remito(row.id)"
+                        data-target="#REMITOMODAL">
+                        <i class="material-icons text-success">check</i>
+
+                      </td>
+                      <td (click)="remitosAuth(row.id)" class="text-center text-success" *ngIf="row.remitos == false">
+                        <i style="cursor: pointer;" class="material-icons text-danger">close</i>
+
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

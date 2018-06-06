@@ -32,7 +32,11 @@ export class ClienteService {
     return this._http.post(this.url + 'tipoUnidades/-tipo_unidad/9999',{"tipo_unidad": ""} ,{headers: this.headers})
                     .map(res => res.json());
   }
-
+  getLocacionAll(token){
+    this.headers.set('Authorization',token)
+    return this._http.post(this.url + 'locaciones/-locacion/9999',{"locacion": "","direccion": ""} ,{headers: this.headers})
+                    .map(res => res.json());
+  }
   crear(cliente,token) {
     const params = {"api_clienteID": "yangee_desarrollo" };
     this.headers.set('Authorization',token)

@@ -8,6 +8,11 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { contactos } from '../../models/contacto';
 import { tarifarios } from '../../models/tarifarios';
 import { recorrido} from '../../models/recorrido';
+import swal from 'sweetalert2';
+
+import { NativeDateAdapter } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+
 
 declare interface DataTable {
   headerRow: string[];
@@ -15,14 +20,40 @@ declare interface DataTable {
   dataRows: string[][];
 }
 declare const $: any;
+export class AppDateAdapter extends NativeDateAdapter {
 
+  format(date: Date, displayFormat: Object): string {
+
+      if (displayFormat === 'input') {
+          const day = date.getDate();
+          const month = date.getMonth() + 1;
+          const year = date.getFullYear();
+          return `${day}-${month}-${year}`;
+      } else {
+          //return date.toDateString();
+      }
+  }
+}
+export const APP_DATE_FORMATS =
+{
+    parse: {
+        dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+    },
+    display: {
+        dateInput: 'input',
+        monthYearLabel: { year: 'numeric', month: 'numeric' },
+        dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+        monthYearA11yLabel: { year: 'numeric', month: 'long' },
+    }
+};
 @Component({
   selector: 'app-transportista',
   templateUrl: './transportista.component.html',
   styleUrls: ['./transportista.component.scss'],
-  providers:[TransportistaService]
+  providers:[TransportistaService, {provide: DateAdapter, useClass: AppDateAdapter},{provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'ars-ARS'}]
 })
 export class TransportistaComponent implements OnInit {
+  
 
   constructor(private _TransportistaService: TransportistaService) { }
   private identity;
@@ -53,8 +84,8 @@ export class TransportistaComponent implements OnInit {
 
     this.modalcontactomensaje=true;
     this.selectpropia = [
-      {value: true, viewValue: true},
-      {value: false, viewValue: false},
+      {value: true, viewValue: 'Si'},
+      {value: false, viewValue: 'No'},
      
     ];
 
@@ -102,6 +133,7 @@ export class TransportistaComponent implements OnInit {
       'locacion_id':''
     };
     this.getTipoUnidad();
+    this.getLocacionAll();
     this.All();
 
   }
@@ -126,11 +158,16 @@ export class TransportistaComponent implements OnInit {
   }
   onRecorrido(){
     this.recorridoarray.push(this.recorrido);
-  }
+    this.recorrido = {
+      'locacion_id':''
+    };  }
   onTarifario(){
     if(this.tarifarios.tarifario != ''){
       this.tarifarios.recorrido=this.recorridoarray;
+      if(this.tarifarios.tipoUnidad_id==''){
+        this.tarifarios.tipoUnidad_id='111111111111111111111111';
 
+      }
       this.tarifariosarray.push(this.tarifarios);
       this.recorridoarray=[];
       this.tarifarios = {
@@ -162,8 +199,7 @@ export class TransportistaComponent implements OnInit {
     this.transportistas.tarifarios=this.tarifariosarray;
 
     var mainPanel = document.getElementById('myModal');
- 
-    if (this.transportistas.transportista != '' ) {
+    if (this.transportistas.transportista != '' &&  this.transportistas.mail != '' ) {
       console.log(this.transportistas);
       const identity = JSON.parse(localStorage.getItem('identity'));
       this._TransportistaService.crear(this.transportistas, identity.token).subscribe(
@@ -213,8 +249,8 @@ export class TransportistaComponent implements OnInit {
       response => {
         if (response.estado != "ERROR") {
           this.dataTable = {
-            headerRow: ['Transportista','Cotactos','Tarifarios','Estado','Borrar'],
-            footerRow: ['Transportista','Cotactos','Tarifarios','Estado','Borrar'],
+            headerRow: ['Transportista','Contactos','Tarifarios','Estado','Borrar'],
+            footerRow: ['Transportista','Contactos','Tarifarios','Estado','Borrar'],
             dataRows: response
           }
           console.log(this.dataTable);
@@ -223,8 +259,8 @@ export class TransportistaComponent implements OnInit {
           this.donttable = false;
 
           this.dataTable = {
-            headerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
-            footerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
+            headerRow: ['Cliente','Contactos','Tarifarios','Estado','Borrar'],
+            footerRow: ['Cliente','Contactos','Tarifarios','Estado','Borrar'],
 
             dataRows: [['', '']]
           }
@@ -252,8 +288,41 @@ export class TransportistaComponent implements OnInit {
           'contactos':[],
           'tarifarios':[],
         };
-        this.contactosarray=response.contactos;
-        this.tarifariosarray=response.tarifarios;
+        console.log(response.contactos);
+        this.contactos = {
+          'nombre': '',
+          'cargo':'',
+          'telefono':'',
+          
+        };
+        this.tarifarios = {
+          'tarifario': '',
+          'tipo':'Kilometraje',
+          'tipoUnidad_id':'',
+          'importe':0,
+          'vigenteDesde':new Date(),
+          'vigenteHasta':new Date(),
+          'recorrido':[],
+          'kmDesde':0,
+          'kmHasta':0,
+          'activo':true,
+    
+        };
+        if(response.contactos != undefined){
+          this.contactosarray=response.contactos;
+
+        }
+        else{
+          this.contactosarray=[];
+        }
+        if(response.tarifarios != undefined){
+          this.tarifariosarray=response.tarifarios;
+
+        }
+        else{
+          this.tarifariosarray=[];
+        }
+
         //this.recorridoarray=this.modaltarifarios[0].recorrido;
       },
       error => {
@@ -434,32 +503,34 @@ export class TransportistaComponent implements OnInit {
         [10, 25, 50, "todos"]
       ],
 
+      "order": [[ 1, "desc" ]],
+
       "language": {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero-",
-          "sLast": "Último",
-          "sNext": ">>",
-          "sPrevious": "<<"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+          "sProcessing": "Procesando...",
+          "sLengthMenu": "Mostrar _MENU_ documentos",
+          "sZeroRecords": "No se encontraron documentos",
+          "sEmptyTable": "Ningún dato disponible en esta tabla",
+          "sInfo": "_TOTAL_ documentos",
+          "sInfoEmpty": " 0 documentos",
+          "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
+          "sInfoPostFix": "",
+          "sSearch": "Buscar:",
+          "sUrl": "",
+          "sInfoThousands": ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+              "sFirst": "Primero-",
+              "sLast": "Último",
+              "sNext": ">>",
+              "sPrevious": "<<"
+          },
+          "oAria": {
+              "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
 
       },
-      responsive: true,
+      responsive: false,
       //   language: {
       //     search: "_INPUT_",
       //     searchPlaceholder: "Buscar",
@@ -469,11 +540,11 @@ export class TransportistaComponent implements OnInit {
   // Delete a record
 
 
-   
+  //const table = $('#contactotable').DataTable();
+
     //$('.card .material-datatables label').addClass('form-group');
   }
   public remove(row){
-    // const table = $('#contactotable').DataTable();
 
     // const $tr = $(this).closest('tr');
     // table.row($tr).remove().draw();
@@ -506,6 +577,9 @@ export class TransportistaComponent implements OnInit {
       'contactos':[],
       'tarifarios':[],
     };
+    this.contactosarray=[];
+    this.tarifariosarray=[];
+    this.recorridoarray=[];
   }
   public getTipoUnidad(){
     this._TransportistaService.getTipoUnidad(this.identity.token).subscribe(
@@ -513,6 +587,27 @@ export class TransportistaComponent implements OnInit {
           if(response.estado!= "ERROR"){
              this.tipounidades=response;
 
+          }else{
+                   
+          this.showNotification('top', 'center', response.mensaje, 'warning');
+
+          }
+           
+      },
+      error => {
+          this.errorMessage = <any>error;
+          if (this.errorMessage != null) {
+          }
+      }
+  );
+  }
+  public getlocaciones;
+  public getLocacionAll(){
+    this._TransportistaService.getLocacionAll(this.identity.token).subscribe(
+      response => {
+          if(response.estado!= "ERROR"){
+             this.getlocaciones=response;
+              console.log(this.getlocaciones);
           }else{
                    
           this.showNotification('top', 'center', response.mensaje, 'warning');
@@ -609,4 +704,26 @@ export class TransportistaComponent implements OnInit {
 
     }
 }
+public showSwal(id) {
+  swal({
+    title: 'Estás seguro?',
+    text: '',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-success ',
+    cancelButtonClass: 'btn btn-danger',
+    confirmButtonText: 'Si, estoy seguro!',
+    cancelButtonText: 'No',
+
+    buttonsStyling: false
+  }).then((isConfirm) => {
+
+    if (isConfirm.value == true) {
+      this.eliminar(id);
+
+    }
+  }
+  ).catch(swal.noop);
+}
+
 }

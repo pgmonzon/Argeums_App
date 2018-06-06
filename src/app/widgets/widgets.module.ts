@@ -11,15 +11,17 @@ import { WidgetsComponent } from './widgets.component';
 import { WidgetsRoutes } from './widgets.routing';
 import { ClienteComponent } from './cliente/cliente.component';
 import { TransportistaComponent } from './transportista/transportista.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
+import { LiquidacionComponent } from './liquidacion/liquidacion.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild(WidgetsRoutes),
         CommonModule,
         FormsModule,
-        MaterialModule
+        MaterialModule,
     ],
-    declarations: [WidgetsComponent, ClienteComponent, TransportistaComponent]
+    declarations: [WidgetsComponent, ClienteComponent, TransportistaComponent, FacturacionComponent, LiquidacionComponent]
 })
 
 export class WidgetsModule {}

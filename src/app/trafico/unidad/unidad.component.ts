@@ -3,8 +3,11 @@ import { Unidad } from '../../models/unidad';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { UnidadService } from '../../servicios/unidad.service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import swal from 'sweetalert2';
 
+import { NativeDateAdapter } from "@angular/material";
 
 
 declare interface DataTable {
@@ -14,15 +17,40 @@ declare interface DataTable {
 }
 
 declare const $: any;
+export class AppDateAdapter extends NativeDateAdapter {
+
+  format(date: Date, displayFormat: Object): string {
+
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    } else {
+      //return date.toDateString();
+    }
+  }
+}
+export const APP_DATE_FORMATS =
+  {
+    parse: {
+      dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+    },
+    display: {
+      dateInput: 'input',
+      monthYearLabel: { year: 'numeric', month: 'numeric' },
+      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+      monthYearA11yLabel: { year: 'numeric', month: 'long' },
+    }
+  };
 @Component({
   selector: 'app-unidad',
   templateUrl: './unidad.component.html',
   styleUrls: ['./unidad.component.scss'],
-  providers:[UnidadService]
+  providers: [UnidadService, {provide: DateAdapter, useClass: AppDateAdapter},{provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'ars-ARS'}]
 })
 
 export class UnidadComponent implements OnInit {
-
 
   constructor(private _UnidadService: UnidadService) { }
   private identity;
@@ -34,25 +62,26 @@ export class UnidadComponent implements OnInit {
   public showrecuperar;
   public selectpropia;
   ngOnInit() {
+
     this.selectpropia = [
-      {value: true, viewValue: true},
-      {value: false, viewValue: false},
-     
+      {value: true, viewValue: 'Si'},
+      {value: false, viewValue: 'No'},
+
     ];
 
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
-         
-    $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item active';
-    this.ideliminado='';
-    this.showrecuperar=false;
+
+    // $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item ';
+    this.ideliminado = '';
+    this.showrecuperar = false;
     this.identity = JSON.parse(localStorage.getItem('identity'));
     this.Unidad = {
       'unidad': '',
       'vtv': new Date(),
-      'ruta':new Date(),
-      'poliza':new Date(),
-      'seguro':new Date(),
-      'propia':true,
+      'ruta': new Date(),
+      'poliza': new Date(),
+      'seguro': new Date(),
+      'propia': true,
       'activo': true
     };
     this.All();
@@ -69,13 +98,13 @@ export class UnidadComponent implements OnInit {
     //   'propia':this.Unidad.propia,
     //   'activo': true
     // };
- 
-    
+
+
     var mainPanel = document.getElementById('myModal');
-    if( this.Unidad.propia != ''){
-      this.Unidad.propia=false;
+    if (this.Unidad.propia != '') {
+      this.Unidad.propia = false;
     }
-    if (this.Unidad.unidad != '' ) {
+    if (this.Unidad.unidad != '') {
       const identity = JSON.parse(localStorage.getItem('identity'));
       this._UnidadService.crear(this.Unidad, identity.token).subscribe(
         response => {
@@ -86,11 +115,11 @@ export class UnidadComponent implements OnInit {
             this.All();
             this.Unidad = {
               'unidad': '',
-              'vtv':new Date(),
-              'ruta':new Date(),
-              'poliza':new Date(),
-              'seguro':new Date(),
-              'propia':'',
+              'vtv': new Date(),
+              'ruta': new Date(),
+              'poliza': new Date(),
+              'seguro': new Date(),
+              'propia': '',
               'activo': true
             };
             $("#myModal").modal("hide");
@@ -117,13 +146,15 @@ export class UnidadComponent implements OnInit {
     }
 
   }
+  public teste;
   public All() {
     this._UnidadService.getAll(this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
+
           this.dataTable = {
-            headerRow: ['unidad','vtv','ruta','poliza','seguro','propia', 'estado','Borrar'],
-            footerRow: ['unidad','vtv','ruta','poliza','seguro','propia', 'estado','Borrar'],
+            headerRow: ['unidad', 'vtv', 'ruta', 'poliza', 'seguro', 'propia', 'estado', 'Borrar'],
+            footerRow: ['unidad', 'vtv', 'ruta', 'poliza', 'seguro', 'propia', 'estado', 'Borrar'],
 
             dataRows: response
           }
@@ -133,8 +164,8 @@ export class UnidadComponent implements OnInit {
           this.donttable = false;
 
           this.dataTable = {
-            headerRow: ['unidad','vtv','ruta','poliza','seguro','propia', 'estado','Borrar'],
-            footerRow: ['unidad','vtv','ruta','poliza','seguro','propia', 'estado','Borrar'],
+            headerRow: ['unidad', 'vtv', 'ruta', 'poliza', 'seguro', 'propia', 'estado', 'Borrar'],
+            footerRow: ['unidad', 'vtv', 'ruta', 'poliza', 'seguro', 'propia', 'estado', 'Borrar'],
             dataRows: [['', '', '']]
           }
           this.showNotification('top', 'center', response.mensaje, 'warning');
@@ -152,13 +183,13 @@ export class UnidadComponent implements OnInit {
     this._UnidadService.getId(id, this.identity.token).subscribe(
       response => {
         this.Unidad = {
-          'id':response.id,
+          'id': response.id,
           'unidad': response.unidad,
-          'vtv':new Date(response.vtv),
-          'ruta':new Date(response.ruta),
-          'poliza':new Date(response.poliza),
-          'seguro':new Date(response.seguro),
-          'propia':response.propia,
+          'vtv': new Date(response.vtv),
+          'ruta': new Date(response.ruta),
+          'poliza': new Date(response.poliza),
+          'seguro': new Date(response.seguro),
+          'propia': response.propia,
           'activo': response.activo
         };
       },
@@ -181,11 +212,11 @@ export class UnidadComponent implements OnInit {
             this.All();
             this.Unidad = {
               'unidad': '',
-              'vtv':new Date(),
-              'ruta':new Date(),
-              'poliza':new Date(),
-              'seguro':new Date(),
-              'propia':'',
+              'vtv': new Date(),
+              'ruta': new Date(),
+              'poliza': new Date(),
+              'seguro': new Date(),
+              'propia': '',
               'activo': true
             };
             $("#myModalEDITAR").modal("hide");
@@ -245,7 +276,7 @@ export class UnidadComponent implements OnInit {
         this.All();
         this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
         $("#myModalEDITAR").modal("hide");
-        this.showrecuperar=true;
+        this.showrecuperar = true;
       },
       error => {
         this.errorMessage = <any>error;
@@ -307,12 +338,12 @@ export class UnidadComponent implements OnInit {
   }
 
   public Recuperar() {
-    if(    this.ideliminado != ''    ){
-      this._UnidadService.recuperar( this.ideliminado, this.identity.token).subscribe(
+    if (this.ideliminado != '') {
+      this._UnidadService.recuperar(this.ideliminado, this.identity.token).subscribe(
         response => {
           this.All();
           this.showNotification('top', 'center', response.mensaje, 'success');
-          this.showrecuperar=false;
+          this.showrecuperar = false;
 
         },
         error => {
@@ -322,7 +353,7 @@ export class UnidadComponent implements OnInit {
         }
       );
     }
-    else{
+    else {
       this.showNotification('top', 'center', 'No hay documento para recuperar', 'warning');
 
     }
@@ -338,32 +369,34 @@ export class UnidadComponent implements OnInit {
         [10, 25, 50, "todos"]
       ],
 
+      "order": [[ 0, "desc" ]],
+
       "language": {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero-",
-          "sLast": "Último",
-          "sNext": ">>",
-          "sPrevious": "<<"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+          "sProcessing": "Procesando...",
+          "sLengthMenu": "Mostrar _MENU_ documentos",
+          "sZeroRecords": "No se encontraron documentos",
+          "sEmptyTable": "Ningún dato disponible en esta tabla",
+          "sInfo": "_TOTAL_ documentos",
+          "sInfoEmpty": " 0 documentos",
+          "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
+          "sInfoPostFix": "",
+          "sSearch": "Buscar:",
+          "sUrl": "",
+          "sInfoThousands": ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+              "sFirst": "Primero-",
+              "sLast": "Último",
+              "sNext": ">>",
+              "sPrevious": "<<"
+          },
+          "oAria": {
+              "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
 
       },
-      responsive: true,
+      responsive: false,
       //   language: {
       //     search: "_INPUT_",
       //     searchPlaceholder: "Buscar",
@@ -372,6 +405,7 @@ export class UnidadComponent implements OnInit {
     });
 
     const table = $('#datatables').DataTable();
+    $('.card .material-datatables label').addClass('form-group');
 
 
 
@@ -380,13 +414,34 @@ export class UnidadComponent implements OnInit {
   public clear() {
     this.Unidad = {
       'unidad': '',
-      'vtv':new Date(),
-      'ruta':new Date(),
-      'poliza':new Date(),
-      'seguro':new Date(),
-      'propia':'',
+      'vtv': new Date(),
+      'ruta': new Date(),
+      'poliza': new Date(),
+      'seguro': new Date(),
+      'propia': '',
       'activo': true
     };
   }
+  public showSwal(id) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
+      buttonsStyling: false
+    }).then((isConfirm) => {
+
+      if (isConfirm.value == true) {
+        this.eliminar(id);
+
+      }
+    }
+    ).catch(swal.noop);
+  }
+
 }
 

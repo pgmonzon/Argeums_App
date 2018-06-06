@@ -11,6 +11,14 @@ export class personal {
       public lnh:string,
       public registro:string,
       public activo:boolean,
+      //nuevos cambios
+      public celular:string,
+      public direccion:string,
+      public latitud:string,
+      public longitud: string,
+      public fechaAlta:string,
+      public fechaBaja:string,
+
 
       ) {}
   }

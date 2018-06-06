@@ -2,36 +2,182 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 text-center">
-        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" style="border-radius:50% " mat-raised-button
-          class=" bg-danger" data-toggle="modal" data-target="#myModal">
-          <i style="font-size: 60px; color:white;cursor: pointer;" class="material-icons">add</i>
-        </button>
+        <!-- <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button class="btn bg-success "
+          style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
+          <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
+        </button> -->
+
+        <div class="row">
+          <div class="col-md-6 crear">
+            <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
+              <div class="card card-login card-hidden">
+                <div class="card-body ">
+                    <h4 class="text-center ">Personal</h4>
+
+                  <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                  <span class="bmd-form-group">
+                    <div class="input-group">
+                      <!-- <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">assignment
+                          </i>
+                        </span>
+                      </div> -->
+                      <div class="col-md-12">
+                        <br>
+                        <span class="text-center text-danger">{{completecampo}}</span>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <input #apellido="ngModel" name="apellido" [(ngModel)]="personal.apellido" type="text" class="form-control" placeholder="apellido...">
+                            <br>
+
+                          </div>
+                          <div class="col-md-6">
+                            <input #nombre="ngModel" name="nombre" [(ngModel)]="personal.nombre" type="text" class="form-control" placeholder="nombre...">
+                            <br>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <mat-select placeholder="categoria" #categoria_id="ngModel" name="categoria_id" [(ngModel)]="personal.categoria_id">
+                                <div *ngFor="let cate of categoria">
+                                  <mat-option *ngIf=" cate.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cate.id" disabled>
+                                    <p> {{ cate.categoria }} (inactivo)</p>
+                                  </mat-option>
+                                  <mat-option *ngIf=" cate.activo==true" [value]="cate.id">
+                                    <p> {{ cate.categoria }}</p>
+                                  </mat-option>
+                                </div>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <mat-select placeholder="Propio" #propio="ngModel" name="propio" [(ngModel)]="personal.propio">
+                                <mat-option *ngFor="let propia of selectpropia" [value]="propia.value" >
+                                  {{ propia.viewValue }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <input id="latitud" #latitud="ngModel" name="latitud" [(ngModel)]="personal.latitud" type="text" class="form-control " style="display: none" placeholder="locacion...">
+                        <input id="longitud" #longitud="ngModel" name="longitud" [(ngModel)]="personal.longitud" type="text" class="form-control " style="display: none" placeholder="locacion...">
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <mat-select placeholder="basicoSindicato" #basicoSindicato_id="ngModel" name="basicoSindicato_id" [(ngModel)]="personal.basicoSindicato_id">
+
+                                <div *ngFor="let sindi of sindicato">
+                                  <mat-option *ngIf=" sindi.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="sindi.id" disabled>
+                                    <p> {{ sindi.basico_sindicato }} (inactivo)</p>
+                                  </mat-option>
+                                  <mat-option *ngIf=" sindi.activo==true" [value]="sindi.id">
+                                    <p> {{ sindi.basico_sindicato }}</p>
+                                  </mat-option>
+                                </div>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-6">
+                            <input step="0.00001" min="0" type="number" oninput="validity.valid||(value='');" #comision="ngModel" name="comision" [(ngModel)]="personal.comision" class="form-control" placeholder=" % de Comision ">
+                            <br>
+                          </div>
+                        </div>
 
 
-        <!-- Classic Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Alta personal</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                  <i class="material-icons">clear</i>
-                </button>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <input #fechaAlta="ngModel" name="fechaAlta" [(ngModel)]="personal.fechaAlta" matInput [matDatepicker]="fechaAlta" placeholder="fechaAlta" (click)="fechaAlta.open()">
+                              <mat-datepicker-toggle matSuffix [for]="fechaAlta"></mat-datepicker-toggle>
+                              <mat-datepicker #fechaAlta></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <input #fechaBaja="ngModel" name="fechaBaja" [(ngModel)]="personal.fechaBaja" matInput [matDatepicker]="fechaBaja" placeholder="fechaBaja" (click)="fechaBaja.open()">
+                              <mat-datepicker-toggle matSuffix [for]="fechaBaja"></mat-datepicker-toggle>
+                              <mat-datepicker #fechaBaja></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <input #curso="ngModel" name="curso" [(ngModel)]="personal.curso" matInput [matDatepicker]="picker" placeholder="curso" (click)="picker.open()">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <input #lnh="ngModel" name="lnh" [(ngModel)]="personal.lnh" matInput [matDatepicker]="lnh" placeholder="lnh" (click)="lnh.open()">
+                              <mat-datepicker-toggle matSuffix [for]="lnh"></mat-datepicker-toggle>
+                              <mat-datepicker #lnh></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <input #registro="ngModel" name="registro" [(ngModel)]="personal.registro" matInput [matDatepicker]="registro" placeholder="registro" (click)="registro.open()">
+                              <mat-datepicker-toggle matSuffix [for]="registro"></mat-datepicker-toggle>
+                              <mat-datepicker #registro></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <br>  
+                        <div class="row">
+                            <div class="col-md-8 offset-2">
+                              <input #direccion="ngModel" name="direccion" [(ngModel)]="personal.direccion" type="text" placeholder="Direccion" autocorrect="off"
+                                autocapitalize="off" spellcheck="off" class="form-control" #search>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input #celular="ngModel" name="celular" [(ngModel)]="personal.celular"   type="text" class="form-control " placeholder="celular...">
+
+                            </div>
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+
+                </div>
+                <div class="card-footer justify-content-center">
+                </div>
+                <div class="modal-footer">
+
+                  <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                  <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
+                  <input type="submit" value="CREÁ" class="btn btn-success ">
+
+                </div>
               </div>
-              <div class="modal-body">
+            </form>
+          </div>
 
-                <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
+          <div class="col-md-6 editar">
+              <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
                   <div class="card card-login card-hidden">
                     <div class="card-body ">
+                        <h4 class="text-center ">Editar Personal</h4>
+
                       <!-- <p class="card-description text-center">Or Be Classical</p> -->
                       <span class="bmd-form-group">
                         <div class="input-group">
-                          <!-- <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="material-icons">assignment
-                              </i>
-                            </span>
-                          </div> -->
                           <div class="col-md-12">
                             <br>
                             <span class="text-center text-danger">{{completecampo}}</span>
@@ -47,13 +193,22 @@
                               </div>
                             </div>
 
+                            <input id="editlatitud" #latitud="ngModel" name="latitud" [(ngModel)]="personal.latitud" type="text" class="form-control " style="display: none" placeholder="locacion...">
+                            <input id="editlongitud" #longitud="ngModel" name="longitud" [(ngModel)]="personal.longitud" type="text" class="form-control " style="display: none" placeholder="locacion...">
+
                             <div class="row">
                               <div class="col-md-6">
                                 <mat-form-field>
                                   <mat-select placeholder="categoria" #categoria_id="ngModel" name="categoria_id" [(ngModel)]="personal.categoria_id">
-                                    <mat-option *ngFor="let cate of categoria" [value]="cate.id">
-                                      {{ cate.categoria }}
-                                    </mat-option>
+
+                                    <div *ngFor="let cate of categoria">
+                                      <mat-option *ngIf=" cate.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cate.id" disabled>
+                                        <p> {{ cate.categoria }} (inactivo)</p>
+                                      </mat-option>
+                                      <mat-option *ngIf=" cate.activo==true" [value]="cate.id">
+                                        <p> {{ cate.categoria }}</p>
+                                      </mat-option>
+                                    </div>
                                   </mat-select>
                                 </mat-form-field>
                               </div>
@@ -67,46 +222,89 @@
                                 </mat-form-field>
                               </div>
                             </div>
-
-                            
                             <div class="row">
                               <div class="col-md-6">
                                 <mat-form-field>
                                   <mat-select placeholder="basicoSindicato" #basicoSindicato_id="ngModel" name="basicoSindicato_id" [(ngModel)]="personal.basicoSindicato_id">
-                                    <mat-option *ngFor="let sindi of sindicato" [value]="sindi.id">
-                                      {{ sindi.basico_sindicato }}
-                                    </mat-option>
+
+                                    <div *ngFor="let sindi of sindicato">
+                                      <mat-option *ngIf=" sindi.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="sindi.id" disabled>
+                                        <p> {{ sindi.basico_sindicato }} (inactivo)</p>
+                                      </mat-option>
+                                      <mat-option *ngIf=" sindi.activo==true" [value]="sindi.id">
+                                        <p> {{ sindi.basico_sindicato }}</p>
+                                      </mat-option>
+                                    </div>
                                   </mat-select>
                                 </mat-form-field>
                               </div>
-                        
+
                               <div class="col-md-6">
-                                <input #comision="ngModel" name="comision" [(ngModel)]="personal.comision" type="text" class="form-control" placeholder="Comision...">
+                                <input step="0.00001" min="0" type="number" oninput="validity.valid||(value='');" #comision="ngModel" name="comision" [(ngModel)]="personal.comision" class="form-control" placeholder=" % de Comision ">
                                 <br>
                               </div>
                             </div>
-
                             <div class="row">
                               <div class="col-md-6">
                                 <mat-form-field>
-                                  <input #curso="ngModel" name="curso" [(ngModel)]="personal.curso" matInput [matDatepicker]="picker" placeholder="curso" (click)="picker.open()">
-                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                  <mat-datepicker #picker></mat-datepicker>
+                                  <input name="fechaAlta" [(ngModel)]="personal.fechaAlta" matInput [matDatepicker]="editfechaAlta" placeholder="fechaAlta" (click)="editfechaAlta.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="editfechaAlta"></mat-datepicker-toggle>
+                                  <mat-datepicker #editfechaAlta></mat-datepicker>
                                 </mat-form-field>
                               </div>
-                        
+    
                               <div class="col-md-6">
                                 <mat-form-field>
-                                  <input #lnh="ngModel" name="lnh" [(ngModel)]="personal.lnh" matInput [matDatepicker]="lnh" placeholder="lnh" (click)="lnh.open()">
-                                  <mat-datepicker-toggle matSuffix [for]="lnh"></mat-datepicker-toggle>
-                                  <mat-datepicker #lnh></mat-datepicker>
+                                  <input  name="fechaBaja" [(ngModel)]="personal.fechaBaja" matInput [matDatepicker]="editfechaBaja" placeholder="fechaBaja" (click)="editfechaBaja.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="editfechaBaja"></mat-datepicker-toggle>
+                                  <mat-datepicker #editfechaBaja></mat-datepicker>
                                 </mat-form-field>
                               </div>
                             </div>
-                          
-                          
-                          </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input name="curso" [(ngModel)]="personal.curso" matInput [matDatepicker]="pickeredit" placeholder="curso" (click)="pickeredit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="pickeredit"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickeredit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
 
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input name="lnh" [(ngModel)]="personal.lnh" matInput [matDatepicker]="lnhedit" placeholder="lnh" (click)="lnhedit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="lnhedit"></mat-datepicker-toggle>
+                                  <mat-datepicker #lnhedit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <br> 
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field>
+                                  <input  name="registro" [(ngModel)]="personal.registro" matInput [matDatepicker]="registroedit" placeholder="registro" (click)="registroedit.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="registroedit"></mat-datepicker-toggle>
+                                  <mat-datepicker #registroedit></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div> 
+                            <br>
+                            <div class="row">
+                                <div class="col-md-8 offset-2">
+                                  <input #direccion="ngModel" name="direccion" [(ngModel)]="personal.direccion" type="text" placeholder="Direccion" autocorrect="off"
+                                    autocapitalize="off" spellcheck="off" class="form-control" #searchs>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input #celular="ngModel" name="celular" [(ngModel)]="personal.celular"   type="text" class="form-control " placeholder="celular...">
+    
+                                </div>
+                            
+                            </div>
+
+                          </div>
 
                         </div>
                       </span>
@@ -117,12 +315,41 @@
                     <div class="modal-footer">
 
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
-                      <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
-                      <input type="submit" value="Crear" class="btn btn-success ">
+                      <div class="col-md-4">
+                          <button (click)="cancelaredit()" class="btn btn-danger">Cancelar</button>
+
+                        </div>
+                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
 
                     </div>
                   </div>
                 </form>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+
+              <div class="card-content">
+                <h4 class="card-title">Mapa</h4>
+                <div id="regularMap" class="map"></div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+        <!-- Classic Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Personal</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+
+           
               </div>
 
             </div>
@@ -135,109 +362,14 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">EDITAR</h4>
+                <h4 class="modal-title">Personal</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
               </div>
               <div class="modal-body">
 
-                <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
-                  <div class="card card-login card-hidden">
-                    <div class="card-body ">
-                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
-                      <span class="bmd-form-group">
-                        <div class="input-group">
-                          <div class="col-md-12">
-                            <br>
-                            <span class="text-center text-danger">{{completecampo}}</span>
-                            <div class="row">
-                              <div class="col-md-6">
-                                <input #apellido="ngModel" name="apellido" [(ngModel)]="personal.apellido" type="text" class="form-control" placeholder="apellido...">
-                                <br>
-
-                              </div>
-                              <div class="col-md-6">
-                                <input #nombre="ngModel" name="nombre" [(ngModel)]="personal.nombre" type="text" class="form-control" placeholder="nombre...">
-                                <br>
-                              </div>
-                            </div>
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <mat-form-field>
-                                  <mat-select placeholder="categoria" #categoria_id="ngModel" name="categoria_id" [(ngModel)]="personal.categoria_id">
-                                    <mat-option *ngFor="let cate of categoria" [value]="cate.id">
-                                      {{ cate.categoria }}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-6">
-                                <mat-form-field>
-                                  <mat-select placeholder="Propio" #propio="ngModel" name="propio" [(ngModel)]="personal.propio">
-                                    <mat-option *ngFor="let propia of selectpropia" [value]="propia.value">
-                                      {{ propia.viewValue }}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
-                            </div>
-
-                            
-                            <div class="row">
-                              <div class="col-md-6">
-                                <mat-form-field>
-                                  <mat-select placeholder="basicoSindicato" #basicoSindicato_id="ngModel" name="basicoSindicato_id" [(ngModel)]="personal.basicoSindicato_id">
-                                    <mat-option *ngFor="let sindi of sindicato" [value]="sindi.id">
-                                      {{ sindi.basico_sindicato }}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
-                        
-                              <div class="col-md-6">
-                                <input #comision="ngModel" name="comision" [(ngModel)]="personal.comision" type="text" class="form-control" placeholder="Comision...">
-                                <br>
-                              </div>
-                            </div>
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <mat-form-field>
-                                  <input  name="curso" [(ngModel)]="personal.curso" matInput [matDatepicker]="pickeredit" placeholder="curso" (click)="pickeredit.open()">
-                                  <mat-datepicker-toggle matSuffix [for]="pickeredit"></mat-datepicker-toggle>
-                                  <mat-datepicker #pickeredit></mat-datepicker>
-                                </mat-form-field>
-                              </div>
-                        
-                              <div class="col-md-6">
-                                <mat-form-field>
-                                  <input name="lnh" [(ngModel)]="personal.lnh" matInput [matDatepicker]="lnhedit" placeholder="lnh" (click)="lnhedit.open()">
-                                  <mat-datepicker-toggle matSuffix [for]="lnhedit"></mat-datepicker-toggle>
-                                  <mat-datepicker #lnhedit></mat-datepicker>
-                                </mat-form-field>
-                              </div>
-                            </div>
-                          
-                          
-                          </div>
-
-                        </div>
-                      </span>
-
-                    </div>
-                    <div class="card-footer justify-content-center">
-                    </div>
-                    <div class="modal-footer">
-
-                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
-
-                      <input type="submit" value="Guardar" class="btn btn-success ">
-
-                    </div>
-                  </div>
-                </form>
+               
               </div>
 
             </div>
@@ -255,70 +387,76 @@
           </div>
           <div class="card-body">
             <div class="toolbar" *ngIf="showrecuperar== true">
-                <br>
-                <button  (click)="Recuperar()" class="btn btn-warning">  Recuperá el ultimo borrado                 <i class="material-icons ">replay</i>
-                </button>
+              <br>
+              <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
+                <i class="material-icons ">replay</i>
+              </button>
 
             </div>
             <div class="">
 
               <div class="material-datatables">
-                <table id="datatables" class="table table-striped table-no-bordered table-hover  " cellspacing="6" width="100%" style="width:100%">
+                <table id="datatables" class="table table-striped table-no-bordered table-hover  table-responsive " cellspacing="6" width="100%" style="width:100%">
                   <thead *ngIf="donttable != false">
                     <tr>
-                      <th *ngFor="let row of dataTable.headerRow"    class="text-center">{{ row }}</th>
+                      <th *ngFor="let row of dataTable.headerRow" class="text-center">{{ row }}</th>
                     </tr>
                   </thead>
                   <tfoot *ngIf="donttable != false">
-                    <tr >
+                    <tr>
                       <th *ngFor="let row of dataTable.footerRow" class="text-center">{{ row }}</th>
-                   
+
 
 
                     </tr>
                   </tfoot>
                   <tbody *ngIf="donttable != false">
                     <tr *ngFor="let row of dataTable.dataRows">
-                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.apellido}}</td>
-                      <td  class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.nombre}}</td>
-                      <div *ngFor="let cate of categoria" >
-                        <td  *ngIf="cate.id == row.categoria_id" class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{cate.categoria}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)" > {{row.apellido}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.nombre}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.direccion}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.celular}}</td>
+
+                      <div *ngFor="let cate of categoria">
+                        <td *ngIf="cate.id == row.categoria_id" class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{cate.categoria}}</td>
 
                       </div>
 
-                      <td style="cursor: pointer;"  class="text-center" *ngIf="row.propio == true" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR" >
+                      <td style="cursor: pointer;" class="text-center" *ngIf="row.propio == true" (click)="editar(row.id)">
                         <i class="material-icons text-success">check</i>
 
                       </td>
-                      <td style="cursor: pointer;"   class="text-center" *ngIf="row.propio == false" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR" >
-                        <i  class="material-icons text-danger">close</i>
+                      <td style="cursor: pointer;" class="text-center" *ngIf="row.propio == false" (click)="editar(row.id)">
+                        <i class="material-icons text-danger">close</i>
 
                       </td>
 
-                      <div *ngFor="let sindi of sindicato" >
-                        <td  *ngIf="sindi.id == row.basicoSindicato_id" class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{sindi.basico_sindicato}}</td>
+                      <div *ngFor="let sindi of sindicato">
+                        <td *ngIf="sindi.id == row.basicoSindicato_id" class="text-center" style="cursor: pointer;"(click)="editar(row.id)">{{sindi.basico_sindicato}}</td>
 
                       </div>
 
-                      <td  class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.comision}}</td>
-                      <td  class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.curso | date :'dd-MM-yy'}}</td>
-                      <td  class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.lnh | date :'dd-MM-yy'}}</td>
-                      <td  class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.registro | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.comision}}</td>
+                      <td class="text-center" style="cursor: pointer;"(click)="editar(row.id)">{{row.curso | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.lnh | date :'dd-MM-yy'}}</td>
+                      <td class="text-center" style="cursor: pointer;" (click)="editar(row.id)">{{row.registro | date :'dd-MM-yy'}}</td>
 
-                      <td  class="text-center"*ngIf="row.activo == true">
+                      <td class="text-center" *ngIf="row.activo == true">
                         <i style="cursor: pointer;" (click)="desabilitar(row.id)" class="material-icons text-success">check</i>
 
                       </td>
-                      <td  class="text-center" *ngIf="row.activo == false">
+                      <td class="text-center" *ngIf="row.activo == false">
                         <i (click)="habilitar(row.id)" style="cursor: pointer;" class="material-icons text-danger">close</i>
 
                       </td>
                       <td class="text-right">
-                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="eliminar(row.id)" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">delete</i></a>
+                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                          <i class="material-icons">delete</i>
+                        </a>
 
                       </td>
-                          <td class="hidden" style="display: none;" ></td>
-                    
+                      <td class="hidden" style="display: none;"></td>
+
 
                     </tr>
                   </tbody>

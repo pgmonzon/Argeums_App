@@ -2,10 +2,11 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 text-center">
-        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" style="border-radius:50% " mat-raised-button
-          class=" bg-danger" data-toggle="modal" data-target="#myModal">
-          <i style="font-size: 60px; color:white;cursor: pointer;" class="material-icons">add</i>
-        </button>
+            <button  (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá"  mat-raised-button
+            class="btn bg-success " style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
+            <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
+          </button>
+   
 
 
         <!-- Classic Modal -->
@@ -13,7 +14,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Alta unidad</h4>
+                <h4 class="modal-title">Unidades</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -44,8 +45,8 @@
                               </div>
                               <div class="col-md-6">
                                 <mat-form-field>
-                                  <input #vtv="ngModel" name="vtv" [(ngModel)]="Unidad.vtv " matInput [matDatepicker]="picker" placeholder="vtv" (click)="picker.open()">
-                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <input dateFormat="yy-mm-dd" #vtv="ngModel" name="vtv" [(ngModel)]="Unidad.vtv " matInput [matDatepicker]="picker" placeholder="vtv" (click)="picker.open()">
+                                  <mat-datepicker-toggle    matSuffix [for]="picker"></mat-datepicker-toggle>
                                   <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
                               </div>
@@ -107,7 +108,7 @@
 
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
                       <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
-                      <input type="submit" value="Crear" class="btn btn-success ">
+                      <input type="submit" value="CREÁ" class="btn btn-success ">
 
                     </div>
                   </div>
@@ -124,7 +125,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">EDITAR</h4>
+                <h4 class="modal-title">Unidades</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -209,7 +210,7 @@
 
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
 
-                      <input type="submit" value="Guardar" class="btn btn-success ">
+                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
 
                     </div>
                   </div>
@@ -220,6 +221,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-rose card-header-icon">
@@ -237,13 +239,12 @@
               </button>
 
             </div>
-            <div class="">
 
               <div class="material-datatables">
-                <table id="datatables" class="table table-striped table-no-bordered table-hover  " cellspacing="6" width="100%" style="width:100%">
+                <table id="datatables" class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6" width="100%" style="width:100%">
                   <thead *ngIf="donttable != false">
                     <tr>
-                      <th>{{ dataTable.headerRow[0] }}</th>
+                      <th class="text-center">{{ dataTable.headerRow[0] }}</th>
                       <th class="text-center">{{ dataTable.headerRow[1] }}</th>
                       <th class="text-center">{{ dataTable.headerRow[2] }}</th>
                       <th class="text-center">{{ dataTable.headerRow[3] }}</th>
@@ -256,7 +257,7 @@
                   </thead>
                   <tfoot *ngIf="donttable != false">
                     <tr>
-                      <th>{{ dataTable.footerRow[0] }}</th>
+                      <th class="text-center">{{ dataTable.footerRow[0] }}</th>
                       <th class="text-center">{{ dataTable.footerRow[1] }}</th>
                       <th class="text-center">{{ dataTable.footerRow[2] }}</th>
                       <th class="text-center">{{ dataTable.footerRow[3] }}</th>
@@ -271,7 +272,7 @@
                   </tfoot>
                   <tbody *ngIf="donttable != false">
                     <tr *ngFor="let row of dataTable.dataRows">
-                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.unidad}}</td>
+                      <td class="text-center" > <p style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.unidad}}</p></td>
                       <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.vtv | date :'dd-MM-yy'}}</td>
                       <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.ruta | date :'dd-MM-yy'}}</td>
                       <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.poliza | date :'dd-MM-yy'}}</td>
@@ -294,7 +295,7 @@
 
                       </td>
                       <td class="text-right">
-                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="eliminar(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
                           <i class="material-icons">delete</i>
                         </a>
 
@@ -304,7 +305,6 @@
                 </table>
               </div>
 
-            </div>
           </div>
         </div>
       </div>

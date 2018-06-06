@@ -72,4 +72,10 @@ export class LocacionesService {
     return this._http.put(this.url + 'locacion/'+id, tipo_unidad, {headers: this.headers})
                     .map(res => res.json());
   }
+  locaciones(dire) {
+
+    return this._http.get(this.url + 'https://maps.googleapis.com/maps/api/geocode/json?address=Avda.+de+los+Poblados+51+28047+Madrid&components=country:ES&key=AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck')
+                    .map(res => res.json());
+                   
+  }
 }

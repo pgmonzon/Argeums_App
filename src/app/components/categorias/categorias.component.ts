@@ -3,6 +3,7 @@ import { Categoria } from '../../models/categoria';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { CategoriaService } from '../../servicios/categoria.service';
+import swal from 'sweetalert2';
 
 
 
@@ -33,44 +34,16 @@ export class CategoriasComponent implements OnInit {
   public showrecuperar;
   ngOnInit() {
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
-         
+
     $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item active';
-    this.ideliminado='';
-    this.showrecuperar=false;
+    this.ideliminado = '';
+    this.showrecuperar = false;
     this.identity = JSON.parse(localStorage.getItem('identity'));
     this.Categoria = {
       'categoria': '',
       'activo': true
     };
-    this._CategoriaService.getAll(this.identity.token).subscribe(
-      response => {
-        if (response.estado != "ERROR") {
-          this.dataTable = {
-            headerRow: ['Categoria', 'Estado','Borrar'],
-            footerRow: ['Categoria', 'Estado','Borrar'],
-
-            dataRows: response
-          }
-          this.donttable = true;
-        } else {
-          this.donttable = false;
-
-          this.dataTable = {
-            headerRow: ['Categoria', 'Estado','Borrar'],
-            footerRow: ['Categoria', 'Estado','Borrar'],
-
-            dataRows: [['', '']]
-          }
-          this.showNotification('top', 'center', response.mensaje, 'warning');
-
-        }
-
-      },
-      error => {
-        this.errorMessage = <any>error;
-        if (this.errorMessage != null) {
-        }
-      });
+    this.All();
 
   }
   onSubmit() {
@@ -83,13 +56,13 @@ export class CategoriasComponent implements OnInit {
           console.log(response);
           if (response.estado != "ERROR") {
             this.showNotification('top', 'center', response.mensaje, 'success');
-            this.All();
             this.Categoria = {
               'categoria': '',
               'activo': true
             };
             $("#myModal").modal("hide");
             this.donttable = true;
+            this.All();
 
           }
           else {
@@ -118,15 +91,15 @@ export class CategoriasComponent implements OnInit {
       response => {
         if (response.estado != "ERROR") {
           this.dataTable = {
-            headerRow: ['Categoria', 'Estado','Borrar'],
-            footerRow: ['Categoria', 'Estado','Borrar'],
+            headerRow: ['Categoria', 'Estado', 'Borrar'],
+            footerRow: ['Categoria', 'Estado', 'Borrar'],
 
             dataRows: response
           }
         } else {
           this.dataTable = {
-            headerRow: ['Categoria', 'Estado','Borrar'],
-            footerRow: ['Categoria', 'Estado','Borrar'],
+            headerRow: ['Categoria', 'Estado', 'Borrar'],
+            footerRow: ['Categoria', 'Estado', 'Borrar'],
 
             dataRows: [['', '']]
           }
@@ -167,12 +140,13 @@ export class CategoriasComponent implements OnInit {
           if (response.estado != "ERROR") {
             this.completecampo = null;
             this.showNotification('top', 'center', response.mensaje, 'success');
-            this.All();
             this.Categoria = {
               'categoria': '',
               'activo': true
             };
             $("#myModalEDITAR").modal("hide");
+            this.All();
+
           } else {
             this.showNotification('top', 'center', response.mensaje, 'danger');
 
@@ -229,7 +203,7 @@ export class CategoriasComponent implements OnInit {
         this.All();
         this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
         $("#myModalEDITAR").modal("hide");
-        this.showrecuperar=true;
+        this.showrecuperar = true;
       },
       error => {
         this.errorMessage = <any>error;
@@ -291,12 +265,12 @@ export class CategoriasComponent implements OnInit {
   }
 
   public Recuperar() {
-    if(    this.ideliminado != ''    ){
-      this._CategoriaService.recuperar( this.ideliminado, this.identity.token).subscribe(
+    if (this.ideliminado != '') {
+      this._CategoriaService.recuperar(this.ideliminado, this.identity.token).subscribe(
         response => {
           this.All();
           this.showNotification('top', 'center', response.mensaje, 'success');
-          this.showrecuperar=false;
+          this.showrecuperar = false;
 
         },
         error => {
@@ -306,7 +280,7 @@ export class CategoriasComponent implements OnInit {
         }
       );
     }
-    else{
+    else {
       this.showNotification('top', 'center', 'No hay documento para recuperar', 'warning');
 
     }
@@ -322,14 +296,16 @@ export class CategoriasComponent implements OnInit {
         [10, 25, 50, "todos"]
       ],
 
+      "order": [[2, "desc"]],
+
       "language": {
         "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
+        "sLengthMenu": "Mostrar _MENU_ documentos",
+        "sZeroRecords": "No se encontraron documentos",
         "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfo": "_TOTAL_ documentos",
+        "sInfoEmpty": " 0 documentos",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
         "sInfoPostFix": "",
         "sSearch": "Buscar:",
         "sUrl": "",
@@ -347,7 +323,7 @@ export class CategoriasComponent implements OnInit {
         }
 
       },
-      responsive: true,
+      responsive: false,
       //   language: {
       //     search: "_INPUT_",
       //     searchPlaceholder: "Buscar",
@@ -367,4 +343,26 @@ export class CategoriasComponent implements OnInit {
       'activo': true
     };
   }
+  public showSwal(id) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
+
+      buttonsStyling: false
+    }).then((isConfirm) => {
+
+      if (isConfirm.value == true) {
+        this.eliminar(id);
+
+      }
+    }
+    ).catch(swal.noop);
+  }
+
 }

@@ -230,6 +230,7 @@ var array = [{
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
     public usuario;
+    public imagen;
     isMobileMenu() {
         if ($(window).width() > 991) {
             return false;
@@ -240,6 +241,7 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         const identity = JSON.parse(localStorage.getItem('identity'));
         this.usuario=identity;
+        this.imagen=identity.logo;
 
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
@@ -255,5 +257,8 @@ export class SidebarComponent implements OnInit {
             bool = true;
         }
         return bool;
+    }
+    public exit(){
+        window.location.href = 'pages/login';
     }
 }

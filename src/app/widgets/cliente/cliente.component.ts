@@ -3,11 +3,15 @@ import { clientes } from '../../models/cliente';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { ClienteService } from '../../servicios/cliente.service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { contactos } from '../../models/contacto';
 import { tarifarios } from '../../models/tarifarios';
-import { recorrido} from '../../models/recorrido';
+import { recorrido } from '../../models/recorrido';
+import swal from 'sweetalert2';
+import { NativeDateAdapter } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import { SortablejsModule } from 'angular-sortablejs';
 
 declare interface DataTable {
   headerRow: string[];
@@ -15,17 +19,47 @@ declare interface DataTable {
   dataRows: string[][];
 }
 
+
 declare const $: any;
+export class AppDateAdapter extends NativeDateAdapter {
+
+  format(date: Date, displayFormat: Object): string {
+
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    } else {
+      //return date.toDateString();
+    }
+  }
+}
+export const APP_DATE_FORMATS =
+  {
+    parse: {
+      dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+    },
+    display: {
+      dateInput: 'input',
+      monthYearLabel: { year: 'numeric', month: 'numeric' },
+      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+      monthYearA11yLabel: { year: 'numeric', month: 'long' },
+    }
+  };
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.scss'],
-  providers:[ClienteService]
+  providers: [ClienteService,
+    { provide: DateAdapter, useClass: AppDateAdapter }, { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }, { provide: MAT_DATE_LOCALE, useValue: 'ars-ARS' }]
 
 })
 export class ClienteComponent implements OnInit {
 
-  constructor(private _ClienteService: ClienteService) { }
+  constructor(private _ClienteService: ClienteService) {
+
+  }
   private identity;
   public clientes;
   public recorrido;
@@ -38,147 +72,158 @@ export class ClienteComponent implements OnInit {
   public categoria;
   public sindicato;
   public contactos;
-  public contactosarray=[];
+  public contactosarray = [];
   public tarifarios;
-  public tarifariosarray=[];
+  public tarifariosarray = [];
   public tipounidades;
-  public tipotarifario=[];
+  public tipotarifario = [];
   public modalContactoshow;
   public modalcontactomensaje;
-  public recorridoarray=[];
+  public recorridoarray = [];
 
   ngOnInit() {
-    $(".kmDesde").attr("hidden","true");
-    $(".kmHasta").attr("hidden","true");
-    $(".Locacion").attr("hidden","true");
+    $(".kmDesde").attr("hidden", "true");
+    $(".kmHasta").attr("hidden", "true");
+    $(".Locacion").attr("hidden", "true");
 
-    this.modalcontactomensaje=true;
+
+    this.modalcontactomensaje = true;
     this.selectpropia = [
-      {value: true, viewValue: true},
-      {value: false, viewValue: false},
-     
-    ];
-
-    this.tipotarifario= [
-      {'value': 'Kilometraje', 'viewValue': 'Kilometraje'},
-      {'value': 'Recorrido', 'viewValue': 'Recorrido'},
-      {'value': 'Rango Kilometraje', 'viewValue': 'Rango Kilometraje'},
+      { value: true, viewValue: 'Si' },
+      { value: false, viewValue: 'No' },
 
     ];
- 
+
+    this.tipotarifario = [
+      { 'value': 'Kilometraje', 'viewValue': 'Kilometraje' },
+      { 'value': 'Recorrido', 'viewValue': 'Recorrido' },
+      { 'value': 'Rango Kilometraje', 'viewValue': 'Rango Kilometraje' },
+
+    ];
+
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
-         
+
     $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item active';
-    this.ideliminado='';
-    this.showrecuperar=false;
+    this.ideliminado = '';
+    this.showrecuperar = false;
     this.identity = JSON.parse(localStorage.getItem('identity'));
     this.clientes = {
-      'id':'',
-      'cliente':'',
-      'activo':true,
-      'contactos':[],
-      'tarifarios':[],
+      'id': '',
+      'cliente': '',
+      'activo': true,
+      'contactos': [],
+      'tarifarios': [],
     };
     this.contactos = {
       'nombre': '',
-      'cargo':'',
-      'telefono':'',
-      
+      'cargo': '',
+      'telefono': '',
+
     };
     this.tarifarios = {
       'tarifario': '',
-      'tipo':'Kilometraje',
-      'tipoUnidad_id':'',
-      'importe':0,
-      'vigenteDesde':new Date(),
-      'vigenteHasta':new Date(),
-      'recorrido':[],
-      'kmDesde':0,
-      'kmHasta':0,
-      'activo':true,
+      'tipo': 'Kilometraje',
+      'tipoUnidad_id': '',
+      'importe': 0,
+      'vigenteDesde': new Date(),
+      'vigenteHasta': new Date(),
+      'recorrido': [],
+      'kmDesde': 0,
+      'kmHasta': 0,
+      'activo': true,
 
     };
     this.recorrido = {
-      'locacion_id':''
+      'locacion_id': ''
     };
     this.getTipoUnidad();
+    this.getLocacionAll();
     this.All();
 
   }
   public test;
-  onContacto(){
-      if(this.contactos.nombre != ''){
-        this.contactosarray.push(this.contactos);
-        this.contactos = {
-          'nombre': '',
-          'cargo':'',
-          'telefono':'',
+  onContacto() {
+    if (this.contactos.nombre != '') {
+      this.contactosarray.push(this.contactos);
+      this.contactos = {
+        'nombre': '',
+        'cargo': '',
+        'telefono': '',
 
-        };
-        this.completecampo = null;
+      };
+      this.completecampo = null;
 
-      }
-      else{
-        this.completecampo = "Complete los campos";
+    }
+    else {
+      this.completecampo = "Complete los campos";
 
-      }
-    
+    }
+
   }
-  onRecorrido(){
+  onRecorrido() {
     this.recorridoarray.push(this.recorrido);
-  }
-  onTarifario(){
-    if(this.tarifarios.tarifario != ''){
-      this.tarifarios.recorrido=this.recorridoarray;
+    this.recorrido = {
+      'locacion_id': ''
+    };
 
+
+  }
+  onTarifario() {
+    if (this.tarifarios.tarifario != '') {
+      this.tarifarios.recorrido = this.recorridoarray;
+      if (this.tarifarios.tipoUnidad_id == '') {
+        this.tarifarios.tipoUnidad_id = '111111111111111111111111';
+
+      }
       this.tarifariosarray.push(this.tarifarios);
-      this.recorridoarray=[];
+      this.recorridoarray = [];
       this.tarifarios = {
         'tarifario': '',
-        'tipo':'Kilometraje',
-        'tipoUnidad_id':'',
-        'importe':0,
-        'vigenteDesde':new Date(),
-        'vigenteHasta':new Date(),
-        'recorrido':[],
-        'kmDesde':0,
-        'kmHasta':0,
-        'activo':true,
-        
+        'tipo': 'Kilometraje',
+        'tipoUnidad_id': '',
+        'importe': 0,
+        'vigenteDesde': new Date(),
+        'vigenteHasta': new Date(),
+        'recorrido': [],
+        'kmDesde': 0,
+        'kmHasta': 0,
+        'activo': true,
+
       };
       console.log(this.tarifariosarray);
       this.completecampo = null;
 
     }
-    else{
+    else {
       this.completecampo = "Complete los campos";
 
     }
-  
+
   }
 
   onSubmit() {
-    this.clientes.contactos=this.contactosarray;
-    this.clientes.tarifarios=this.tarifariosarray;
+    this.clientes.contactos = this.contactosarray;
+    this.clientes.tarifarios = this.tarifariosarray;
 
     var mainPanel = document.getElementById('myModal');
- 
-    if (this.clientes.cliente != '' ) {
+    if (this.clientes.cliente != '') {
       const identity = JSON.parse(localStorage.getItem('identity'));
+      console.log(this.clientes);
       this._ClienteService.crear(this.clientes, identity.token).subscribe(
         response => {
+          console.log(response);
           this.completecampo = null;
           if (response.estado != "ERROR") {
-            this.tarifariosarray=[];
-            this.contactosarray=[];
+            this.tarifariosarray = [];
+            this.contactosarray = [];
             this.showNotification('top', 'center', response.mensaje, 'success');
             this.All();
             this.clientes = {
-              'id':'',
+              'id': '',
               'cliente': '',
-              'activo':true,
-              'contactos':[],
-              'tarifarios':[],
+              'activo': true,
+              'contactos': [],
+              'tarifarios': [],
             };
             $("#myModal").modal("hide");
             this.donttable = true;
@@ -204,15 +249,15 @@ export class ClienteComponent implements OnInit {
     }
 
   }
- /// headerRow: ['apellido','nombre','categoria','propio','basicoSindicato','comision', 'curso','lnh','registro','estado','borrado','time','Borrar'],
+  /// headerRow: ['apellido','nombre','categoria','propio','basicoSindicato','comision', 'curso','lnh','registro','estado','borrado','time','Borrar'],
 
   public All() {
     this._ClienteService.getAll(this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.dataTable = {
-            headerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
-            footerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
+            headerRow: ['Cliente', 'Contactos', 'Tarifarios', 'Estado', 'Borrar'],
+            footerRow: ['Cliente', 'Contactos', 'Tarifarios', 'Estado', 'Borrar'],
             dataRows: response
           }
           console.log(this.dataTable);
@@ -221,8 +266,8 @@ export class ClienteComponent implements OnInit {
           this.donttable = false;
 
           this.dataTable = {
-            headerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
-            footerRow: ['Cliente','Cotactos','Tarifarios','Estado','Borrar'],
+            headerRow: ['Cliente', 'Contactos', 'Tarifarios', 'Estado', 'Borrar'],
+            footerRow: ['Cliente', 'Contactos', 'Tarifarios', 'Estado', 'Borrar'],
 
             dataRows: [['', '']]
           }
@@ -240,16 +285,49 @@ export class ClienteComponent implements OnInit {
   public editar(id) {
     this._ClienteService.getId(id, this.identity.token).subscribe(
       response => {
-     
+
         this.clientes = {
-          'id':response.id,
+          'id': response.id,
           'cliente': response.cliente,
-          'activo':true,
-          'contactos':[],
-          'tarifarios':[],
+          'activo': true,
+          'contactos': [],
+          'tarifarios': [],
         };
-        this.contactosarray=response.contactos;
-        this.tarifariosarray=response.tarifarios;
+
+        this.contactos = {
+          'nombre': '',
+          'cargo': '',
+          'telefono': '',
+
+        };
+        this.tarifarios = {
+          'tarifario': '',
+          'tipo': 'Kilometraje',
+          'tipoUnidad_id': '',
+          'importe': 0,
+          'vigenteDesde': new Date(),
+          'vigenteHasta': new Date(),
+          'recorrido': [],
+          'kmDesde': 0,
+          'kmHasta': 0,
+          'activo': true,
+
+        };
+        if (response.contactos != undefined) {
+          this.contactosarray = response.contactos;
+
+        }
+        else {
+          this.contactosarray = [];
+        }
+        if (response.tarifarios != undefined) {
+          this.tarifariosarray = response.tarifarios;
+
+        }
+        else {
+          this.tarifariosarray = [];
+        }
+
         //this.recorridoarray=this.modaltarifarios[0].recorrido;
       },
       error => {
@@ -262,9 +340,9 @@ export class ClienteComponent implements OnInit {
 
   onEdit() {
     if (this.clientes.cliente != '') {
-      this.clientes.contactos=this.contactosarray;
-      this.clientes.tarifarios=this.tarifariosarray;
-  
+      this.clientes.contactos = this.contactosarray;
+      this.clientes.tarifarios = this.tarifariosarray;
+
       const identity = JSON.parse(localStorage.getItem('identity'));
       this._ClienteService.editar(this.clientes, identity.token, this.clientes.id).subscribe(
         response => {
@@ -273,11 +351,11 @@ export class ClienteComponent implements OnInit {
             this.showNotification('top', 'center', response.mensaje, 'success');
             this.All();
             this.clientes = {
-              'id':'',
+              'id': '',
               'cliente': '',
-              'activo':true,
-              'contactos':[],
-              'tarifarios':[],
+              'activo': true,
+              'contactos': [],
+              'tarifarios': [],
             };
             $("#myModalEDITAR").modal("hide");
           } else {
@@ -336,7 +414,7 @@ export class ClienteComponent implements OnInit {
         this.All();
         this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
         $("#myModalEDITAR").modal("hide");
-        this.showrecuperar=true;
+        this.showrecuperar = true;
       },
       error => {
         this.errorMessage = <any>error;
@@ -398,12 +476,12 @@ export class ClienteComponent implements OnInit {
   }
 
   public Recuperar() {
-    if(    this.ideliminado != ''    ){
-      this._ClienteService.recuperar( this.ideliminado, this.identity.token).subscribe(
+    if (this.ideliminado != '') {
+      this._ClienteService.recuperar(this.ideliminado, this.identity.token).subscribe(
         response => {
           this.All();
           this.showNotification('top', 'center', response.mensaje, 'success');
-          this.showrecuperar=false;
+          this.showrecuperar = false;
 
         },
         error => {
@@ -413,7 +491,7 @@ export class ClienteComponent implements OnInit {
         }
       );
     }
-    else{
+    else {
       this.showNotification('top', 'center', 'No hay documento para recuperar', 'warning');
 
     }
@@ -429,14 +507,16 @@ export class ClienteComponent implements OnInit {
         [10, 25, 50, "todos"]
       ],
 
+      "order": [[0, "desc"]],
+
       "language": {
         "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
+        "sLengthMenu": "Mostrar _MENU_ documentos",
+        "sZeroRecords": "No se encontraron documentos",
         "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfo": "_TOTAL_ documentos",
+        "sInfoEmpty": " 0 documentos",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
         "sInfoPostFix": "",
         "sSearch": "Buscar:",
         "sUrl": "",
@@ -454,20 +534,18 @@ export class ClienteComponent implements OnInit {
         }
 
       },
-      responsive: true,
+      responsive: false,
       //   language: {
       //     search: "_INPUT_",
       //     searchPlaceholder: "Buscar",
       //   }
 
     });
-  // Delete a record
-
-
+    // Delete a record
    
     //$('.card .material-datatables label').addClass('form-group');
   }
-  public remove(row){
+  public remove(row) {
     // const table = $('#contactotable').DataTable();
 
     // const $tr = $(this).closest('tr');
@@ -475,63 +553,88 @@ export class ClienteComponent implements OnInit {
     // e.preventDefault();
 
     for (let index = 0; index < this.contactosarray.length; index++) {
-      if( row== this.contactosarray[index].telefono){
-        this.contactosarray.splice(index,1);      
+      if (row == this.contactosarray[index].telefono) {
+        this.contactosarray.splice(index, 1);
 
       }
     }
 
   }
-  public removeTarifario(row){
+  public removeTarifario(row) {
 
     for (let index = 0; index < this.tarifariosarray.length; index++) {
-      if( row== this.tarifariosarray[index].tarifario){
-        this.tarifariosarray.splice(index,1);      
+      if (row == this.tarifariosarray[index].tarifario) {
+        this.tarifariosarray.splice(index, 1);
 
       }
     }
 
   }
+
   public clear() {
     this.clientes = {
-      'id':'',
+      'id': '',
       'cliente': '',
-      'activo':true,
-      'contactos':[],
-      'tarifarios':[],
+      'activo': true,
+      'contactos': [],
+      'tarifarios': [],
     };
+    this.contactosarray = [];
+    this.tarifariosarray = [];
+    this.recorridoarray = [];
   }
-  public getTipoUnidad(){
+  public getTipoUnidad() {
     this._ClienteService.getTipoUnidad(this.identity.token).subscribe(
       response => {
-          if(response.estado!= "ERROR"){
-             this.tipounidades=response;
+        if (response.estado != "ERROR") {
+          this.tipounidades = response;
 
-          }else{
-                   
+        } else {
+
           this.showNotification('top', 'center', response.mensaje, 'warning');
 
-          }
-           
+        }
+
       },
       error => {
-          this.errorMessage = <any>error;
-          if (this.errorMessage != null) {
-          }
-      }
-  );
-  }
-  public modalContacto(id){
-    this._ClienteService.getId(id, this.identity.token).subscribe(
-      response => { 
-        if(response.contactos != undefined){
-          this.modalContactoshow=response.contactos;
-            this.modalcontactomensaje=true;  
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
         }
-        else{
-          this.modalContactoshow=[];
+      }
+    );
+  }
+  public getlocaciones;
+  public getLocacionAll() {
+    this._ClienteService.getLocacionAll(this.identity.token).subscribe(
+      response => {
+        if (response.estado != "ERROR") {
+          this.getlocaciones = response;
+          console.log(this.getlocaciones);
+        } else {
 
-          this.modalcontactomensaje="No tiene cargado contactos";
+          this.showNotification('top', 'center', response.mensaje, 'warning');
+
+        }
+
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+  }
+  public modalContacto(id) {
+    this._ClienteService.getId(id, this.identity.token).subscribe(
+      response => {
+        if (response.contactos != undefined) {
+          this.modalContactoshow = response.contactos;
+          this.modalcontactomensaje = true;
+        }
+        else {
+          this.modalContactoshow = [];
+
+          this.modalcontactomensaje = "No tiene cargado contactos";
 
         }
       },
@@ -543,18 +646,18 @@ export class ClienteComponent implements OnInit {
     );
   }
   public modaltarifarios;
-  public modalTarifario(id){
+  public modalTarifario(id) {
     this._ClienteService.getId(id, this.identity.token).subscribe(
-      response => { 
-        if(response.tarifarios != undefined){
-          this.modaltarifarios=response.tarifarios;
+      response => {
+        if (response.tarifarios != undefined) {
+          this.modaltarifarios = response.tarifarios;
 
-            this.modalcontactomensaje=true;  
+          this.modalcontactomensaje = true;
         }
-        else{
-          this.modaltarifarios=[];
+        else {
+          this.modaltarifarios = [];
 
-          this.modalcontactomensaje="No tiene cargado tarifarios";
+          this.modalcontactomensaje = "No tiene cargado tarifarios";
 
         }
       },
@@ -565,41 +668,63 @@ export class ClienteComponent implements OnInit {
       }
     );
   }
-  public modalRecorrido(row){
+  public modalRecorrido(row) {
     for (let index = 0; index < this.modaltarifarios.length; index++) {
-      if( row== this.modaltarifarios[index].tarifario){
-        this.recorridoarray=this.modaltarifarios[index].recorrido;
-  
+      if (row == this.modaltarifarios[index].tarifario) {
+        this.recorridoarray = this.modaltarifarios[index].recorrido;
+
       }
     }
     $("#myModalTarifario").modal("hide");
 
   }
- 
-  
+
+
 
   onChange(deviceValue) {
-    if(deviceValue.value=='Kilometraje'){
-      $(".kmDesde").attr("hidden","true");
-      $(".kmHasta").attr("hidden","true");
-      $(".Locacion").attr("hidden","true");
-      this.recorridoarray=[];
+    if (deviceValue.value == 'Kilometraje') {
+      $(".kmDesde").attr("hidden", "true");
+      $(".kmHasta").attr("hidden", "true");
+      $(".Locacion").attr("hidden", "true");
+      this.recorridoarray = [];
 
 
     }
-    else if  (deviceValue.value=="Recorrido") {
-      $(".kmDesde").attr("hidden","true");
-      $(".kmHasta").attr("hidden","true");
+    else if (deviceValue.value == "Recorrido") {
+      $(".kmDesde").attr("hidden", "true");
+      $(".kmHasta").attr("hidden", "true");
       $(".Locacion").removeAttr('hidden');
 
-    } 
+    }
     else {
-      $(".Locacion").attr("hidden","true");
-      this.recorridoarray=[];
+      $(".Locacion").attr("hidden", "true");
+      this.recorridoarray = [];
 
-       $(".kmDesde").removeAttr( 'hidden');
-       $(".kmHasta").removeAttr('hidden');
+      $(".kmDesde").removeAttr('hidden');
+      $(".kmHasta").removeAttr('hidden');
 
     }
-}
+  }
+  public showSwal(id) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
+
+      buttonsStyling: false
+    }).then((isConfirm) => {
+
+      if (isConfirm.value == true) {
+        this.eliminar(id);
+
+      }
+    }
+    ).catch(swal.noop);
+  }
+
 }

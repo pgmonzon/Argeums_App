@@ -1,0 +1,195 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"> Autorizaciones</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
+                  <div class="card card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label class="text-success" for="FechaHora">FechaHora</label>
+                          <mat-form-field>
+                            <input #FechaHora="ngModel" name="FechaHora" [(ngModel)]="autorizar.FechaHora" class="text-center" matInput [matDatepicker]="fechaHora"
+                              (click)="fechaHora.open()" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="fechaHora"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaHora></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="text-success" for="Recorrido">Recorrido</label>
+                          <input #Recorrido="ngModel" name="Recorrido" [(ngModel)]="autorizar.Recorrido" type="text" class="form-control text-center"
+                            placeholder="Recorrido..." disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label class="text-success" for="Km">Km</label>
+                          <input #Km="ngModel" name="Km" [(ngModel)]="autorizar.Km" type="text" class="form-control text-center" placeholder="Km... "
+                            disabled>
+
+                        </div>
+                        <div class="col-md-6">
+                          <label class="text-success" for="Recorrido">Titular</label>
+                          <input #Titular="ngModel" name="Titular" [(ngModel)]="autorizar.Titular" type="text" class="form-control text-center" placeholder="Titular..."
+                            disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label class="text-success" for="Sugerido">Tarifario</label>
+                          <input #Tarifario="ngModel" name="Tarifario" [(ngModel)]="autorizar.Tarifario" type="text" class="form-control text-center"
+                            placeholder="Tarifario..." disabled>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="text-success" for="Sugerido">Sugerido</label>
+                          <input #Sugerido="ngModel" name="Sugerido" [(ngModel)]="autorizar.Sugerido" type="text" class="form-control text-center"
+                            placeholder="Sugerido..." disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label class="text-success" for="Solicitante">Solicitante</label>
+                          <input #Solicitante="ngModel" name="Solicitante" [(ngModel)]="autorizar.Solicitante" type="text" class="form-control text-center"
+                            placeholder="Solicitante..." disabled>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-success" for="Solicitante">Autorizante</label>
+                            <input #autorizante="ngModel" name="autorizante" [(ngModel)]="autorizar.Autorizante" type="text" class="form-control text-center"
+                               disabled>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label class="text-success" for="importe">importe</label>
+                              <input id="importe" #importe="ngModel" name="importe" [(ngModel)]="autorizar.importe" step="0.00001" min="0" type="number"
+                                oninput="validity.valid||(value='');" class="form-control text-center" placeholder="importe...">
+    
+                            </div>
+                      </div>
+                      <!-- <input #categoria="ngModel" name="Categoria" [(ngModel)]="" type="text" class="form-control" placeholder="CuentaGasto..."> -->
+                      <br>
+                    </div>
+
+                    <div class="card-footer justify-content-center" *ngIf="autorizar.Estado == 'Pendiente'">
+                      <button (click)="desabilitar(autorizar.id)" class="btn btn-danger  pull-right">Rechazo</button>
+                      <input type="submit" value="Autorizo" class="btn btn-success ">
+                    </div>
+                    <div class="modal-footer">
+
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">assignment</i>
+              </div>
+              <h4 class="card-title">Autorizaciones</h4>
+            </div>
+            <div class="card-body">
+              <div class="toolbar">
+                <div class="row">
+                  <div class="col-md-4 offset-4">
+                    <mat-form-field>
+                      <mat-select placeholder="Estado " (change)="onChange($event)">
+                        <mat-option *ngFor="let array of arrayOptions" [value]="array.value">
+                          {{ array.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+              <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6" width="100%" style="width:100%">
+                  <thead *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">FechaHora</th>
+                      <th class="text-center">Recorrido</th>
+                      <th class="text-center">Km </th>
+                      <th class="text-center">Titular</th>
+                      <th class="text-center">Tarifario</th>
+                      <th class="text-center">Sugerido</th>
+                      <th class="text-center">Solicitante</th>
+                      <th class="text-center">Autorizante</th>
+                      <th class="text-center">Importe</th>
+                    </tr>
+                  </thead>
+                  <tfoot *ngIf="donttable != false">
+                    <tr>
+                      <th class="text-center">FechaHora</th>
+                      <th class="text-center">Recorrido</th>
+                      <th class="text-center">Km</th>
+                      <th class="text-center">Titular</th>
+                      <th class="text-center">Tarifario</th>
+                      <th class="text-center">Sugerido</th>
+                      <th class="text-center">Solicitante</th>
+                      <th class="text-center">Autorizante</th>
+
+                      <th class="text-center">Importe</th>
+                    </tr>
+                  </tfoot>
+                  <tbody *ngIf="donttable != false">
+                    <tr *ngFor="let row of autorizacionArray">
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        {{row.fechaHora | date :'dd-MM-yy HH:mma'}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        {{row.recorrido}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        {{row.kilometraje}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        {{row.titular}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        ${{row.importeTarifario}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        ${{row.importeSugerido}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        {{row.solicitante}}
+                      </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                          {{row.autorizante}}
+                        </td>
+                      <td class="text-center " style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">
+                        ${{row.importeAutorizado}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>

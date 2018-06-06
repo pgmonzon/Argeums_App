@@ -3,11 +3,12 @@
   <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('../../assets/img/login.jpg'); background-size: cover; background-position: top center;">
     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
     <div class="container">
+
       <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-      
+
         <form #formUser="ngForm" (ngSubmit)="onSubmit()" class="form" >
           <div class="card card-login card-hidden">
-            
+
 
             <div class="card-header card-header-rose text-center">
               <h4 class="card-title">Entrá</h4>
@@ -68,16 +69,12 @@
       <div class="container">
         <nav class="pull-left">
           <ul>
-            <li>
-              <a href="https://www.creative-tim.com">
-                Contactanos
-              </a>
-            </li>
+         
           </ul>
         </nav>
-        <div class="copyright pull-right">
+        <div class="copyright pull-center">
           &copy;
-            {{test | date: 'yyyy'}}, ARGEUMS para el mundo
+            {{test | date: 'yyyy'}}, ARGEUMS 
         </div>
       </div>
     </footer>

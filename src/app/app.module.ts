@@ -5,6 +5,10 @@ import { HttpModule } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AgmCoreModule } from '@agm/core';
+import { DragulaModule } from 'ng2-dragula';
+import { SortablejsModule } from 'angular-sortablejs';
+
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -105,7 +109,11 @@ export class MaterialModule {}
         NavbarModule,
         FooterModule,
         FixedpluginModule,
-        
+        DragulaModule,
+        AgmCoreModule.forRoot({
+          apiKey: 'AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck',
+          libraries: ["places"]
+})
 
    
     ],

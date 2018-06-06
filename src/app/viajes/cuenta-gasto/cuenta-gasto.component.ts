@@ -3,6 +3,7 @@ import { CuentaGasto } from '../../models/cuentagasto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { CuentaGastoService } from '../../servicios/cuenta-gasto.service';
+import swal from 'sweetalert2';
 
 
 declare interface DataTable {
@@ -53,13 +54,13 @@ export class CuentaGastoComponent implements OnInit {
           console.log(response);
           if (response.estado != "ERROR") {
             this.showNotification('top', 'center', response.mensaje, 'success');
-            this.All();
             this.CuentaGasto = {
               'cuenta_gasto': '',
               'activo': true
             };
             $("#myModal").modal("hide");
             this.donttable = true;
+            this.All();
 
           }
           else {
@@ -296,32 +297,34 @@ export class CuentaGastoComponent implements OnInit {
         [10, 25, 50, "todos"]
       ],
 
+      "order": [[ 0, "desc" ]],
+
       "language": {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero-",
-          "sLast": "Último",
-          "sNext": ">>",
-          "sPrevious": "<<"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+          "sProcessing": "Procesando...",
+          "sLengthMenu": "Mostrar _MENU_ documentos",
+          "sZeroRecords": "No se encontraron documentos",
+          "sEmptyTable": "Ningún dato disponible en esta tabla",
+          "sInfo": "_TOTAL_ documentos",
+          "sInfoEmpty": " 0 documentos",
+          "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
+          "sInfoPostFix": "",
+          "sSearch": "Buscar:",
+          "sUrl": "",
+          "sInfoThousands": ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+              "sFirst": "Primero-",
+              "sLast": "Último",
+              "sNext": ">>",
+              "sPrevious": "<<"
+          },
+          "oAria": {
+              "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
 
       },
-      responsive: true,
+      responsive: false,
       //   language: {
       //     search: "_INPUT_",
       //     searchPlaceholder: "Buscar",
@@ -340,5 +343,26 @@ export class CuentaGastoComponent implements OnInit {
       'cuenta_gasto': '',
       'activo': true
     };
+  }
+  public showSwal(id) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
+
+      buttonsStyling: false
+    }).then((isConfirm) => {
+  
+      if (isConfirm.value == true) {
+        this.eliminar(id);
+  
+      }
+    }
+    ).catch(swal.noop);
   }
 }
