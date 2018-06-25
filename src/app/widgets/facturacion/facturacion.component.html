@@ -1,3 +1,4 @@
+
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
@@ -22,10 +23,18 @@
                       <!-- <p class="card-description text-center">Or Be Classical</p> -->
                       <div class="row">
                         <div class="col-md-6">
-                          <input #letra="ngModel" name="letra" [(ngModel)]="factura.letra" type="text" class="form-control text-center" placeholder="Letra...">
+                          <input #letra="ngModel" name="letra" [(ngModel)]="factura.letra" type="text" class="form-control text-center" placeholder="Letra..."
+                            disabled>
                         </div>
                         <div class="col-md-6">
-                          <input #suc="ngModel" name="suc" [(ngModel)]="factura.suc" type="text" class="form-control text-center" placeholder="Sucursal...">
+                          <!-- <input #suc="ngModel" name="suc" [(ngModel)]="factura.suc" type="text" class="form-control text-center" placeholder="Sucursal..."> -->
+                          <mat-form-field>
+                            <mat-select placeholder="Sucursal " #suc="ngModel" name="factura.suc" [(ngModel)]="factura.suc">
+                              <mat-option *ngFor="let tipoSucu of tipoSucursal" [value]="tipoSucu.value">
+                                {{ tipoSucu.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
                         </div>
                       </div>
                       <br>
@@ -70,34 +79,45 @@
                       <br>
                       <div class="row">
                         <div class="col-md-6">
+                          <input id="cuitjquery" #cuit="ngModel" name="cuit" [(ngModel)]="factura.cuit" type="text" class="form-control text-center" placeholder="Cuit..."
+                            disabled>
+                        </div>
+                        <div class="col-md-6">
+                          <input id="NetoNoGravado" #noGravado="ngModel" name="noGravado" [(ngModel)]="factura.noGravado" type="text" class="form-control text-center" placeholder="noGravado..."
+                            disabled>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
                           <input #descripcion="ngModel" name="descripcion" [(ngModel)]="factura.descripcion" type="text" class="form-control text-center"
                             placeholder="descripcion...">
                         </div>
                         <div class="col-md-6">
-                          <input #neto="ngModel" name="neto" [(ngModel)]="factura.neto" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
-                            class="form-control text-center" placeholder="importe...">
+                          <input id="importe" #neto="ngModel" name="neto" [(ngModel)]="factura.neto" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="importe..." disabled>
                         </div>
                       </div>
                       <br>
                       <div class="row">
                         <div class="col-md-6">
                           <input #iva105="ngModel" name="iva105" [(ngModel)]="factura.iva105" type="number" step="0.00001" min="0" oninput="validity.valid||(value='');"
-                            class="form-control text-center" placeholder="iva105...">
+                            class="form-control text-center" placeholder="iva105..." disabled>
                         </div>
                         <div class="col-md-6">
-                          <input #iva21="ngModel" name="iva21" [(ngModel)]="factura.iva21" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
-                            class="form-control text-center" placeholder="iva21...">
+                          <input id="iva21" #iva21="ngModel" name="iva21" [(ngModel)]="factura.iva21" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="iva21..." disabled>
                         </div>
                       </div>
                       <br>
                       <div class="row">
                         <div class="col-md-6">
-                          <input #total="ngModel" name="total" [(ngModel)]="factura.total" type="number" step="0.00001" min="0" oninput="validity.valid||(value='');"
-                            class="form-control text-center" placeholder="total...">
+                          <input id="total" #total="ngModel" name="total" [(ngModel)]="factura.total" type="number" step="0.00001" min="0" oninput="validity.valid||(value='');"
+                            class="form-control text-center" placeholder="total..." disabled>
                         </div>
                         <div class="col-md-6">
                           <input #cuentaIngreso="ngModel" name="cuentaIngreso" [(ngModel)]="factura.cuentaIngreso" type="text" class="form-control text-center"
-                            placeholder="Cuenta Ingreso...">
+                            placeholder="Cuenta Ingreso..." disabled>
                         </div>
                       </div>
 
@@ -121,7 +141,7 @@
                           <tr *ngFor="let row of facturasViajes">
                             <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
                             <td> {{row.recorrido}}</td>
-                           
+
 
                             <td>${{row.valorViaje}}</td>
                             <td> ${{row.peajes}}</td>
@@ -144,10 +164,17 @@
                             <td></td>
                             <td></td>
 
-                            <td>Total:</td>
+                            <td>Total Neto:</td>
                             <td>${{tablatotal}}</td>
                           </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
+                            <td>Total Neto No Gravado:</td>
+                            <td>${{totalNoGravado}}</td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -167,6 +194,101 @@
           </div>
         </div>
         <div class="modal fade" id="myModalVer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">ViajesFactura</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <table class="table table-responsive">
+                  <thead>
+                    <tr>
+                      <th>FechaHora</th>
+                      <th>Recorrido</th>
+                      <th>Valor</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of verviajesFacturas">
+                      <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
+                      <td> {{row.recorrido}}</td>
+                      <td> ${{row.valor}}</td>
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    
+        <div class="modal fade" id="modalexoport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h4 class="modal-title text-center">ViajesFactura</h4>
+                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  <i class="material-icons">clear</i>
+                </button>
+              </div>
+              <div class="modal-body ">
+                <div class="col-md-12 ">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-respo">
+                        <thead>
+                          <tr>
+                            <th>FechaHora</th>
+                            <th>vuelta</th>
+                            <th>cliente</th>
+                            <th>Tipo</th>
+                            <th>unidad</th>
+                            <th>patente</th>
+                            <th>Personal</th>
+                            <th>RemitosDetalle</th>
+                            <th>Recorrido</th>
+                            <th>Peajes</th>
+                            <th>Importe</th>
+                            <th>Factura</th>
+                            <th>Kilometraje</th>
+                            <th>ValorViaje</th>
+      
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of exportTable">
+                            <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
+                            <td> {{row.vuelta}}</td>
+                            <td> {{row.cliente}}</td>
+                            <td> {{row.tipo}}</td>
+                            <td> {{row.unidad}}</td>
+                            <td> {{row.patente}}</td>
+                            <td> {{row.personal}}</td>
+                            <td> {{row.remitosDetalle}}</td>
+                            <td> {{row.recorrido}}</td>
+                            <td> {{row.peajes}}</td>
+                            <td> {{row.importe}}</td>
+                            <td> {{row.factura}}</td>
+                            <td> {{row.kilometraje}}</td>
+                            <td> {{row.valorViaje}}</td>
+      
+                          </tr>
+      
+      
+                        </tbody>
+                      </table>
+                </div>
+                
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="rangoFechas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content ">
                 <div class="modal-header">
@@ -176,26 +298,107 @@
                   </button>
                 </div>
                 <div class="modal-body ">
-                    <table class="table table-responsive">
-                        <thead>
-                            <tr>
-                              <th>FechaHora</th>
-                              <th>Recorrido</th>
-                              <th>Valor</th>
-  
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let row of verviajesFacturas">
-                              <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
-                              <td> {{row.recorrido}}</td>
-                              <td> ${{row.valor}}</td>
-                           
-                            </tr>
-                        
-  
-                          </tbody>
-                    </table>
+                    <form #formCategoriaFecha="ngForm" (ngSubmit)="onSubmitFecha()" class="form">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <mat-form-field>
+                                  <input id="fd" #desde="ngModel" name="desde" [(ngModel)]="fecha.desde" class="text-center" matInput [matDatepicker]="desde"
+                                    (click)="desde.open()" placeholder="Desde">
+                                  <mat-datepicker-toggle matSuffix [for]="desde"></mat-datepicker-toggle>
+                                  <mat-datepicker #desde></mat-datepicker>
+                                </mat-form-field>
+                          </div>
+                          <div class="col-md-6">
+                              <mat-form-field>
+                                  <input id="fh" #hasta="ngModel" name="hasta" [(ngModel)]="fecha.hasta" class="text-center" matInput [matDatepicker]="hasta"
+                                    (click)="hasta.open()" placeholder="Hasta">
+                                  <mat-datepicker-toggle matSuffix [for]="hasta"></mat-datepicker-toggle>
+                                  <mat-datepicker #hasta></mat-datepicker>
+                                </mat-form-field>
+                          </div>
+                      </div>
+                      <input type="submit" value="Filtrar" class="btn btn-success ">
+
+                    </form>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerr" class="table table-respo">
+                                <thead>
+                                  <tr>
+                                    <th>Comprobante</th>
+                                    <th>Letra</th>
+                                    <th>Cliente</th>
+                                    <th>Cuit</th>
+                                    <th>nroFactura</th>
+                                    <th>FechaFactura</th>
+                                    <th>FechaVencimiento</th>
+                                    <th>DescripcionVenta</th>
+                                    <th>TotalFactura</th>
+                                    <th>iva10</th>
+                                    <th>5% $</th>
+                                    <th>iva 21%</th>
+                                    <th>iva 27% $</th>
+                                    <th>Neto Gravado $</th>
+                                    <th>No Gravado $</th>
+                                    <th>Percepcion IIBB $</th>
+                                    <th>Persepcion IVA $</th>
+                                    <th>CuentaIngreso</th>
+                                    <th>MedioCobro</th>
+                                  </tr>
+                              
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let row of exportCsv">
+                                    <td></td>
+                                    <td>{{row.letra}}</td>
+                                    <td>{{row.cliente}}</td>
+                                    <td>{{row.cuit}}</td>
+                                    <td>{{row.numero}}</td>
+                                    <td>{{row.fechaFacturacion | date :'dd-MM-yy '}}</td>
+                                    <td>{{row.vencimiento}}</td>
+                                    <td>{{row.descripcion}}</td>
+                                    <td>{{row.total}}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>{{row.iva21}}</td>
+                                    <td>0</td>
+                                    <td>{{row.neto}}</td>
+                                    <td>{{row.noGravado }}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>{{row.cuentaIngreso}}</td>
+                                    <td></td>
+
+                                  </tr>
+
+                                </tbody>
+                                <!-- <tfoot>
+                                  <tr>
+                                    <th>Campo obligatorio FAV=Factura Cuenta Corriente NCV=Nota de Crédito NDV=Nota de Débito FVC=Factura Contado</th>
+                                    <th>Campo obligatorio Ingresar un solo carácter con la letra A</th>
+                                    <th> B</th>
+                                    <th>C</th>
+                                    <th>E</th>
+                                    <th> Z o M</th>
+                                    <th>Campo obligatorio (salvo que se complete el CUIT) Razán Social del cliente tal como está cargado en Colppy . </th>
+                                    <th>Campo obligatorio (salvo que se complete la Razán Social)   </th>
+                                    <th>Campo obligatorio Formato 0000-00000000</th>
+                                    <th>Campo obligatorio  Formato  dd-mm-aaaa</th>
+                                    <th>Campo obligatorio  Formato  dd-mm-aaaa</th>
+                                    <th>Límite 100 Caracteres</th>
+                                    <th>Campo obligatorio Numérico 2 (dos) decimales. Debe ser igual a la suma de los importes Netos més IVA más Percepciones</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                    <th>Numúrico 2 (dos) decimales</th>
+                                  </tr>
+                                </tfoot> -->
+                            </table>
+                        </div>
+                    </div>
                 </div>
   
               </div>
@@ -207,13 +410,15 @@
               <div class="card-icon">
                 <i class="material-icons">assignment</i>
               </div>
-              <h4 class="card-title">Facturación</h4>
+              <h4 class="card-title ">Facturación</h4>
             </div>
             <div class="card-body">
               <div class="toolbar">
+                <button class="btn btn-success pull-right" data-toggle="modal"  data-target="#rangoFechas">Rango Fechas</button>
               </div>
+              <br><br><br>
               <div class="material-datatables">
-                <table class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6" width="100%" style="width:100%">
+                <table id="first-table" datatable [dtOptions]="dtOptionss" [dtTrigger]="dtTriggerrr"  class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6" width="100%" style="width:100%">
                   <thead *ngIf="donttable != false">
                     <tr>
                       <th class="text-center">letra</th>
@@ -229,6 +434,7 @@
                       <th class="text-center">total</th>
                       <th class="text-center">cuentaIngreso</th>
                       <th class="text-center">viajesFact</th>
+                      <th>Exel</th>
                     </tr>
                   </thead>
                   <tfoot *ngIf="donttable != false">
@@ -246,24 +452,29 @@
                       <th class="text-center">total</th>
                       <th class="text-center">cuentaIngreso</th>
                       <th class="text-center">viajesFact</th>
+                      <th>Exel</th>
                     </tr>
                   </tfoot>
                   <tbody *ngIf="donttable != false">
-                      <tr *ngFor="let row of autorizacionArray" >
-                        <td class="text-center"> {{row.letra}}</td>
-                        <td class="text-center"> {{row.suc}}</td>
-                        <td class="text-center"> {{row.numero}}</td>
-                        <td class="text-center"> {{row.fecha | date :'dd-MM-yy '}}</td>
-                        <td class="text-center"> {{row.vencimiento | date :'dd-MM-yy '}}</td>
-                        <td class="text-center"> {{row.cliente}}</td>
-                        <td class="text-center"> {{row.descripcion}}</td>
-                        <td class="text-center"> ${{row.neto}}</td>
-                        <td class="text-center"> ${{row.iva105}}</td>
-                        <td class="text-center"> ${{row.iva21}}</td>
-                        <td class="text-center"> ${{row.total}}</td>
-                        <td class="text-center"> {{row.cuentaIngreso}}</td>
-                        <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="verviajeFact(row.id)" data-target="#myModalVer" > ver </td>
-                      </tr>
+                    <tr *ngFor="let row of autorizacionArray">
+                      <td class="text-center"> {{row.letra}}</td>
+                      <td class="text-center"> {{row.suc}}</td>
+                      <td class="text-center"> {{row.numero}}</td>
+                      <td class="text-center"> {{row.fecha | date :'dd-MM-yy '}}</td>
+                      <td class="text-center"> {{row.vencimiento | date :'dd-MM-yy '}}</td>
+                      <td class="text-center"> {{row.cliente}}</td>
+                      <td class="text-center"> {{row.descripcion}}</td>
+                      <td class="text-center"> ${{row.neto}}</td>
+                      <td class="text-center"> ${{row.iva105}}</td>
+                      <td class="text-center"> ${{row.iva21}}</td>
+                      <td class="text-center"> ${{row.total}}</td>
+                      <td class="text-center"> {{row.cuentaIngreso}}</td>
+                      <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="verviajeFact(row.id)" data-target="#myModalVer">
+                      ver </td>
+                      <td class="text-center text-success" style="cursor: pointer;"  (click)="getExport(row.id)" data-toggle="modal" data-target="#modalexoport">
+                          Exel
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

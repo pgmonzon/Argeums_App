@@ -12,6 +12,7 @@ import { TestComponent } from './test/test.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SindicatoComponent } from './sindicato/sindicato.component';
 import { PersonalComponent } from './personal/personal.component';
+import { RendicionComponent } from './rendicion/rendicion.component';
 
 export const ComponentsRoutes: Routes = [
     {
@@ -83,6 +84,14 @@ export const ComponentsRoutes: Routes = [
         children: [ {
             path: 'personal',
             component: PersonalComponent
+        }]
+    }
+    ,
+    {
+        path: '',
+        children: [ {
+            path: 'rendiciones',
+            component: RendicionComponent
         }]
     }
 ];

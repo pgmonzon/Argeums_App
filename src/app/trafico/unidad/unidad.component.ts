@@ -370,7 +370,7 @@ export class UnidadComponent implements OnInit {
       ],
 
       "order": [[ 0, "desc" ]],
-
+    
       "language": {
           "sProcessing": "Procesando...",
           "sLengthMenu": "Mostrar _MENU_ documentos",
@@ -406,6 +406,7 @@ export class UnidadComponent implements OnInit {
 
     const table = $('#datatables').DataTable();
     $('.card .material-datatables label').addClass('form-group');
+    $( ".dt-buttons" ).hide();
 
 
 

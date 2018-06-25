@@ -10,6 +10,8 @@ export class tarifarios {
       public kmDesde: string,
       public kmHasta: string,
       public activo: string,
-
+      //nuevo
+      public vuelta:string,
+      public tipoServico:string
       ) {}
   }

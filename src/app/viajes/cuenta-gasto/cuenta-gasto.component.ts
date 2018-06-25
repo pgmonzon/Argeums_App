@@ -333,6 +333,7 @@ export class CuentaGastoComponent implements OnInit {
     });
 
     const table = $('#datatables').DataTable();
+    $( ".dt-buttons" ).hide();
 
 
 

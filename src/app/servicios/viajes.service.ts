@@ -18,9 +18,9 @@ export class ViajesService {
   }
 
 
-  getAll(token) {
+  getAll(token,desde,hasta) {
     this.headers.set('Authorization', token)
-    return this._http.post(this.url + 'viajes/{2018}/{5}/{18}', { "cliente": "" }, { headers: this.headers })
+    return this._http.post(this.url + 'viajes', {"fechaDesde": desde,"fechaHasta":hasta}, { headers: this.headers })
       .map(res => res.json());
   }
   //CLIENTE 

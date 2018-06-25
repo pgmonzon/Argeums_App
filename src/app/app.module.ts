@@ -41,6 +41,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatStepperModule,
+  
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -52,10 +53,15 @@ import { FixedpluginModule} from './shared/fixedplugin/fixedplugin.module';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
+import {DataTableModule} from "angular2-datatable";
 
 import { AppRoutes } from './app.routing';
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
+
+
+import { DataTablesModule } from 'angular-datatables';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   exports: [
@@ -90,9 +96,11 @@ import { AuthService } from './auth/auth.service';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-   
+    DataTableModule,
+    DataTablesModule,
     
-  ]
+    
+  ],
 })
 export class MaterialModule {}
 
@@ -110,6 +118,9 @@ export class MaterialModule {}
         FooterModule,
         FixedpluginModule,
         DragulaModule,
+        DataTableModule,
+        DataTablesModule,
+        BrowserModule,
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck',
           libraries: ["places"]
@@ -121,9 +132,11 @@ export class MaterialModule {}
         AppComponent,
         AdminLayoutComponent,
         AuthLayoutComponent,
+        
+        
        
     ],
-    providers: [AuthGuard,AuthService],
+    providers: [AuthGuard,AuthService,DataTableModule,DataTablesModule,BrowserModule],
 
     bootstrap:    [ AppComponent ]
 })

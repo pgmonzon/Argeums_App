@@ -44,7 +44,15 @@ export class FacturacionService {
                     .map(res => res.json());
   }
 
-  
+  getViajeExel(docID,token) {
+    this.headers.set('Authorization',token)
+    return this._http.get(this.url + 'facturaViajes/'+docID, {headers: this.headers})
+                    .map(res => res.json());
+  }
 
-  
+  getAllRangeFecha(token,desde,hasta) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'facturasTraerFechas', {"fechaDesde":desde,"fechaHasta":hasta}, { headers: this.headers })
+      .map(res => res.json());
+  }
 }

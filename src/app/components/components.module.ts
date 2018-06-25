@@ -15,6 +15,7 @@ import { TestComponent } from './test/test.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SindicatoComponent } from './sindicato/sindicato.component';
 import { PersonalComponent } from './personal/personal.component';
+import { RendicionComponent } from './rendicion/rendicion.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { PersonalComponent } from './personal/personal.component';
       TestComponent,
       CategoriasComponent,
       SindicatoComponent,
-      PersonalComponent
+      PersonalComponent,
+      RendicionComponent
   ]
 })
 

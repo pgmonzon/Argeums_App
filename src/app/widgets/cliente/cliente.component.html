@@ -18,7 +18,7 @@
                 </button>
               </div>
               <div class="modal-body">
-             
+
                 <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
                   <div class=" card-login card-hidden">
                     <div class="card-body ">
@@ -42,6 +42,18 @@
                                             </span>
                                           </div>
                                           <input #cliente="ngModel" name="cliente" [(ngModel)]="clientes.cliente" type="text" class="form-control" placeholder="cliente...">
+                                          <br>
+                                        </div>
+                                      </span>
+                                      <span class="bmd-form-group">
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                              <i class="material-icons">fingerprint
+                                              </i>
+                                            </span>
+                                          </div>
+                                          <input #cuit="ngModel" name="cuit" [(ngModel)]="clientes.cuit" type="text" class="form-control" placeholder="cuit...">
                                           <br>
                                         </div>
                                       </span>
@@ -132,9 +144,9 @@
                                 </div>
                                 <div class="tab-pane " id="link3">
                                   <br />
-                                  
+
                                   <p class="text-center"> Lista de tarifario agregados</p>
-                                  <table id="sort"  class="table table-responsive grid">
+                                  <table id="sort" class="table table-responsive grid">
                                     <thead>
                                       <tr>
                                         <th>tarifario</th>
@@ -150,7 +162,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr style="cursor: move;"    *ngFor="let row of tarifariosarray">
+                                      <tr style="cursor: move;" *ngFor="let row of tarifariosarray">
                                         <td> {{row['tarifario']}} </td>
                                         <td> {{row['tipo']}} </td>
                                         <div *ngFor="let tipo of tipounidades">
@@ -241,11 +253,11 @@
                                           <mat-datepicker #vigenteDesde></mat-datepicker>
                                         </mat-form-field>
                                       </div>
-                                  
+
                                       <div class="col-md-6">
 
                                         <mat-form-field>
-                                          <input  class="vigenteDesde" #vigenteHasta="ngModel" name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHasta"
+                                          <input class="vigenteDesde" #vigenteHasta="ngModel" name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHasta"
                                             placeholder="vigenteHasta" (click)="vigenteHasta.open()">
                                           <mat-datepicker-toggle matSuffix [for]="vigenteHasta"></mat-datepicker-toggle>
                                           <mat-datepicker #vigenteHasta></mat-datepicker>
@@ -254,20 +266,41 @@
                                     </div>
                                     <br>
                                     <div class="row">
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select placeholder="vuelta " #vuelta="ngModel" name="vuelta" [(ngModel)]="tarifarios.vuelta">
+                                            <mat-option *ngFor="let tipoVuel of tipoVuelta" [value]="tipoVuel.value">
+                                              {{ tipoVuel.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select placeholder="tipoServicio " #tipoServicio="ngModel" name="tipoServicio" [(ngModel)]="tarifarios.tipoServicio">
+                                            <mat-option *ngFor="let tipoServi of tipoServicioar" [value]="tipoServi.value">
+                                              {{ tipoServi.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
                                       <div class="col-md-4">
                                         <label for="">Importe</label>
-                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" oninput="validity.valid||(value='');"class="form-control text-center importe"
-                                          placeholder="Importe...">
+                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center importe" placeholder="Importe...">
                                       </div>
                                       <div class="col-md-4 kmDesde">
                                         <label for="">kmDesde</label>
-                                        <input #kmDesde="ngModel" name="kmDesde"  [(ngModel)]="tarifarios.kmDesde"step="0.00001" min="0" type="number" oninput="validity.valid||(value='');" class="form-control text-center "
-                                          placeholder="kmDesde...">
+                                        <input #kmDesde="ngModel" name="kmDesde" [(ngModel)]="tarifarios.kmDesde" step="0.00001" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center " placeholder="kmDesde...">
                                       </div>
                                       <div class="col-md-4 kmHasta ">
                                         <label for="">kmHasta</label>
-                                        <input #kmHasta="ngModel" name="kmHasta" step="0.00001" [(ngModel)]="tarifarios.kmHasta" min="0" type="number" oninput="validity.valid||(value='');"class="form-control text-center "
-                                          placeholder="kmHasta...">
+                                        <input #kmHasta="ngModel" name="kmHasta" step="0.00001" [(ngModel)]="tarifarios.kmHasta" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center " placeholder="kmHasta...">
                                       </div>
                                     </div>
                                     <br>
@@ -280,15 +313,15 @@
                                           <div class="col-md-4">
                                             <mat-form-field>
                                               <mat-select placeholder="Locacion" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="recorrido.locacion_id">
-                                             
+
                                                 <div *ngFor="let loca of getlocaciones">
-                                                    <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
-                                                      <p>  {{ loca.locacion }} (inactivo)</p>
-                                                    </mat-option>
-                                                    <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
-                                                      <p>  {{ loca.locacion }}</p>
-                                                    </mat-option>
-                                                  </div>
+                                                  <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
+                                                    <p> {{ loca.locacion }} (inactivo)</p>
+                                                  </mat-option>
+                                                  <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
+                                                    <p> {{ loca.locacion }}</p>
+                                                  </mat-option>
+                                                </div>
                                               </mat-select>
                                             </mat-form-field>
                                           </div>
@@ -386,6 +419,18 @@
                                           <br>
                                         </div>
                                       </span>
+                                      <span class="bmd-form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                <i class="material-icons">fingerprint
+                                                </i>
+                                              </span>
+                                            </div>
+                                            <input #cuit="ngModel" name="cuit" [(ngModel)]="clientes.cuit" type="text" class="form-control" placeholder="cuit...">
+                                            <br>
+                                          </div>
+                                        </span>
                                     </div>
                                   </div>
                                 </small>
@@ -592,18 +637,18 @@
                                     <div class="row">
                                       <div class="col-md-4">
                                         <label for="">Importe</label>
-                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" oninput="validity.valid||(value='');" class="form-control text-center importe"
-                                          placeholder="Importe...">
+                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center importe" placeholder="Importe...">
                                       </div>
                                       <div class="col-md-4 kmDesde">
                                         <label for="">kmDesde</label>
-                                        <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" min="0" type="number" oninput="validity.valid||(value='');" class="form-control text-center "
-                                          placeholder="kmDesde...">
+                                        <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center " placeholder="kmDesde...">
                                       </div>
                                       <div class="col-md-4 kmHasta ">
                                         <label for="">kmHasta</label>
-                                        <input #kmHasta="ngModel" name="kmHasta" [(ngModel)]="tarifarios.kmHasta" step="0.01" min="0" type="number" oninput="validity.valid||(value='');"class="form-control text-center "
-                                          placeholder="kmHasta...">
+                                        <input #kmHasta="ngModel" name="kmHasta" [(ngModel)]="tarifarios.kmHasta" step="0.01" min="0" type="number" oninput="validity.valid||(value='');"
+                                          class="form-control text-center " placeholder="kmHasta...">
                                       </div>
                                     </div>
                                     <br>

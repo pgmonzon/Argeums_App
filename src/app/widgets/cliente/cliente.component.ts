@@ -80,7 +80,8 @@ export class ClienteComponent implements OnInit {
   public modalContactoshow;
   public modalcontactomensaje;
   public recorridoarray = [];
-
+  public tipoVuelta;
+  public tipoServicioar;
   ngOnInit() {
     $(".kmDesde").attr("hidden", "true");
     $(".kmHasta").attr("hidden", "true");
@@ -93,7 +94,18 @@ export class ClienteComponent implements OnInit {
       { value: false, viewValue: 'No' },
 
     ];
+    this.tipoServicioar = [
+      {'value': 'chofer', viewValue: 'chofer'},
+      {'value': 'asistente', viewValue: 'asistente'},
 
+    ];
+    this.tipoVuelta = [
+      {'value': '', viewValue: ''},
+      {'value': '2da', viewValue: '2da'},
+      {'value': '3ra', viewValue: '3ra'},
+      {'value': '4ta', viewValue: '4ta'},
+
+    ];
     this.tipotarifario = [
       { 'value': 'Kilometraje', 'viewValue': 'Kilometraje' },
       { 'value': 'Recorrido', 'viewValue': 'Recorrido' },
@@ -113,6 +125,7 @@ export class ClienteComponent implements OnInit {
       'activo': true,
       'contactos': [],
       'tarifarios': [],
+      'cuit':''
     };
     this.contactos = {
       'nombre': '',
@@ -131,6 +144,8 @@ export class ClienteComponent implements OnInit {
       'kmDesde': 0,
       'kmHasta': 0,
       'activo': true,
+      'vuelta':'',
+      'tipoServicio':''
 
     };
     this.recorrido = {
@@ -188,6 +203,8 @@ export class ClienteComponent implements OnInit {
         'kmDesde': 0,
         'kmHasta': 0,
         'activo': true,
+        'vuelta':'',
+        'tipoServicio':''
 
       };
       console.log(this.tarifariosarray);
@@ -224,6 +241,8 @@ export class ClienteComponent implements OnInit {
               'activo': true,
               'contactos': [],
               'tarifarios': [],
+              'cuit':''
+
             };
             $("#myModal").modal("hide");
             this.donttable = true;
@@ -292,6 +311,8 @@ export class ClienteComponent implements OnInit {
           'activo': true,
           'contactos': [],
           'tarifarios': [],
+          'cuit':response.cuit
+
         };
 
         this.contactos = {
@@ -311,6 +332,8 @@ export class ClienteComponent implements OnInit {
           'kmDesde': 0,
           'kmHasta': 0,
           'activo': true,
+          'vuelta':'',
+          'tipoServicio':''
 
         };
         if (response.contactos != undefined) {
@@ -356,6 +379,8 @@ export class ClienteComponent implements OnInit {
               'activo': true,
               'contactos': [],
               'tarifarios': [],
+              'cuit':''
+
             };
             $("#myModalEDITAR").modal("hide");
           } else {
@@ -542,7 +567,8 @@ export class ClienteComponent implements OnInit {
 
     });
     // Delete a record
-   
+    $( ".dt-buttons" ).hide();
+
     //$('.card .material-datatables label').addClass('form-group');
   }
   public remove(row) {
@@ -578,6 +604,8 @@ export class ClienteComponent implements OnInit {
       'activo': true,
       'contactos': [],
       'tarifarios': [],
+      'cuit':''
+
     };
     this.contactosarray = [];
     this.tarifariosarray = [];

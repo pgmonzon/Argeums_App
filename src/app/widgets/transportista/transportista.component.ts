@@ -76,7 +76,9 @@ export class TransportistaComponent implements OnInit {
   public modalContactoshow;
   public modalcontactomensaje;
   public recorridoarray=[];
-
+  public tipofactura;
+  public tipoVuelta;
+  public tipoServicioar;
   ngOnInit() {
     $(".kmDesde").attr("hidden","true");
     $(".kmHasta").attr("hidden","true");
@@ -88,7 +90,23 @@ export class TransportistaComponent implements OnInit {
       {value: false, viewValue: 'No'},
      
     ];
+    this.tipofactura = [
+      {'value': 'A', viewValue: 'A'},
+      {'value': 'C', viewValue: 'C'},
 
+    ];
+    this.tipoServicioar = [
+      {'value': 'chofer', viewValue: 'chofer'},
+      {'value': 'asistente', viewValue: 'asistente'},
+
+    ];
+    this.tipoVuelta = [
+      {'value': '', viewValue: ''},
+      {'value': '2da', viewValue: '2da'},
+      {'value': '3ra', viewValue: '3ra'},
+      {'value': '4ta', viewValue: '4ta'},
+
+    ];
     this.tipotarifario= [
       {'value': 'Kilometraje', 'viewValue': 'Kilometraje'},
       {'value': 'Recorrido', 'viewValue': 'Recorrido'},
@@ -106,6 +124,7 @@ export class TransportistaComponent implements OnInit {
       'id':'',
       'transportista':'',
       'mail':'',
+      'Factura':'',
       'activo':true,
       'contactos':[],
       'tarifarios':[],
@@ -127,6 +146,8 @@ export class TransportistaComponent implements OnInit {
       'kmDesde':0,
       'kmHasta':0,
       'activo':true,
+      'vuelta':'',
+      'tipoServicio':''
 
     };
     this.recorrido = {
@@ -200,7 +221,6 @@ export class TransportistaComponent implements OnInit {
 
     var mainPanel = document.getElementById('myModal');
     if (this.transportistas.transportista != '' &&  this.transportistas.mail != '' ) {
-      console.log(this.transportistas);
       const identity = JSON.parse(localStorage.getItem('identity'));
       this._TransportistaService.crear(this.transportistas, identity.token).subscribe(
         response => {
@@ -213,6 +233,7 @@ export class TransportistaComponent implements OnInit {
             this.transportistas = {
               'id':'',
               'transportista':'',
+              'Factura':'',
               'mail':'',
               'activo':true,
               'contactos':[],
@@ -278,12 +299,13 @@ export class TransportistaComponent implements OnInit {
   public editar(id) {
     this._TransportistaService.getId(id, this.identity.token).subscribe(
       response => {
-     
+        console.log(response);
  
         this.transportistas = {
           'id':response.id,
           'transportista': response.transportista,
           'mail':response.mail,
+          'Factura':response.Factura,
           'activo':true,
           'contactos':[],
           'tarifarios':[],
@@ -306,6 +328,8 @@ export class TransportistaComponent implements OnInit {
           'kmDesde':0,
           'kmHasta':0,
           'activo':true,
+          'vuelta':'',
+          'tipoServicio':''
     
         };
         if(response.contactos != undefined){
@@ -349,6 +373,7 @@ export class TransportistaComponent implements OnInit {
               'id':'',
               'transportista':'',
               'mail':'',
+              'Factura':'',
               'activo':true,
               'contactos':[],
               'tarifarios':[],
@@ -539,6 +564,7 @@ export class TransportistaComponent implements OnInit {
     });
   // Delete a record
 
+  $( ".dt-buttons" ).hide();
 
   //const table = $('#contactotable').DataTable();
 
@@ -573,6 +599,7 @@ export class TransportistaComponent implements OnInit {
       'id':'',
       'transportista':'',
       'mail':'',
+      'Factura':'',
       'activo':true,
       'contactos':[],
       'tarifarios':[],

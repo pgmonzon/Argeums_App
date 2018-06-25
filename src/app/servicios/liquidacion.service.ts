@@ -42,6 +42,15 @@ export class LiquidacionService {
     return this._http.post(this.url + 'liquidacion', liquidacion, {headers: this.headers})
                     .map(res => res.json());
   }
-
+  autorizaFactura(token, id,facturaTransportista) {
+    this.headers.set('Authorization', token)
+    return this._http.put(this.url + 'liquidacionFactura/' + id, facturaTransportista, { headers: this.headers })
+      .map(res => res.json());
+  }
+  getViajeExel(docID,token) {
+    this.headers.set('Authorization',token)
+    return this._http.get(this.url + 'liquidacionViajes/'+docID, {headers: this.headers})
+                    .map(res => res.json());
+  }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Facturacion } from '../../models/factura';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, URLSearchParams, RequestOptions } from '@angular/http';
@@ -7,7 +7,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import swal from 'sweetalert2';
 import { NativeDateAdapter } from "@angular/material";
+import { Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
+import { CsvService } from "json2csv";
+import { DataTableDirective } from 'angular-datatables';
+
 declare const $: any;
+
+
 export class AppDateAdapter extends NativeDateAdapter {
 
   format(date: Date, displayFormat: Object): string {
@@ -23,17 +30,17 @@ export class AppDateAdapter extends NativeDateAdapter {
   }
 }
 export const APP_DATE_FORMATS =
-  {
-    parse: {
-      dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
-    },
-    display: {
-      dateInput: 'input',
-      monthYearLabel: { year: 'numeric', month: 'numeric' },
-      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
-      monthYearA11yLabel: { year: 'numeric', month: 'long' },
-    }
-  };
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
 @Component({
   selector: 'app-facturacion',
   templateUrl: './facturacion.component.html',
@@ -44,6 +51,8 @@ export const APP_DATE_FORMATS =
 export class FacturacionComponent implements OnInit {
 
   constructor(private _FacturacionService: FacturacionService) { }
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
   private identity;
   public Unidad;
   public donttable;
@@ -54,8 +63,64 @@ export class FacturacionComponent implements OnInit {
   public autorizacionArray;
   public factura;
   public arrayOptions;
-  public tablatotal=0;
+  public tablatotal = 0;
+  public tipoSucursal;
+  public fecha;
+  // Utilizamos este desencadenante porque la búsqueda de la lista de personas puede ser bastante larga,
+  // Por lo tanto, aseguramos que los datos se obtienen antes de renderizar
+  dtTrigger: Subject<any> = new Subject();
+  dtTriggerr: Subject<any> = new Subject(); 
+  dtTriggerrr: Subject<any> = new Subject();
+
+
+  dtOptions: any = {};
+  dtOptionss: any = {};
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
   ngOnInit() {
+
+    this.fecha = { 'desde': new Date(), 'hasta': new Date() };
+
+    this.dtOptions = {
+      dom: 'Bfrtip',
+      // Configure the buttons
+      buttons: [
+        'print',
+        'excel',
+        'csv',
+      ],
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ documentos",
+        "sZeroRecords": "No se encontraron documentos",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "_TOTAL_ documentos",
+        "sInfoEmpty": " 0 documentos",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero-",
+          "sLast": "Último",
+          "sNext": ">>",
+          "sPrevious": "<<"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+      },
+    };
+
+    $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
+
     this.donttable = false;
 
     this.arrayOptions = [
@@ -64,12 +129,16 @@ export class FacturacionComponent implements OnInit {
       { value: 'Rechazado', viewValue: 'Rechazado' }
 
     ];
+    this.tipoSucursal = [
+      { 'value': '0006', viewValue: '0006' },
+      { 'value': '0008', viewValue: '0008' }
+    ];
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
     // $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item ';
     this.showrecuperar = false;
     this.identity = JSON.parse(localStorage.getItem('identity'));
     this.factura = {
-      'letra': '',
+      'letra': 'A',
       'suc': '',
       'numero': '',
       'fecha': new Date(),
@@ -78,11 +147,13 @@ export class FacturacionComponent implements OnInit {
       'cliente': '',
       'descripcion': '',
       'neto': '',
-      'iva105': '',
+      'iva105': '0',
       'iva21': '',
       'total': '',
-      'cuentaIngreso': '',
-      'viajesFact': []
+      'cuentaIngreso': '410100',
+      'viajesFact': [],
+      'cuit': '',
+      'noGravado': '',
     };
 
     this.All();
@@ -91,24 +162,24 @@ export class FacturacionComponent implements OnInit {
   }
   public test;
   onSubmit() {
-      this.factura.viajesFact=this.viajesFactArray;
-      if (this.factura.cliente_id != '') {
-        this.clienteAll.forEach(element => {
-          if (element.id == this.factura.cliente_id) {
-            this.factura.cliente = element.cliente;
-  
-          }
-        });
-      }
-      console.log(this.factura);
+    this.factura.viajesFact = this.viajesFactArray;
+    if (this.factura.cliente_id != '') {
+      this.clienteAll.forEach(element => {
+        if (element.id == this.factura.cliente_id) {
+          this.factura.cliente = element.cliente;
 
-    this._FacturacionService.crear(this.factura,this.identity.token).subscribe(
+        }
+      });
+    }
+    console.log(this.factura);
+
+    this._FacturacionService.crear(this.factura, this.identity.token).subscribe(
       response => {
         console.log(response);
         if (response.estado != "ERROR") {
           this.showNotification('top', 'center', response.mensaje, 'success');
           this.clear();
-          this.viajesFactArray=[];
+          this.viajesFactArray = [];
           this.All();
           $("#myModal").modal("hide");
 
@@ -134,6 +205,9 @@ export class FacturacionComponent implements OnInit {
         console.log(response);
 
         if (response.estado != "ERROR") {
+          // var table = $('#first-table').DataTable();
+          // table.clear().draw();
+          this.dtTriggerrr.next();
           this.autorizacionArray = response;
           this.donttable = true;
 
@@ -152,7 +226,7 @@ export class FacturacionComponent implements OnInit {
       }
     );
   }
-  
+
 
 
   public clienteAll;
@@ -200,59 +274,49 @@ export class FacturacionComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    // $('#datatables').DataTable({
-    //   dom: 'Bfrtip',
-    //   "bPaginate": true,
-    //   "lengthMenu": [
-    //     [10, 25, 50, -1],
-    //     [10, 25, 50, "todos"]
-    //   ],
-
-    //   "order": [[0, "desc"]],
-
-    //   "language": {
-    //     "sProcessing": "Procesando...",
-    //     "sLengthMenu": "Mostrar _MENU_ documentos",
-    //     "sZeroRecords": "No se encontraron documentos",
-    //     "sEmptyTable": "Ningún dato disponible en esta tabla",
-    //     "sInfo": "_TOTAL_ documentos",
-    //     "sInfoEmpty": " 0 documentos",
-    //     "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
-    //     "sInfoPostFix": "",
-    //     "sSearch": "Buscar:",
-    //     "sUrl": "",
-    //     "sInfoThousands": ",",
-    //     "sLoadingRecords": "Cargando...",
-    //     "oPaginate": {
-    //       "sFirst": "Primero-",
-    //       "sLast": "Último",
-    //       "sNext": ">>",
-    //       "sPrevious": "<<"
-    //     },
-    //     "oAria": {
-    //       "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-    //       "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    //     }
-
-    //   },
-    //   responsive: false,
-    //   //   language: {
-    //   //     search: "_INPUT_",
-    //   //     searchPlaceholder: "Buscar",
-    //   //   }
-
-    // });
-
-    // const table = $('#datatables').DataTable();
-    // $('.card .material-datatables label').addClass('form-group');
+    // @ViewChild(DataTableDirective)
+    // dtElement: DataTableDirective;
+    this.dtOptionss = {
+      dom: 'Bfrtip',
+      paging: false,
+      searching: true,
 
 
+      // Configure the buttons
+      buttons: [
+       
+      ],
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ documentos",
+        "sZeroRecords": "No se encontraron documentos",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "_TOTAL_ documentos",
+        "sInfoEmpty": " 0 documentos",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ documentos)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero-",
+          "sLast": "Último",
+          "sNext": ">>",
+          "sPrevious": "<<"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
 
-    //$('.card .material-datatables label').addClass('form-group');
+      },
+
+    };
   }
   public clear() {
     this.factura = {
-      'letra': '',
+      'letra': 'A',
       'suc': '',
       'numero': '',
       'fecha': new Date(),
@@ -260,30 +324,37 @@ export class FacturacionComponent implements OnInit {
       'cliente_id': '',
       'cliente': '',
       'descripcion': '',
-      'neto':'',
-      'iva105': '',
+      'neto': '',
+      'iva105': '0',
       'iva21': '',
       'total': '',
-      'cuentaIngreso': '',
-      'viajesFact': []
+      'cuentaIngreso': '410100',
+      'viajesFact': [],
+      'cuit': '',
+      'noGravado': '',
     };
     this.viajesFactArray = [];
 
   }
   public facturasViajes;
   onChange(deviceValue) {
-    console.log(deviceValue.value);
+    this.clienteAll.forEach(element => {
+      if(deviceValue.value==element.id){
+        $('#cuitjquery').val(element.cuit)
+
+      }
+    });
     this._FacturacionService.getViajesFacturasAll(deviceValue.value, this.identity.token).subscribe(
       response => {
+        
         if (response.estado != 'ERROR') {
 
-          console.log(response);
           this.facturasViajes = response;
-          this.tablatotal=0;
+          this.tablatotal = 0;
 
         } else {
           this.facturasViajes = [];
-          this.tablatotal=0;
+          this.tablatotal = 0;
 
           console.log(response);
           this.showNotification('top', 'center', response.mensaje, 'warning');
@@ -299,12 +370,25 @@ export class FacturacionComponent implements OnInit {
   }
 
   public viajesFactArray = [];
-  public agregarFactura(id, fechaHora, recorrido, valor,peaje,adicional, deviceValue) {
+  public totalNoGravado = 0;
+  public agregarFactura(id, fechaHora, recorrido, valor, peaje, adicional, deviceValue) {
     if (deviceValue.target.checked) {
-      this.viajesFactArray.push({ 'viaje_id': id, 'fechaHora': fechaHora, 'recorrido': recorrido, 'valor': valor+peaje+adicional });
-      this.tablatotal=this.tablatotal + valor+ peaje+adicional;
+      this.viajesFactArray.push({ 'viaje_id': id, 'fechaHora': fechaHora, 'recorrido': recorrido, 'valor': valor + peaje + adicional });
+      this.tablatotal = this.tablatotal + valor + adicional;
+      this.totalNoGravado = this.totalNoGravado + peaje;
+      $('#importe').val(this.tablatotal + this.totalNoGravado);
+      $('#iva21').val(this.tablatotal * 0.21);
+      $('#total').val((this.tablatotal + this.totalNoGravado) + (this.tablatotal * 0.21));
+      $('#NetoNoGravado').val(this.totalNoGravado);
+
+
     } else {
-      this.tablatotal=this.tablatotal - valor -peaje -adicional;
+      this.tablatotal = this.tablatotal - valor - adicional;
+      this.totalNoGravado = this.totalNoGravado - peaje;
+      $('#importe').val(this.tablatotal + this.totalNoGravado);
+      $('#iva21').val(this.tablatotal * 0.21);
+      $('#total').val((this.tablatotal + this.totalNoGravado) + (this.tablatotal * 0.21));
+      $('#NetoNoGravado').val(this.totalNoGravado);
 
       for (let index = 0; index < this.viajesFactArray.length; index++) {
         if (id == this.viajesFactArray[index].viaje_id) {
@@ -312,18 +396,87 @@ export class FacturacionComponent implements OnInit {
         }
       }
     }
-  
+
   }
   public verviajesFacturas;
-  public verviajeFact(id){
-    this.verviajesFacturas=[];
-      this.autorizacionArray.forEach(element => {
-        if (element.id == id) {
-          this.verviajesFacturas= element.viajesFact;
+  public verviajeFact(id) {
+    this.verviajesFacturas = [];
+    this.autorizacionArray.forEach(element => {
+      if (element.id == id) {
+        this.verviajesFacturas = element.viajesFact;
 
-        }
-      });
-    
+      }
+    });
+
   }
 
+
+  public exportTable;
+  public block = 1;
+  public getExport(id) {
+
+    this._FacturacionService.getViajeExel(id, this.identity.token).subscribe(
+      response => {
+        var table = $('#DataTables_Table_0').DataTable();
+        table.clear().draw();
+        table.destroy();
+        this.dtTrigger.next();
+        this.exportTable = response;
+      
+
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      });
+  }
+  public exportCsv;
+  onSubmitFecha() {
+    this.fecha.desde.setHours(0, 0, 0)
+    this.fecha.hasta.setHours(23, 59, 59)
+
+    var fd = $("#fd").val().split("-");
+    var fh = $("#fh").val().split("-");
+    if (fd[1] < 9) {
+      var mesFd = 0 + fd[1];
+    } else {
+      var mesFd = fd[1];
+    }
+    if (fd[0] < 9) {
+      var diaFd = 0 + fd[0];
+    } else {
+      var diaFd = fd[0];
+    }
+    if (fh[1] < 9) {
+      var mesFh = 0 + fh[1];
+    } else {
+      var mesFh = fh[1];
+    }
+    if (fh[0] < 9) {
+      var diaFh = 0 + fh[0];
+    } else {
+      var diaFh = fh[0];
+    }
+    var fechaDesde = fd[2] + '-' + mesFd + '-' + diaFd + 'T00:00:00.000Z';
+    var fechaHasta = fh[2] + '-' + mesFh + '-' + diaFh + 'T23:59:00.000Z';
+    this._FacturacionService.getAllRangeFecha(this.identity.token, fechaDesde, fechaHasta).subscribe(
+      response => {
+
+        var table = $('#DataTables_Table_0').DataTable();
+        table.clear().draw();
+        table.destroy();
+        this.dtTriggerr.next();
+
+        this.exportCsv = response;
+
+
+        error => {
+          this.errorMessage = <any>error;
+          if (this.errorMessage != null) {
+          }
+        }
+      }
+    );
+  }
 }

@@ -171,7 +171,7 @@ export class PersonalComponent implements OnInit {
               if (place.address_components.length >= 4) {
                 this.direccion = place.address_components[1].long_name + " " + place.address_components[0].long_name + " " + place.address_components[2].long_name + " " + place.address_components[4].long_name + " " + place.address_components[5].long_name;
                 $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + this.direccion + "+&key=AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck&libraries", function (json) {
-                
+
                   // console.log(json.results[0].geometry);
 
                   this.latitud = json.results[0].geometry.location.lat;
@@ -270,22 +270,17 @@ export class PersonalComponent implements OnInit {
   }
   public test;
   onSubmit() {
-    // this.Unidad = {
-    //   'unidad': this.Unidad.unidad,
-    //   'vtv': new Date(this.Unidad.vtv),
-    //   'ruta':new Date(this.Unidad.ruta),
-    //   'poliza':new Date(this.Unidad.poliza),
-    //   'seguro':new Date(this.Unidad.seguro),
-    //   'propia':this.Unidad.propia,
-    //   'activo': true
-    // };
-
+    if (this.personal.fechaAlta == '') {
+      this.personal.fechaAlta = '0001-01-01T00:00:00Z';
+    }
+    if (this.personal.fechaBaja == '') {
+      this.personal.fechaBaja = '0001-01-01T00:00:00Z';
+    }
     this.personal.direccion = this.direccion;
     this.personal.latitud = $("#latitud").val();
     this.personal.longitud = $("#longitud").val();
 
     var mainPanel = document.getElementById('myModal');
-
     if (this.personal.apellido != '') {
       const identity = JSON.parse(localStorage.getItem('identity'));
       this._PersonalService.crear(this.personal, identity.token).subscribe(
@@ -311,8 +306,8 @@ export class PersonalComponent implements OnInit {
               'celular': '',
               'latitud': '',
               'longitud': '',
-              'fechaAlta':new Date(),
-              'fechaBaja':new Date()
+              'fechaAlta': '',
+              'fechaBaja': ''
 
             };
             $("#myModal").modal("hide");
@@ -346,8 +341,8 @@ export class PersonalComponent implements OnInit {
       response => {
         if (response.estado != "ERROR") {
           this.dataTable = {
-            headerRow: ['Apellido', 'Nombre','Direccion','Celuar', 'Categoria', 'Propio', 'Sindicato', 'Comision', 'Curso', 'Lnh', 'Registro', 'Estado'],
-            footerRow: ['Apellido', 'Nombre','Direccion','Celuar', 'Categoria', 'Propio', 'Sindicato', 'Comision', 'Curso', 'Lnh', 'Registro', 'Estado'],
+            headerRow: ['Apellido', 'Nombre', 'Direccion', 'Celuar', 'Categoria', 'Propio', 'Sindicato', 'Comision', 'Curso', 'Lnh', 'Registro', 'Estado'],
+            footerRow: ['Apellido', 'Nombre', 'Direccion', 'Celuar', 'Categoria', 'Propio', 'Sindicato', 'Comision', 'Curso', 'Lnh', 'Registro', 'Estado'],
 
             dataRows: response
           }
@@ -373,12 +368,27 @@ export class PersonalComponent implements OnInit {
         }
       });
   }
+  public varFechaBaja;
+  public varFechaAlta;
+
   public editar(id) {
     $(".crear").attr("hidden", "true");
     $(".editar").removeAttr('hidden');
     this._PersonalService.getId(id, this.identity.token).subscribe(
       response => {
+   
+          if(response.fechaAlta == "0001-01-01T00:00:00Z"){
+            this.varFechaAlta ='';
 
+          }else{
+            this.varFechaAlta=response.fechaAlta;
+
+          }
+          if(response.fechaBaja != '0001-01-01T00:00:00Z'){
+            this.varFechaBaja=response.fechaBaja;
+          }else{
+            this.varFechaBaja ='';
+          }
         this.personal = {
           'id': response.id,
           'apellido': response.apellido,
@@ -395,9 +405,8 @@ export class PersonalComponent implements OnInit {
           'celular': response.celular,
           'latitud': response.latitud,
           'longitud': response.longitud,
-          'fechaAlta': new Date(response.fechaAlta),
-          'fechaBaja': new Date(response.fechaBaja)
-
+          'fechaAlta': new Date( this.varFechaAlta),
+          'fechaBaja': new Date( this.varFechaBaja)
         };
         $("#editlatitud").val(response.latitud);
         $("#editlongitud").val(response.longitud);
@@ -456,7 +465,7 @@ export class PersonalComponent implements OnInit {
     );
   }
   cancelaredit() {
-    
+
     this.completecampo = '';
 
     $(".editar").attr("hidden", "true");
@@ -465,9 +474,9 @@ export class PersonalComponent implements OnInit {
     $("#latitud").val('');
     $("#longitud").val('');
     this.direccion = '';
-    
+
     this.personal = {
-   
+
       'id': '',
       'apellido': '',
       'nombre': '',
@@ -483,8 +492,8 @@ export class PersonalComponent implements OnInit {
       'celular': '',
       'latitud': '',
       'longitud': '',
-      'fechaAlta': new Date(),
-      'fechaBaja': new Date()
+      'fechaAlta': '',
+      'fechaBaja': ''
     };
   }
   onEdit() {
@@ -713,6 +722,7 @@ export class PersonalComponent implements OnInit {
     });
 
     const table = $('#datatables').DataTable();
+    $( ".dt-buttons" ).hide();
 
 
 
@@ -788,5 +798,5 @@ export class PersonalComponent implements OnInit {
     }
     ).catch(swal.noop);
   }
-  
+
 }

@@ -17,5 +17,10 @@ export class Facturacion {
       public total: number,
       public cuentaIngreso:string,
       public viajesFact:string[],
+
+
+      //nuevo
+      public cuit: string,
+      public noGravado:string
       ) {}
   }

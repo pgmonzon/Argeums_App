@@ -25,7 +25,7 @@ export class AppDateAdapter extends NativeDateAdapter {
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
+      return `${day}/${month}/${year}`;
     } else {
       //return date.toDateString();
     }
@@ -71,7 +71,9 @@ export class ViajesComponent implements OnInit {
   public arraytipo = [];
   public direccionPersonal;
   public autblock=1;
-
+  public fechaDesde;
+  public fechaHasta;
+  public fecha;
   ngOnInit() {
 
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
@@ -80,7 +82,9 @@ export class ViajesComponent implements OnInit {
     }
     this.Observaciones = {
       "observacion": ""
-    }
+    } 
+    this.fecha={'date':new Date()};
+
     this.arrayvueltas = [
       { 'value': '', 'viewValue': '' },
       { 'value': '2da', 'viewValue': '2da' },
@@ -130,8 +134,13 @@ export class ViajesComponent implements OnInit {
       'locacion': ''
 
     }
+     this.fechaDesde=new Date();
+    this.fechaHasta=new Date();
 
-    this.All();
+    this.fechaDesde.setHours(0,0,0)
+    this.fechaHasta.setHours(23,59,59)
+    console.log(this.fechaDesde,this.fechaHasta);
+    this.All(this.fechaDesde,this.fechaHasta);
     this.getClienteAll();
     this.getTipoUnidadAll();
     this.getTransportistaAll();
@@ -326,7 +335,7 @@ export class ViajesComponent implements OnInit {
           this.total = 0;
           $("#myModal").modal("hide");
           this.donttable = true;
-          this.All();
+          this.All(this.fechaDesde,this.fechaHasta);
           this.autblock=1;
 
 
@@ -349,12 +358,15 @@ export class ViajesComponent implements OnInit {
 
   }
   public viajesArray;
-  public All() {
-    this._ViajesService.getAll(this.identity.token).subscribe(
+
+  public All(desde,hasta) {
+  
+    this._ViajesService.getAll(this.identity.token,desde,hasta).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.viajesArray = response;
           console.log(response);
+          this.donttable = true;
 
         } else {
           this.donttable = false;
@@ -371,23 +383,23 @@ export class ViajesComponent implements OnInit {
       }
     );
   }
+  public clientEDIT;
+  public clienteEstado;
   public editar(id) {
     this.viajesArray.forEach(element => {
       if (element.id == id) {
         this.locacionesArray = element.paradas;
-
-
         var fecha = new Date(element.fechaHora);
-        var hora = element.fechaHora.split("T");
+        // var hora = element.fechaHora.split("T");
+        // var horaMinuto = hora[1].split(":");
+        
+        console.log(fecha.getHours(),fecha.getMinutes());
 
-        var horaMinuto = hora[1].split(":");
-
-        $("#horaedit").val(parseInt(horaMinuto[0]) + 1 + ":" + horaMinuto[1]);
-
-        // console.log(horaMinuto[0]+":"+horaMinuto[1]);
-
-
-
+        $("#horaedit").val((fecha.getHours()<10?'0':'') + fecha.getHours() + ":" + (fecha.getMinutes()<10?'0':'') + fecha.getMinutes());
+        
+        this.clientEDIT=element.editable;
+        this.clienteEstado=element.estado;
+        console.log(this.clientEDIT,this.clienteEstado);
         this.Viajes = {
           'id': element.id,
           'fechaHora': new Date(element.fechaHora),
@@ -550,7 +562,7 @@ export class ViajesComponent implements OnInit {
         if (response.estado != "ERROR") {
           this.completecampo = null;
           this.showNotification('top', 'center', response.mensaje, 'success');
-          this.All();
+          this.All(this.fechaDesde,this.fechaHasta);
           this.Viajes = {
             'id': '',
             'fechaHora': new Date(),
@@ -597,7 +609,7 @@ export class ViajesComponent implements OnInit {
   public desabilitar(id) {
     this._ViajesService.desabilitar(id, this.identity.token).subscribe(
       response => {
-        this.All();
+        this.All(this.fechaDesde,this.fechaHasta);
         this.showNotification('top', 'center', response.mensaje, 'danger');
 
       },
@@ -612,7 +624,7 @@ export class ViajesComponent implements OnInit {
   public habilitar(id) {
     this._ViajesService.habilitar(id, this.identity.token).subscribe(
       response => {
-        this.All();
+        this.All(this.fechaDesde,this.fechaHasta);
         this.showNotification('top', 'center', response.mensaje, 'success');
 
       },
@@ -628,7 +640,7 @@ export class ViajesComponent implements OnInit {
     this.ideliminado = id;
     this._ViajesService.eliminar(id, this.identity.token).subscribe(
       response => {
-        this.All();
+        this.All(this.fechaDesde,this.fechaHasta);
         this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
         $("#myModalEDITAR").modal("hide");
         this.showrecuperar = true;
@@ -696,7 +708,7 @@ export class ViajesComponent implements OnInit {
     if (this.ideliminado != '') {
       this._ViajesService.recuperar(this.ideliminado, this.identity.token).subscribe(
         response => {
-          this.All();
+          this.All(this.fechaDesde,this.fechaHasta);
           this.showNotification('top', 'center', response.mensaje, 'success');
           this.showrecuperar = false;
 
@@ -919,7 +931,7 @@ export class ViajesComponent implements OnInit {
           this.showNotification('top', 'center', response.mensaje, 'warning');
           $("#CostoViajeIgual").modal("hide");
 
-          this.All();
+          this.All(this.fechaDesde,this.fechaHasta);
 
         },
         error => {
@@ -967,7 +979,7 @@ export class ViajesComponent implements OnInit {
         this._ViajesService.remito(this.identity.token, id).subscribe(
           response => {
             this.showNotification('top', 'center', response.mensaje, 'success');
-            this.All();
+            this.All(this.fechaDesde,this.fechaHasta);
           },
           error => {
             this.errorMessage = <any>error;
@@ -986,7 +998,7 @@ export class ViajesComponent implements OnInit {
         console.log(response);
         this.showNotification('top', 'center', response.mensaje, 'success');
         $("#CANCELARMODAL").modal("hide");
-        this.All();
+        this.All(this.fechaDesde,this.fechaHasta);
         this.cancelviajeestado='';
       },
       error => {
@@ -1012,5 +1024,15 @@ export class ViajesComponent implements OnInit {
             this.telefonopersona=element.celular;
         }
     });
+  }
+  public fechaChange;
+  onSubmitFecha(){
+    this.fechaDesde=new Date(this.fecha.date);
+    this.fechaHasta=new Date(this.fecha.date);
+
+    this.fechaDesde.setHours(0,0,0)
+    this.fechaHasta.setHours(23,59,59)
+    console.log(this.fechaDesde,this.fechaHasta);
+    this.All(this.fechaDesde,this.fechaHasta);
   }
 }

@@ -333,6 +333,7 @@ export class CategoriasComponent implements OnInit {
 
     const table = $('#datatables').DataTable();
 
+    $( ".dt-buttons" ).hide();
 
 
     //$('.card .material-datatables label').addClass('form-group');

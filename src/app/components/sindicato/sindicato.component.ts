@@ -339,6 +339,7 @@ export class SindicatoComponent implements OnInit {
     });
 
     const table = $('#datatables').DataTable();
+    $( ".dt-buttons" ).hide();
 
 
 

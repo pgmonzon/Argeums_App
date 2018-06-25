@@ -6,23 +6,27 @@
           style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
           <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
         </button>
+
+
         <!-- Classic Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title"> VIAJES</h4>
+
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
               </div>
+
               <div class="modal-body">
 
-                
+
                 <form #formCategoria="ngForm" (ngSubmit)="onSubmit()" class="form">
                   <div class="card card-login card-hidden">
                     <div class="card-body ">
-                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+
                       <div class="row">
                         <div class="col-md-6">
                           <mat-form-field>
@@ -152,7 +156,7 @@
                           <input #adicional="ngModel" name="adicional" [(ngModel)]="Viajes.adicional" type="text" class="form-control" placeholder="adicional...">
                         </div>
                       </div>
-                   
+
 
                       <div class="row">
                         <div class="col-md-12">
@@ -241,8 +245,9 @@
                 <form #formCategoria="ngForm" (ngSubmit)="onEdit()" class="form">
                   <div class="card card-login card-hidden">
                     <div class="card-body ">
-                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <h4 class="card-description text-center text-danger" *ngIf=" clientEDIT!='true' && clienteEstado!='Ok' ">{{clienteEstado}}</h4>
                       <div class="row">
+
                         <div class="col-md-6">
                           <mat-form-field>
                             <mat-select placeholder="cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="Viajes.cliente_id">
@@ -267,10 +272,7 @@
                           </mat-form-field>
                         </div>
                       </div>
-                      <div class="row">
 
-
-                      </div>
                       <div class="row">
 
                         <div class="col-md-6">
@@ -336,7 +338,7 @@
                         </div>
                         <div class="form-inline col-md-6">
                           <label class="text-success" for="">Hora</label>
-                          <input value="00:00" id="horaedit" placeholder="Hora" class="form-control datetimepicker col-md-10 text-center" type="time">
+                          <input id="horaedit" placeholder="Hora" class="form-control datetimepicker col-md-10 text-center" type="time">
 
                         </div>
 
@@ -441,7 +443,7 @@
 
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
                       <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
-                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
+                      <input *ngIf=" clienteEstado=='Ok'" type="submit" value="GUARDÁ" class="btn btn-success ">
 
                     </div>
                   </div>
@@ -775,6 +777,18 @@
 
           </div>
           <div class="card-body">
+            <form #formFecha="ngForm" (ngSubmit)="onSubmitFecha()" class="form">
+              <div class="col-md-4 offset-4 form-inline">
+                <mat-form-field>
+                  <input id="fecha" #date="ngModel" [(ngModel)]="fecha.date" name="date" matInput [matDatepicker]="range" placeholder="fecha" (click)="range.open()">
+                  <mat-datepicker-toggle matSuffix [for]="range"></mat-datepicker-toggle>
+                  <mat-datepicker #range></mat-datepicker>
+                </mat-form-field>
+                <input type="submit" value="Filtrá" class="btn btn-success ">
+
+              </div>
+            </form>
+            <hr>
             <div class="toolbar" *ngIf="showrecuperar== true">
               <br>
               <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
@@ -885,9 +899,12 @@
 
                       <td class="text-center text-danger " style="cursor: pointer;" *ngIf="row.estado == 'Cancelado'" data-toggle="modal" (click)="estado(row.id)"
                         data-target="#ESTADOMODAL">
-                        Cancelado
+                        {{row.estado}}
                       </td>
-                      <td class="text-center text-success" *ngIf="row.estado != 'Cancelado'" style="cursor: pointer;" data-toggle="modal" (click)="cancelarestado(row.id)"
+                      <td class="text-center text-success" *ngIf="row.estado != 'Ok' && row.estado != 'Cancelado'">
+                        {{row.estado}}
+                      </td>
+                      <td class="text-center text-success" *ngIf="row.estado == 'Ok'" style="cursor: pointer;" data-toggle="modal" (click)="cancelarestado(row.id)"
                         data-target="#CANCELARMODAL">
                         <i class="material-icons text-success">check</i>
                       </td>
