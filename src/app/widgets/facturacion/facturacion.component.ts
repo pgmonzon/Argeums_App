@@ -9,7 +9,6 @@ import swal from 'sweetalert2';
 import { NativeDateAdapter } from "@angular/material";
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
-import { CsvService } from "json2csv";
 import { DataTableDirective } from 'angular-datatables';
 
 declare const $: any;
