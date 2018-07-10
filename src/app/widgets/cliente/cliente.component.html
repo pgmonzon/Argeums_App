@@ -634,6 +634,28 @@
                                       </div>
                                     </div>
                                     <br>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select placeholder="vuelta " #vuelta="ngModel" name="vuelta" [(ngModel)]="tarifarios.vuelta">
+                                            <mat-option *ngFor="let tipoVuel of tipoVuelta" [value]="tipoVuel.value">
+                                              {{ tipoVuel.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select placeholder="tipoServicio " #tipoServicio="ngModel" name="tipoServicio" [(ngModel)]="tarifarios.tipoServicio">
+                                            <mat-option *ngFor="let tipoServi of tipoServicioar" [value]="tipoServi.value">
+                                              {{ tipoServi.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <br>
                                     <div class="row">
                                       <div class="col-md-4">
                                         <label for="">Importe</label>
