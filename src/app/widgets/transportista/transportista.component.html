@@ -233,6 +233,25 @@
                                     <br>
                                     <div class="row">
                                       <div class="col-md-6">
+                                  
+                                        <mat-form-field>
+                                          <mat-select placeholder="Cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="tarifarios.cliente_id">
+
+                                            <div *ngFor="let cliente of allCliente">
+                                              <mat-option *ngIf=" cliente.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cliente.id" disabled>
+                                                <p> {{ cliente.cliente }} (inactivo)</p>
+                                              </mat-option>
+                                              <mat-option *ngIf=" cliente.activo==true" [value]="cliente.id">
+                                                <p> {{ cliente.cliente }}</p>
+                                              </mat-option>
+                                            </div>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                      <div class="col-md-6">
                                         <!-- <label for="">Tipo</label>
                                           <select class="form-control" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo"required>
                                             <option *ngFor="let tip of tipotarifario" [value]="tipo.value">{{tip.viewValue }}</option>
@@ -621,6 +640,25 @@
                                     <br>
                                     <div class="row">
                                       <div class="col-md-6">
+                                  
+                                        <mat-form-field>
+                                          <mat-select placeholder="Cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="tarifarios.cliente_id">
+
+                                            <div *ngFor="let cliente of allCliente">
+                                              <mat-option *ngIf=" cliente.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cliente.id" disabled>
+                                                <p> {{ cliente.cliente }} (inactivo)</p>
+                                              </mat-option>
+                                              <mat-option *ngIf=" cliente.activo==true" [value]="cliente.id">
+                                                <p> {{ cliente.cliente }}</p>
+                                              </mat-option>
+                                            </div>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                      <div class="col-md-6">
                                         <!-- <label for="">Tipo</label>
                                             <select class="form-control" #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo"required>
                                               <option *ngFor="let tip of tipotarifario" [value]="tipo.value">{{tip.viewValue }}</option>
@@ -634,6 +672,7 @@
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
+                                    
                                       <div class="col-md-6">
                                         <!-- <select class="form-control" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
                                                   <option *ngFor="let tipo of tipounidades" [value]="tipo.id">{{tipo.tipo_unidad}}</option>

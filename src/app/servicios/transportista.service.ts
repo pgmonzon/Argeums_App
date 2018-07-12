@@ -84,4 +84,9 @@ export class TransportistaService {
   }
 
 
+  getAllCliente(token){
+    this.headers.set('Authorization',token)
+    return this._http.post(this.url + 'clientes/-cliente/9999',{"cliente": ""} ,{headers: this.headers})
+                    .map(res => res.json());
+  }
 }

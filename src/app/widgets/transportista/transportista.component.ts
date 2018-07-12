@@ -147,7 +147,8 @@ export class TransportistaComponent implements OnInit {
       'kmHasta':0,
       'activo':true,
       'vuelta':'',
-      'tipoServicio':''
+      'tipoServicio':'',
+      'cliente_id':''
 
     };
     this.recorrido = {
@@ -155,6 +156,7 @@ export class TransportistaComponent implements OnInit {
     };
     this.getTipoUnidad();
     this.getLocacionAll();
+    this.getAllCliente();
     this.All();
 
   }
@@ -202,7 +204,10 @@ export class TransportistaComponent implements OnInit {
         'kmDesde':0,
         'kmHasta':0,
         'activo':true,
-        
+        'vuelta':'',
+        'tipoServicio':'',
+        'cliente_id':''
+  
       };
       console.log(this.tarifariosarray);
       this.completecampo = null;
@@ -329,7 +334,8 @@ export class TransportistaComponent implements OnInit {
           'kmHasta':0,
           'activo':true,
           'vuelta':'',
-          'tipoServicio':''
+          'tipoServicio':'',
+          'cliente_id':''
     
         };
         if(response.contactos != undefined){
@@ -753,4 +759,18 @@ public showSwal(id) {
   ).catch(swal.noop);
 }
 
+public allCliente;
+public getAllCliente() {
+  this._TransportistaService.getAllCliente( this.identity.token).subscribe(
+    response => {
+      this.allCliente=response;
+      console.log(this.allCliente);
+    },
+    error => {
+      this.errorMessage = <any>error;
+      if (this.errorMessage != null) {
+      }
+    }
+  );
+}
 }

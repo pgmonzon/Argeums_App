@@ -12,6 +12,7 @@ export class tarifarios {
       public activo: string,
       //nuevo
       public vuelta:string,
-      public tipoServico:string
+      public tipoServico:string, 
+      public cliente_id:string
       ) {}
   }
