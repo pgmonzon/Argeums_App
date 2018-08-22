@@ -168,9 +168,13 @@
 
                       <br>
                       <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" *ngIf="loader == false">
                           <input id="kilometraje" #kilometraje="ngModel" name="kilometraje" [(ngModel)]="Viajes.kilometraje" type="text" class="form-control text-center"
                             placeholder="kilometraje..." disabled>
+                        </div>
+                        <div class="col-md-12" *ngIf="loader">
+                          <i class="fa fa-spin fa-spinner fa-5x"></i>
+                          <br>Calculando kilometraje
                         </div>
                       </div>
                       <hr>
@@ -201,12 +205,19 @@
                               <thead>
                                 <tr>
                                   <th>Paradas</th>
+                                  <th>Eliminar</th>
+
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr *ngFor="let la of locacionesArray">
                                   <td>{{la["locacion"]}} </td>
+                                  <td style="cursor: pointer;" (click)="locacionArrayDelete(la['locacion_id'])" class="text-danger text-center eliminar">
+                                    <i class="material-icons">clear</i>
+                                  </td>
+
                                 </tr>
+
                               </tbody>
                             </table>
                           </div>
@@ -391,9 +402,13 @@
 
                       <br>
                       <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" *ngIf="loader == false">
                           <input id="kilometraje" #kilometraje="ngModel" name="kilometraje" [(ngModel)]="Viajes.kilometraje" type="text" class="form-control text-center"
                             placeholder="kilometraje..." disabled>
+                        </div>
+                        <div class="col-md-12" *ngIf="loader">
+                          <i class="fa fa-spin fa-spinner fa-5x"></i>
+                          <br>Calculando kilometraje
                         </div>
                       </div>
                       <hr>
@@ -420,17 +435,31 @@
                             <input type="submit" value="AGREGÁ" class="btn btn-success ">
                           </div>
                           <div class="col-md-4">
+                            <span class="text-danger">(Para editar debe borrar todas las paradas)</span>
                             <table class="table table-responsive">
                               <thead>
                                 <tr>
                                   <th>Paradas</th>
+
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr *ngFor="let la of locacionesArray">
                                   <td>{{la["locacion"]}} </td>
+                               
                                 </tr>
                               </tbody>
+                              <tfoot>
+                                  <tr>
+                                    <td>
+                                      <button class="btn-danger btn" (click)="clearLocacion()">
+                                          Eliminar 
+
+                                      </button>
+
+                                    </td>
+                                  </tr>
+                              </tfoot>
                             </table>
                           </div>
                         </div>
@@ -780,7 +809,8 @@
             <form #formFecha="ngForm" (ngSubmit)="onSubmitFecha()" class="form">
               <div class="col-md-4 offset-4 form-inline">
                 <mat-form-field>
-                  <input id="fecha" #date="ngModel" [(ngModel)]="fecha.date" name="date" matInput [matDatepicker]="range" placeholder="fecha" (click)="range.open()">
+                  <input id="fecha" #date="ngModel" [(ngModel)]="fecha.date" name="date" matInput [matDatepicker]="range" placeholder="fecha"
+                    (click)="range.open()">
                   <mat-datepicker-toggle matSuffix [for]="range"></mat-datepicker-toggle>
                   <mat-datepicker #range></mat-datepicker>
                 </mat-form-field>

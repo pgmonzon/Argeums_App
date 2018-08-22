@@ -32,17 +32,17 @@ export class AppDateAdapter extends NativeDateAdapter {
   }
 }
 export const APP_DATE_FORMATS =
-  {
-    parse: {
-      dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
-    },
-    display: {
-      dateInput: 'input',
-      monthYearLabel: { year: 'numeric', month: 'numeric' },
-      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
-      monthYearA11yLabel: { year: 'numeric', month: 'long' },
-    }
-  };
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
 
 @Component({
   selector: 'app-viajes',
@@ -70,10 +70,11 @@ export class ViajesComponent implements OnInit {
   public arrayvueltas = [];
   public arraytipo = [];
   public direccionPersonal;
-  public autblock=1;
+  public autblock = 1;
   public fechaDesde;
   public fechaHasta;
   public fecha;
+  public loader = false;
   ngOnInit() {
 
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
@@ -82,14 +83,18 @@ export class ViajesComponent implements OnInit {
     }
     this.Observaciones = {
       "observacion": ""
-    } 
-    this.fecha={'date':new Date()};
+    }
+    this.fecha = { 'date': new Date() };
 
     this.arrayvueltas = [
       { 'value': '', 'viewValue': '' },
       { 'value': '2da', 'viewValue': '2da' },
       { 'value': '3ra', 'viewValue': '3ra' },
       { 'value': '4ta', 'viewValue': '4ta' },
+      { 'value': 'horas extras', 'viewValue': 'horas extras' },
+      { 'value': 'adicional larga distancia', 'viewValue': 'adicional larga distancia' },
+      { 'value': 'vuelta con devolución', 'viewValue': 'vuelta con devolución' },
+
 
     ];
     this.arraytipo = [
@@ -124,7 +129,7 @@ export class ViajesComponent implements OnInit {
       'adicional': '',
       'importe': 0,
       'regreso': 0,
-      'remitosDetalle':''
+      'remitosDetalle': ''
 
 
 
@@ -134,13 +139,13 @@ export class ViajesComponent implements OnInit {
       'locacion': ''
 
     }
-     this.fechaDesde=new Date();
-    this.fechaHasta=new Date();
+    this.fechaDesde = new Date();
+    this.fechaHasta = new Date();
 
-    this.fechaDesde.setHours(0,0,0)
-    this.fechaHasta.setHours(23,59,59)
-    console.log(this.fechaDesde,this.fechaHasta);
-    this.All(this.fechaDesde,this.fechaHasta);
+    this.fechaDesde.setHours(0, 0, 0)
+    this.fechaHasta.setHours(23, 59, 59)
+    console.log(this.fechaDesde, this.fechaHasta);
+    this.All(this.fechaDesde, this.fechaHasta);
     this.getClienteAll();
     this.getTipoUnidadAll();
     this.getTransportistaAll();
@@ -153,6 +158,7 @@ export class ViajesComponent implements OnInit {
   public block = 0;
   public mapArray = [];
   public total = 0;
+  public kmAnterior;
   onLocaciones() {
     if (this.paradas.locacion_id != '') {
       this.locacionesAll.forEach(element => {
@@ -166,14 +172,16 @@ export class ViajesComponent implements OnInit {
 
           }
 
-          if (this.block == 1) {
+          if (this.mapArray.length > 1) {
+            this.loader = true;
             console.log(this.mapArray[this.mapArray.length - 2], this.mapArray[this.mapArray.length - 1]);
             this._ViajesService.map(this.mapArray[this.mapArray.length - 2], this.mapArray[this.mapArray.length - 1]).subscribe(
               response => {
+                this.kmAnterior = response.rows[0].elements[0].distance.value;
                 this.total = this.total + response.rows[0].elements[0].distance.value;
                 $("#kilometraje").val(this.total / 1000 + ' km');
                 this.Viajes.kilometraje = Math.round(this.total / 1000);
-
+                this.loader = false;
               },
               error => {
                 this.errorMessage = <any>error;
@@ -188,6 +196,50 @@ export class ViajesComponent implements OnInit {
       });
     }
     this.block = 1;
+  }
+  
+
+  clearLocacion() {
+    this.locacionesArray = [];
+    this.block = 0;
+    this.mapArray = [];
+    $("#kilometraje").val(0);
+    this.Viajes.kilometraje = 0;
+
+  }
+
+  //eliminar locaciones
+  locacionArrayDelete(id) {
+    this.loader = true;
+
+    for (let index = 0; index < this.locacionesArray.length; index++) {
+      if (id == this.locacionesArray[index].locacion_id) {
+        this.locacionesArray.splice(index, 1);
+        if(this.locacionesArray.length>1){
+          this.total = this.total - this.kmAnterior;
+          $("#kilometraje").val(this.total / 1000 + ' km');
+          this.Viajes.kilometraje = Math.round(this.total / 1000);
+        }else{
+          this.total = 0;
+          $("#kilometraje").val(0);
+          this.Viajes.kilometraje =0;
+        }
+
+        this.loader = false;
+      }
+    }
+    this.locacionesAll.forEach(element => {
+      if (element.id == id) {
+        for (var i = 0; i < this.mapArray.length; i++) {
+          if (element.direccion == this.mapArray[i]) {
+            this.mapArray.splice(i, 1);
+          }
+        }
+      }
+    });
+
+
+    console.log(this.locacionesArray);
   }
   onSubmit() {
     if (this.Viajes.cliente_id != '') {
@@ -236,25 +288,25 @@ export class ViajesComponent implements OnInit {
 
     }
     if (this.Viajes.personal_id != '') {
-      this.autblock=2;
+      this.autblock = 2;
       this.personalAll.forEach(element => {
         if (element.id == this.Viajes.personal_id) {
           this.Viajes.personal = element.apellido;
           this.Viajes.celular = element.celular;
           this.direccionPersonal = element.direccion;
-          if (this.direccionPersonal !=''){
+          if (this.direccionPersonal != '') {
             if (this.mapArray.length <= 0) {
               this.Viajes.regreso = 0;
             }
             else {
-  
+
               this._ViajesService.map(this.direccionPersonal, this.mapArray[this.mapArray.length - 1]).subscribe(
                 response => {
                   this.total = response.rows[0].elements[0].distance.value;
                   this.Viajes.regreso = Math.round(this.total / 1000);
                   this.altaviaje();
-  
-  
+
+
                 },
                 error => {
                   this.errorMessage = <any>error;
@@ -262,12 +314,12 @@ export class ViajesComponent implements OnInit {
                   }
                 });
             }
-          }else{
+          } else {
             this.Viajes.regreso = 0;
-            this.autblock=1;
+            this.autblock = 1;
 
           }
-        
+
 
         }
       });
@@ -275,7 +327,7 @@ export class ViajesComponent implements OnInit {
       this.Viajes.personal_id = '111111111111111111111111';
 
     }
-    if(this.autblock==1){
+    if (this.autblock == 1) {
       this.altaviaje();
 
     }
@@ -326,7 +378,7 @@ export class ViajesComponent implements OnInit {
             'adicional': '',
             'importe': 0,
             'regreso': 0,
-            'remitosDetalle':''
+            'remitosDetalle': ''
 
           }
           this.locacionesArray = [];
@@ -335,8 +387,8 @@ export class ViajesComponent implements OnInit {
           this.total = 0;
           $("#myModal").modal("hide");
           this.donttable = true;
-          this.All(this.fechaDesde,this.fechaHasta);
-          this.autblock=1;
+          this.All(this.fechaDesde, this.fechaHasta);
+          this.autblock = 1;
 
 
         }
@@ -359,9 +411,9 @@ export class ViajesComponent implements OnInit {
   }
   public viajesArray;
 
-  public All(desde,hasta) {
-  
-    this._ViajesService.getAll(this.identity.token,desde,hasta).subscribe(
+  public All(desde, hasta) {
+
+    this._ViajesService.getAll(this.identity.token, desde, hasta).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.viajesArray = response;
@@ -388,18 +440,27 @@ export class ViajesComponent implements OnInit {
   public editar(id) {
     this.viajesArray.forEach(element => {
       if (element.id == id) {
+        // element.paradas.forEach(paradas => {
+        //   this.locacionesAll.forEach(locaciones => {
+        //     if (locaciones.id == paradas.locacion_id) {
+        //       this.mapArray.push(locaciones.direccion);
+
+        //     }
+        //   });
+        // });
+        // console.log(this.mapArray);
         this.locacionesArray = element.paradas;
         var fecha = new Date(element.fechaHora);
         // var hora = element.fechaHora.split("T");
         // var horaMinuto = hora[1].split(":");
-        
-        console.log(fecha.getHours(),fecha.getMinutes());
 
-        $("#horaedit").val((fecha.getHours()<10?'0':'') + fecha.getHours() + ":" + (fecha.getMinutes()<10?'0':'') + fecha.getMinutes());
-        
-        this.clientEDIT=element.editable;
-        this.clienteEstado=element.estado;
-        console.log(this.clientEDIT,this.clienteEstado);
+        console.log(fecha.getHours(), fecha.getMinutes());
+
+        $("#horaedit").val((fecha.getHours() < 10 ? '0' : '') + fecha.getHours() + ":" + (fecha.getMinutes() < 10 ? '0' : '') + fecha.getMinutes());
+
+        this.clientEDIT = element.editable;
+        this.clienteEstado = element.estado;
+        console.log(this.clientEDIT, this.clienteEstado);
         this.Viajes = {
           'id': element.id,
           'fechaHora': new Date(element.fechaHora),
@@ -423,7 +484,7 @@ export class ViajesComponent implements OnInit {
           'adicional': element.adicional,
           'importe': element.importe,
           'regreso': element.regreso,
-          'remitosDetalle':element.remitosDetalle
+          'remitosDetalle': element.remitosDetalle
 
         }
 
@@ -480,71 +541,71 @@ export class ViajesComponent implements OnInit {
 
     }
     if (this.Viajes.personal_id != '') {
-      this.autblock=2;
+      this.autblock = 2;
       this.personalAll.forEach(element => {
-        
+
         if (element.id == this.Viajes.personal_id) {
           this.Viajes.personal = element.apellido;
           this.Viajes.celular = element.celular;
           this.direccionPersonal = element.direccion;
-          if( this.direccionPersonal !=''){
-            if (this.locacionesArray.length <= 0 ) {
+          if (this.direccionPersonal != '') {
+            if (this.locacionesArray.length <= 0) {
               this.Viajes.regreso = 0;
             }
             else {
-                console.log(this.direccionPersonal);
-                console.log(this.locacionesArray[this.locacionesArray.length - 1]);
-                var dire=this.locacionesArray[this.locacionesArray.length - 1];
-  
-                this.locacionesAll.forEach(loca => {
-                  if(loca.id==dire.locacion_id){
-                    var direccion=loca.direccion;
-                    this._ViajesService.map(this.direccionPersonal, direccion).subscribe(
-                      response => {
-                        this.total = response.rows[0].elements[0].distance.value;
-                        this.Viajes.regreso = Math.round(this.total / 1000);
-                        this.guardarViaje();
-        
-        
-                      },
-                      error => {
-                        this.errorMessage = <any>error;
-                        if (this.errorMessage != null) {
-                          this.autblock=1;
-                        }
-                      });
-                  }
-                });
-           
+              console.log(this.direccionPersonal);
+              console.log(this.locacionesArray[this.locacionesArray.length - 1]);
+              var dire = this.locacionesArray[this.locacionesArray.length - 1];
+
+              this.locacionesAll.forEach(loca => {
+                if (loca.id == dire.locacion_id) {
+                  var direccion = loca.direccion;
+                  this._ViajesService.map(this.direccionPersonal, direccion).subscribe(
+                    response => {
+                      this.total = response.rows[0].elements[0].distance.value;
+                      this.Viajes.regreso = Math.round(this.total / 1000);
+                      this.guardarViaje();
+
+
+                    },
+                    error => {
+                      this.errorMessage = <any>error;
+                      if (this.errorMessage != null) {
+                        this.autblock = 1;
+                      }
+                    });
+                }
+              });
+
             }
-          }else{
+          } else {
             this.Viajes.regreso = 0;
-            this.autblock=1;
+            this.autblock = 1;
 
           }
-         
+
 
         }
-        else{
-          this.autblock=1;
+        else {
+          this.autblock = 1;
         }
       });
     } else {
       this.Viajes.personal_id = '111111111111111111111111';
-      this.autblock=1;
+      this.autblock = 1;
 
 
     }
-    if(this.autblock==1){
+    if (this.autblock == 1) {
       this.guardarViaje();
 
     }
-    
+
 
 
 
   }
-  public guardarViaje(){
+  public guardarViaje() {
     this.Viajes.paradas = this.locacionesArray;
     // this.Viajes.fechaHora=new Date(this.Viajes.fechaHora);
     //modulo de hora
@@ -562,7 +623,7 @@ export class ViajesComponent implements OnInit {
         if (response.estado != "ERROR") {
           this.completecampo = null;
           this.showNotification('top', 'center', response.mensaje, 'success');
-          this.All(this.fechaDesde,this.fechaHasta);
+          this.All(this.fechaDesde, this.fechaHasta);
           this.Viajes = {
             'id': '',
             'fechaHora': new Date(),
@@ -586,10 +647,10 @@ export class ViajesComponent implements OnInit {
             'adicional': '',
             'importe': 0,
             'regreso': 0,
-            'remitosDetalle':''
+            'remitosDetalle': ''
 
           }
-          this.autblock=1;
+          this.autblock = 1;
 
           $("#myModalEDITAR").modal("hide");
         } else {
@@ -609,7 +670,7 @@ export class ViajesComponent implements OnInit {
   public desabilitar(id) {
     this._ViajesService.desabilitar(id, this.identity.token).subscribe(
       response => {
-        this.All(this.fechaDesde,this.fechaHasta);
+        this.All(this.fechaDesde, this.fechaHasta);
         this.showNotification('top', 'center', response.mensaje, 'danger');
 
       },
@@ -624,7 +685,7 @@ export class ViajesComponent implements OnInit {
   public habilitar(id) {
     this._ViajesService.habilitar(id, this.identity.token).subscribe(
       response => {
-        this.All(this.fechaDesde,this.fechaHasta);
+        this.All(this.fechaDesde, this.fechaHasta);
         this.showNotification('top', 'center', response.mensaje, 'success');
 
       },
@@ -640,7 +701,7 @@ export class ViajesComponent implements OnInit {
     this.ideliminado = id;
     this._ViajesService.eliminar(id, this.identity.token).subscribe(
       response => {
-        this.All(this.fechaDesde,this.fechaHasta);
+        this.All(this.fechaDesde, this.fechaHasta);
         this.showNotificationEliminar('top', 'center', response.mensaje, 'danger', id);
         $("#myModalEDITAR").modal("hide");
         this.showrecuperar = true;
@@ -708,7 +769,7 @@ export class ViajesComponent implements OnInit {
     if (this.ideliminado != '') {
       this._ViajesService.recuperar(this.ideliminado, this.identity.token).subscribe(
         response => {
-          this.All(this.fechaDesde,this.fechaHasta);
+          this.All(this.fechaDesde, this.fechaHasta);
           this.showNotification('top', 'center', response.mensaje, 'success');
           this.showrecuperar = false;
 
@@ -756,7 +817,7 @@ export class ViajesComponent implements OnInit {
       'adicional': '',
       'importe': 0,
       'regreso': 0,
-      'remitosDetalle':''
+      'remitosDetalle': ''
 
     }
     this.locacionesArray = [];
@@ -931,7 +992,7 @@ export class ViajesComponent implements OnInit {
           this.showNotification('top', 'center', response.mensaje, 'warning');
           $("#CostoViajeIgual").modal("hide");
 
-          this.All(this.fechaDesde,this.fechaHasta);
+          this.All(this.fechaDesde, this.fechaHasta);
 
         },
         error => {
@@ -979,7 +1040,7 @@ export class ViajesComponent implements OnInit {
         this._ViajesService.remito(this.identity.token, id).subscribe(
           response => {
             this.showNotification('top', 'center', response.mensaje, 'success');
-            this.All(this.fechaDesde,this.fechaHasta);
+            this.All(this.fechaDesde, this.fechaHasta);
           },
           error => {
             this.errorMessage = <any>error;
@@ -998,8 +1059,8 @@ export class ViajesComponent implements OnInit {
         console.log(response);
         this.showNotification('top', 'center', response.mensaje, 'success');
         $("#CANCELARMODAL").modal("hide");
-        this.All(this.fechaDesde,this.fechaHasta);
-        this.cancelviajeestado='';
+        this.All(this.fechaDesde, this.fechaHasta);
+        this.cancelviajeestado = '';
       },
       error => {
         this.errorMessage = <any>error;
@@ -1009,7 +1070,7 @@ export class ViajesComponent implements OnInit {
   }
   public cancelviajeestado;
   public cancelarestado(id) {
-    this.cancelviajeestado='';
+    this.cancelviajeestado = '';
     this.Observaciones = {
       "observacion": ""
     }
@@ -1017,22 +1078,22 @@ export class ViajesComponent implements OnInit {
 
   }
   public telefonopersona;
-  public telefono(id){
+  public telefono(id) {
     console.log(this.personalAll);
     this.viajesArray.forEach(element => {
-        if(element.id=id){
-            this.telefonopersona=element.celular;
-        }
+      if (element.id = id) {
+        this.telefonopersona = element.celular;
+      }
     });
   }
   public fechaChange;
-  onSubmitFecha(){
-    this.fechaDesde=new Date(this.fecha.date);
-    this.fechaHasta=new Date(this.fecha.date);
+  onSubmitFecha() {
+    this.fechaDesde = new Date(this.fecha.date);
+    this.fechaHasta = new Date(this.fecha.date);
 
-    this.fechaDesde.setHours(0,0,0)
-    this.fechaHasta.setHours(23,59,59)
-    console.log(this.fechaDesde,this.fechaHasta);
-    this.All(this.fechaDesde,this.fechaHasta);
+    this.fechaDesde.setHours(0, 0, 0)
+    this.fechaHasta.setHours(23, 59, 59)
+    console.log(this.fechaDesde, this.fechaHasta);
+    this.All(this.fechaDesde, this.fechaHasta);
   }
 }

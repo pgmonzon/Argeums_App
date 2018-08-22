@@ -129,8 +129,10 @@ export class FacturacionComponent implements OnInit {
 
     ];
     this.tipoSucursal = [
+      { 'value': '0002', viewValue: '0002' },
       { 'value': '0006', viewValue: '0006' },
       { 'value': '0008', viewValue: '0008' }
+
     ];
     $.fn.dataTable.ext.classes.sPageButton = 'page-item active mat-button';
     // $.fn.dataTable.ext.classes.sPageButtonActive = 'page-item ';

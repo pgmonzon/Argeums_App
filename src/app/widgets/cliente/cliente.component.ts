@@ -100,10 +100,13 @@ export class ClienteComponent implements OnInit {
 
     ];
     this.tipoVuelta = [
-      {'value': '', viewValue: ''},
-      {'value': '2da', viewValue: '2da'},
-      {'value': '3ra', viewValue: '3ra'},
-      {'value': '4ta', viewValue: '4ta'},
+      { 'value': '', 'viewValue': '' },
+      { 'value': '2da', 'viewValue': '2da' },
+      { 'value': '3ra', 'viewValue': '3ra' },
+      { 'value': '4ta', 'viewValue': '4ta' },
+      { 'value': 'horas extras', 'viewValue': 'horas extras' },
+      { 'value': 'adicional larga distancia', 'viewValue': 'adicional larga distancia' },
+      { 'value': 'vuelta con devolución', 'viewValue': 'vuelta con devolución' },
 
     ];
     this.tipotarifario = [
