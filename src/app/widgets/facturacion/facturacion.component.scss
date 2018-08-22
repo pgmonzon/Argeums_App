@@ -32,3 +32,14 @@
     -webkit-overflow-scrolling: touch !important;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
 }
+
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 1000px !important;
+        margin: 1.75rem auto;
+    }
+}
+.modal-dialog .modal-body {
+
+    padding-left: 1px !important;
+}

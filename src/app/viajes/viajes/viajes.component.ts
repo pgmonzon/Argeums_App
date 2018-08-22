@@ -94,6 +94,7 @@ export class ViajesComponent implements OnInit {
       { 'value': 'horas extras', 'viewValue': 'horas extras' },
       { 'value': 'adicional larga distancia', 'viewValue': 'adicional larga distancia' },
       { 'value': 'vuelta con devolución', 'viewValue': 'vuelta con devolución' },
+      { 'value': 'reparto', 'viewValue': 'reparto' },
 
 
     ];

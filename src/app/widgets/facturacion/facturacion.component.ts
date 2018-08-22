@@ -148,7 +148,7 @@ export class FacturacionComponent implements OnInit {
       'cliente': '',
       'descripcion': '',
       'neto': '',
-      'iva105': '0',
+      'iva105': 0,
       'iva21': '',
       'total': '',
       'cuentaIngreso': '410100',
@@ -183,7 +183,8 @@ export class FacturacionComponent implements OnInit {
           this.viajesFactArray = [];
           this.All();
           $("#myModal").modal("hide");
-
+          this.totalNoGravado=0;
+          this.tablatotal=0;
         } else {
           this.showNotification('top', 'center', response.mensaje, 'warning');
 
@@ -326,7 +327,7 @@ export class FacturacionComponent implements OnInit {
       'cliente': '',
       'descripcion': '',
       'neto': '',
-      'iva105': '0',
+      'iva105': 0,
       'iva21': '',
       'total': '',
       'cuentaIngreso': '410100',
@@ -341,7 +342,9 @@ export class FacturacionComponent implements OnInit {
   onChange(deviceValue) {
     this.clienteAll.forEach(element => {
       if(deviceValue.value==element.id){
-        $('#cuitjquery').val(element.cuit)
+        $('#cuitjquery').val(element.cuit);
+        console.log(element);
+       this.factura.cuit=element.cuit;
 
       }
     });
@@ -397,6 +400,13 @@ export class FacturacionComponent implements OnInit {
         }
       }
     }
+    this.factura.iva21=this.tablatotal * 0.21;
+    this.factura.neto=this.tablatotal + this.totalNoGravado;
+    this.factura.noGravado=this.totalNoGravado;
+    this.factura.total=(this.tablatotal + this.totalNoGravado) + (this.tablatotal * 0.21);
+
+
+    
 
   }
   public verviajesFacturas;
