@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ca900ac1-babb-465c-a97d-1ef58c8943ed" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/app/app.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/calendar/calendar.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/calendar/calendar.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/calendar/calendar.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/calendar/calendar.routing.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/buttons/buttons.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/buttons/buttons.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/components.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/components.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/components.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/components.routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/grid/grid.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/grid/grid.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/icons/icons.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/icons/icons.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/notifications/notifications.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/notifications/notifications.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/sweetalert/sweetalert.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/sweetalert/sweetalert.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/test/test.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/test/test.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/typography/typography.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/typography/typography.component.ts" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/dist/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="67" />
+    <option name="y" value="34" />
+    <option name="width" value="1853" />
+    <option name="height" value="1048" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca900ac1-babb-465c-a97d-1ef58c8943ed" name="Default" comment="" />
+      <created>1537276847572</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1537276847572</updated>
+      <workItem from="1537276849741" duration="5000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="5000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2498618" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="npm" side_tool="true" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+</project>

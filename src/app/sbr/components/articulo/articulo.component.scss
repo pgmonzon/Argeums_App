@@ -1,0 +1,45 @@
+.table-responsive {
+    display: table!important;
+    width: 100%!important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    -ms-overflow-style: -ms-autohiding-scrollbar!important;
+}
+
+
+@media only screen and (max-width: 1490px) {
+    .table-responsive {
+        display: block!important ;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        -ms-overflow-style: -ms-autohiding-scrollbar !important;
+    }
+}
+
+.table-respo {
+    display: block!important ;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    -ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+#export{
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    -ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 1000px !important;
+        margin: 1.75rem auto;
+    }
+}
+.modal-dialog .modal-body {
+
+    padding-left: 1px !important;
+}

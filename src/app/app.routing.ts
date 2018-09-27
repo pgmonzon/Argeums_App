@@ -45,9 +45,6 @@ export const AppRoutes: Routes = [
         path: 'trafico',
         loadChildren: './trafico/charts.module#ChartsModule'
     }, {
-        path: 'calendar',
-        loadChildren: './calendar/calendar.module#CalendarModule'
-    }, {
         path: '',
         loadChildren: './userpage/user.module#UserModule'
     }, {
@@ -57,6 +54,10 @@ export const AppRoutes: Routes = [
     , {
         path: 'transportistas',
         loadChildren: './widgets/widgets.module#WidgetsModule'
+    }
+    , {
+        path: 'stock',
+        loadChildren: './sbr/components/components.module#ComponentsModule'
     }
   ]}, {
       path: '',
