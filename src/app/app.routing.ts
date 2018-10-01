@@ -57,6 +57,7 @@ export const AppRoutes: Routes = [
     }
     , {
         path: 'stock',
+        canActivate: [AuthGuard], //added canActivate and AuthGuard service
         loadChildren: './sbr/components/components.module#ComponentsModule'
     }
   ]}, {
