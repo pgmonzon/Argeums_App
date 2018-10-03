@@ -30,7 +30,7 @@ export class SucursalComponent implements OnInit {
   dtTriggerrr: Subject<any> = new Subject();
 
 
-  dtOptions: any = {};
+  dtOptions: any = {"order":[0,'asc']};
   dtOptionss: any = {};
 
   ngOnDestroy(): void {
@@ -115,6 +115,7 @@ export class SucursalComponent implements OnInit {
           table.destroy();
           this.sucursales = response;
           this.dtTriggerrr.next();
+          console.log(response);
         } else {
           this.showNotification('top', 'center', response.mensaje, 'warning');
 
@@ -192,6 +193,7 @@ export class SucursalComponent implements OnInit {
       dom: 'Bfrtip',
       paging: false,
       searching: true,
+      order:false,
 
 
       // Configure the buttons

@@ -107,33 +107,37 @@
                           </div>
                         </form>
                       </div>
-                      <div class="col-md-12">
-                          <table class="table table-responsive">
-                            <thead>
-                              <tr>
-                                <th>Articulo</th>
-                                <th>Cantidad</th>
-                                <th>Eliminar</th>
-  
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor="let row of Articulo.promos;let i = index">
-                                <td>
-                                  {{row.articulo}}
-                                </td>
-                                <td>
-                                  {{row.cantidad}}
-                                </td>
-                                <td>
-                                  <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)" class="btn btn-link btn-danger btn-just-icon remove">
-                                    <i class="material-icons">delete</i>
-                                  </a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div class="row">
+                          <div class="col-md-12 offset-6">
+                            
+                              <table class="table table-responsive">
+                                <thead>
+                                  <tr>
+                                    <th>Articulo</th>
+                                    <th>Cantidad</th>
+                                    <th>Eliminar</th>
+      
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let row of Articulo.promos;let i = index">
+                                    <td>
+                                      {{row.articulo}}
+                                    </td>
+                                    <td>
+                                      {{row.cantidad}}
+                                    </td>
+                                    <td>
+                                      <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)" class="btn btn-link btn-danger btn-just-icon remove">
+                                        <i class="material-icons">delete</i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                      </div>
+                 
                     </div>
                     <hr>
 
@@ -157,7 +161,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title"> Rubro</h4>
+                <h4 class="modal-title"> Articulo</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>

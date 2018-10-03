@@ -43,7 +43,7 @@
                   </form>
                 </div>
                 <div *ngIf="FormActive" class="card">
-                  <h4 class="modal-title"> Alta de articulo</h4>
+                  <h4 class="modal-title"> Remito a Sucursal     </h4>
                   <form #formCategoria="ngForm" (ngSubmit)="onSubmit()" class="form">
                     <div class=" card-login card-hidden">
                       <div class="card-body ">
@@ -161,7 +161,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title"> Seleccione Sucursal</h4>
+                <h4 class="modal-title">Sucursal de la que sale la mercadería                  </h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -197,32 +197,37 @@
                 </button>
               </div>
               <div class="modal-body">
-                <table class="table table-responsive">
-                  <thead>
-                    <tr>
-                      <th>
-                        Articulo
-                      </th>
-                      <th>
-                        Cantidad
-                      </th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of detalle;let i = index">
-                      <td>
-                        {{row.articulo}}
-                      </td>
-                      <td>
-                        {{row.cantidad}}
-                      </td>
-
-                    </tr>
-
-                  </tbody>
-                </table>
-
+                <div class="row">
+                    <div class="col-md-6 offset-3">
+                        <table class="table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Articulo
+                                </th>
+                                <th>
+                                  Cantidad
+                                </th>
+          
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of detalle;let i = index">
+                                <td>
+                                  {{row.articulo}}
+                                </td>
+                                <td>
+                                  {{row.cantidad}}
+                                </td>
+          
+                              </tr>
+          
+                            </tbody>
+                          </table>
+          
+                    </div>
+                </div>
+              
               </div>
 
             </div>
@@ -239,7 +244,7 @@
                 </div>
                 <div class="modal-body">
                   <div *ngIf="loginIngresaConfirmacion">
-                    <h4 class="modal-title"> Ingrese su cuenta</h4>
+                    <h4 class="modal-title"> ¿Quién envía la mercadería?                      </h4>
   
                     <form #formLoginConfirmacion="ngForm" (ngSubmit)="onSubmitLoginConfirmacion()" class="form">
                       <br>

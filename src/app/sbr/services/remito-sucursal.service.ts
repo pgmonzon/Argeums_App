@@ -22,6 +22,7 @@ export class RemitoSucursalService {
     return this._http.post(this.url + 'sbrRemitosDeSucursal/-fecha/9999/'+docID, {}, { headers: this.headers })
       .map(res => res.json());
   }
+
   getIngresoSucursal(docID, token) {
     this.headers.set('Authorization', token)
     return this._http.get(this.url + 'sbrIngresoSucursal/' + docID, { headers: this.headers })

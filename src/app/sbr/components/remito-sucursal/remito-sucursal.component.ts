@@ -143,7 +143,7 @@ export class RemitoSucursalComponent implements OnInit {
       dom: 'Bfrtip',
       paging: false,
       searching: true,
-
+      order:[['desc',0]],
 
       // Configure the buttons
       buttons: [

@@ -16,7 +16,60 @@ export class RemitoRecepcionService {
 
   }
 
+  getAll(docID,token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'sbrRemitosASucursal/-fecha/9999/'+docID, {}, { headers: this.headers })
+      .map(res => res.json());
+  }
 
+
+  getIngresoSucursal(docID, token) {
+    this.headers.set('Authorization', token)
+    return this._http.get(this.url + 'sbrIngresoSucursal/' + docID, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  crear(ingreso,token){
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'sbrRemitoSucursal', ingreso, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  getId(docID, token) {
+    this.headers.set('Authorization', token)
+    return this._http.get(this.url + 'sbrRemitoSucursal/' + docID, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+
+  checkUser(user, token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'usuarioValidar', user, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  getCodigoArticulo(codigo,token){
+    this.headers.set('Authorization',token)
+    return this._http.get(this.url + 'sbrArticuloCodBarras/'+codigo, {headers: this.headers})
+                    .map(res => res.json());
+  }
+  cancelarRemito(docID, token) {
+    this.headers.set('Authorization', token)
+    return this._http.put(this.url + 'sbrRemitoSucursalCancelar/' + docID,{}, { headers: this.headers })
+      .map(res => res.json());
+  }
+  
+  aceptarRemito(docID, token) {
+    this.headers.set('Authorization', token)
+    return this._http.put(this.url + 'sbrRemitoSucursalAceptar/' + docID,{}, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  rechazarRemito(docID, token) {
+    this.headers.set('Authorization', token)
+    return this._http.put(this.url + 'sbrRemitoSucursalRechazar/' + docID,{}, { headers: this.headers })
+      .map(res => res.json());
+  }
 
  
 }

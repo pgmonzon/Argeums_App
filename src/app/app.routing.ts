@@ -60,6 +60,16 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard], //added canActivate and AuthGuard service
         loadChildren: './sbr/components/components.module#ComponentsModule'
     }
+    , {
+        path: 'articulos',
+        canActivate: [AuthGuard], //added canActivate and AuthGuard service
+        loadChildren: './sbr/components/components.module#ComponentsModule'
+    }
+    , {
+        path: 'sucursales',
+        canActivate: [AuthGuard], //added canActivate and AuthGuard service
+        loadChildren: './sbr/components/components.module#ComponentsModule'
+    }
   ]}, {
       path: '',
       component: AuthLayoutComponent,

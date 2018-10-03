@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { DataTableDirective } from 'angular-datatables';
-import { RemitoSucursalService } from '../../services/remito-sucursal.service';
+import { RemitoRecepcionService } from '../../services/remito-recepcion.service';
 import { RemitoSucursalModel } from '../../models/remitoSucursal';
 import { SucursalService } from '../../services/sucursal.service';
 import { Login } from '../../models/login';
@@ -14,12 +14,12 @@ declare const $: any;
   selector: 'app-recepcion-remito',
   templateUrl: './recepcion-remito.component.html',
   styleUrls: ['./recepcion-remito.component.scss'],
-  providers: [RemitoSucursalService, SucursalService]
+  providers: [RemitoRecepcionService, SucursalService]
 
 })
 export class RecepcionRemitoComponent implements OnInit {
 
-  constructor(private _RemitoSucursalService: RemitoSucursalService, private _SucursalService: SucursalService, ) { }
+  constructor(private _RemitoRecepcionService: RemitoRecepcionService, private _SucursalService: SucursalService, ) { }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -88,7 +88,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
   public articulos;
   All(idSucursal) {
-    this._RemitoSucursalService.getAll(idSucursal, this.identity.token).subscribe(
+    this._RemitoRecepcionService.getAll(idSucursal, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           var table = $('#first-table').DataTable();
@@ -199,7 +199,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
   public confirmarOrechazar=false;
   public onSubmitLogin() {
-    this._RemitoSucursalService.checkUser(this.login, this.identity.token).subscribe(
+    this._RemitoRecepcionService.checkUser(this.login, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.loginIngresa=false;
@@ -219,7 +219,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
 
   public CodigoBarra(codigo) {
-    this._RemitoSucursalService.getCodigoArticulo(codigo.target.value, this.identity.token).subscribe(
+    this._RemitoRecepcionService.getCodigoArticulo(codigo.target.value, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.DetalleIngresoSucursal.articulo_id = response.id;
@@ -240,7 +240,7 @@ export class RecepcionRemitoComponent implements OnInit {
 
   }
   onSubmitRecibe() {
-    this._RemitoSucursalService.checkUser(this.login, this.identity.token).subscribe(
+    this._RemitoRecepcionService.checkUser(this.login, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           // this.IngresoSucursal.recibio = response.usuario;
@@ -263,7 +263,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
 
   altaDeIngreso() {
-    this._RemitoSucursalService.crear(this.RemitoSucursal, this.identity.token).subscribe(
+    this._RemitoRecepcionService.crear(this.RemitoSucursal, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
@@ -287,7 +287,7 @@ export class RecepcionRemitoComponent implements OnInit {
   public detalle;
   getDetalle(id) {
     this.detalle = [];
-    this._RemitoSucursalService.getId(id, this.identity.token).subscribe(
+    this._RemitoRecepcionService.getId(id, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.detalle = response.detalle;
@@ -323,7 +323,7 @@ export class RecepcionRemitoComponent implements OnInit {
 
   }
   CancelarRemito(){
-    this._RemitoSucursalService.cancelarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.cancelarRemito(this.idRemito, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
@@ -344,7 +344,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
 
   Confirmar(){
-    this._RemitoSucursalService.aceptarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.aceptarRemito(this.idRemito, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
@@ -364,7 +364,7 @@ export class RecepcionRemitoComponent implements OnInit {
     );
   }
   Cancelar(){
-    this._RemitoSucursalService.rechazarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.rechazarRemito(this.idRemito, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
