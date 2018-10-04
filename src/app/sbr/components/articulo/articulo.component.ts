@@ -85,7 +85,7 @@ export class ArticuloComponent implements OnInit {
       }
     );
   }
-  public editar(id) {
+  public editar(id,articulo) {
     this._ArticuloService.getId(id, this.identity.token).subscribe(
       response => {
         this.Articulo = response;
@@ -179,7 +179,7 @@ export class ArticuloComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 5000,
+        timer: 2000,
         placement: {
           from: from,
           align: align

@@ -33,3 +33,25 @@
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
 }
 
+// @media (min-width: 576px){
+//     .modal-dialog {
+//         max-width: 1000px !important;
+//         margin: 1.75rem auto;
+//     }
+// }
+.modal-dialog .modal-body {
+
+    padding-left: 22px !important;
+}
+
+.active{
+}
+
+.inactive{
+    border:1px solid #f44336;
+
+}
+table#first-table {
+    width: auto;
+    display: table !important;
+}

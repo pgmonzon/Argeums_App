@@ -10,6 +10,8 @@ import { ArticuloComponent } from './articulo/articulo.component';
 import { IngresoSucursalComponent } from './ingreso-sucursal/ingreso-sucursal.component';
 import { RemitoSucursalComponent } from './remito-sucursal/remito-sucursal.component';
 import { RecepcionRemitoComponent } from './recepcion-remito/recepcion-remito.component';
+import { StockArticuloComponent } from './stock-articulo/stock-articulo.component';
+import { StockSucursalComponent } from './stock-sucursal/stock-sucursal.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,11 @@ import { RecepcionRemitoComponent } from './recepcion-remito/recepcion-remito.co
 
       RemitoSucursalComponent,
 
-      RecepcionRemitoComponent
+      RecepcionRemitoComponent,
+
+      StockArticuloComponent,
+
+      StockSucursalComponent
   ]
 })
 

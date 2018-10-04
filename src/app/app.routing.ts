@@ -70,6 +70,11 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard], //added canActivate and AuthGuard service
         loadChildren: './sbr/components/components.module#ComponentsModule'
     }
+    , {
+        path: 'consultas',
+        canActivate: [AuthGuard], //added canActivate and AuthGuard service
+        loadChildren: './sbr/components/components.module#ComponentsModule'
+    }
   ]}, {
       path: '',
       component: AuthLayoutComponent,

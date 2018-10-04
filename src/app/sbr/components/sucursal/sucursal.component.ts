@@ -165,7 +165,7 @@ export class SucursalComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 5000,
+        timer: 2000,
         placement: {
           from: from,
           align: align
