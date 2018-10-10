@@ -7,6 +7,7 @@ import { RemitoSucursalModel } from '../../models/remitoSucursal';
 import { SucursalService } from '../../services/sucursal.service';
 import { Login } from '../../models/login';
 import { DetalleIngresoSucursal } from '../../models/detalleIngresoSucursal';
+import { Time } from '../../models/time';
 
 declare const $: any;
 
@@ -18,8 +19,9 @@ declare const $: any;
 
 })
 export class RemitoSucursalComponent implements OnInit {
+  public time: number;
 
-  constructor(private _RemitoSucursalService: RemitoSucursalService, private _SucursalService: SucursalService, ) { }
+  constructor(private _RemitoSucursalService: RemitoSucursalService, private _SucursalService: SucursalService, ) { this.time = Time.time}
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -95,6 +97,7 @@ export class RemitoSucursalComponent implements OnInit {
           table.clear().draw();
           table.destroy();
           this.articulos = response;
+          console.log(this.articulos);
           this.dtTriggerrr.next();
         } else {
           this.showNotification('top', 'center', response.mensaje, 'warning');
@@ -115,7 +118,8 @@ export class RemitoSucursalComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align
@@ -182,16 +186,22 @@ export class RemitoSucursalComponent implements OnInit {
     // this.Articulo = new Articulo();
     // this.Articulo.promos = [];
     // this.selectPromoActive = false;
+    this.loginIngresa =  true;
+    this.FormActive = false;
     this.login = new Login();
     this.RemitoSucursal.detalle = [];
-
+    this.RemitoSucursal.deSucursal = this.deSucursalSelect;
+    this.RemitoSucursal.deSucursal_id =this.idSucursal;
   }
 
   public idSucursal;
+  public deSucursalSelect;
   public selectSucursal(sucursalId) {
     this.All(sucursalId.value);
     this.RemitoSucursal.deSucursal_id = sucursalId.value;
     this.RemitoSucursal.deSucursal = sucursalId.source.triggerValue;
+    this.deSucursalSelect = sucursalId.source.triggerValue;
+
     this.idSucursal = sucursalId.value;
     $("#myModalSucursal").modal("hide");
 

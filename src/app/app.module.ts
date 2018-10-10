@@ -8,8 +8,6 @@ import { CommonModule } from '@angular/common';
 import { AgmCoreModule } from '@agm/core';
 import { DragulaModule } from 'ng2-dragula';
 import { SortablejsModule } from 'angular-sortablejs';
-import { Select2Module } from 'ng2-select2';
-
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -122,7 +120,6 @@ export class MaterialModule { }
     DataTableModule,
     DataTablesModule,
     BrowserModule,
-    Select2Module,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck',
       libraries: ["places"]

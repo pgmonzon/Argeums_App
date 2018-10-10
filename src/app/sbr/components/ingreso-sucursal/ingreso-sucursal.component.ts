@@ -7,6 +7,7 @@ import { IngresoSucursal } from '../../models/ingresoSucursal';
 import { SucursalService } from '../../services/sucursal.service';
 import { Login } from '../../models/login';
 import { DetalleIngresoSucursal } from '../../models/detalleIngresoSucursal';
+import { Time } from '../../models/time';
 
 declare const $: any;
 
@@ -18,8 +19,9 @@ declare const $: any;
 
 })
 export class IngresoSucursalComponent implements OnInit {
+  public time: number;
 
-  constructor(private _IngresoSucursalService: IngresoSucursalService, private _SucursalService: SucursalService, ) { }
+  constructor(private _IngresoSucursalService: IngresoSucursalService, private _SucursalService: SucursalService, ) {this.time = Time.time }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -117,7 +119,8 @@ export class IngresoSucursalComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align
@@ -145,6 +148,7 @@ export class IngresoSucursalComponent implements OnInit {
       dom: 'Bfrtip',
       paging: false,
       searching: true,
+      order: [[ 0, "desc" ]],
 
 
       // Configure the buttons
@@ -186,14 +190,20 @@ export class IngresoSucursalComponent implements OnInit {
     // this.selectPromoActive = false;
     this.login = new Login();
     this.IngresoSucursal.detalle = [];
+    this.loginIngresa = true;
+    this.FormActive = true;
 
+    this.IngresoSucursal.sucursal = this.deSucursalSelect;
+    this.IngresoSucursal.sucursal_id =this.idSucursal;
   }
 
   public idSucursal;
+  public deSucursalSelect;
   public selectSucursal(sucursalId) {
     this.All(sucursalId.value);
     this.IngresoSucursal.sucursal_id = sucursalId.value;
     this.IngresoSucursal.sucursal = sucursalId.source.triggerValue;
+    this.deSucursalSelect = sucursalId.source.triggerValue;
     this.idSucursal = sucursalId.value;
     $("#myModalSucursal").modal("hide");
 

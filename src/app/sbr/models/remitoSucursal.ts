@@ -10,3 +10,4 @@ export class RemitoSucursalModel {
     public aSucursal: string;
     public detalle: Array<DetalleIngresoSucursal>;
 }
+

@@ -7,6 +7,7 @@ import { RemitoSucursalModel } from '../../models/remitoSucursal';
 import { SucursalService } from '../../services/sucursal.service';
 import { Login } from '../../models/login';
 import { DetalleIngresoSucursal } from '../../models/detalleIngresoSucursal';
+import { Time } from '../../models/time';
 
 declare const $: any;
 
@@ -18,8 +19,9 @@ declare const $: any;
 
 })
 export class RecepcionRemitoComponent implements OnInit {
+  public time: number;
 
-  constructor(private _RemitoRecepcionService: RemitoRecepcionService, private _SucursalService: SucursalService, ) { }
+  constructor(private _RemitoRecepcionService: RemitoRecepcionService, private _SucursalService: SucursalService, ) { this.time = Time.time }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -116,7 +118,8 @@ export class RecepcionRemitoComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align

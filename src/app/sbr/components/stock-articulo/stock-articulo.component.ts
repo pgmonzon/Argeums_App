@@ -9,19 +9,20 @@ import { StockService } from '../../services/stock.service';
 
 import swal from 'sweetalert2';
 import { RubroService } from '../../services/rubro.service';
+import { Time } from '../../models/time';
 
 declare const $: any;
+
 @Component({
   selector: 'app-stock-articulo',
   templateUrl: './stock-articulo.component.html',
   styleUrls: ['./stock-articulo.component.scss'],
-  providers: [ArticuloService, RubroService,StockService]
+  providers: [ArticuloService, RubroService, StockService]
 
 })
 export class StockArticuloComponent implements OnInit {
-
-  
-  constructor(private _ArticuloService: ArticuloService, private _Stock: StockService) { }
+  public time: number;
+  constructor(private _ArticuloService: ArticuloService, private _Stock: StockService) { this.time = Time.time }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -50,8 +51,10 @@ export class StockArticuloComponent implements OnInit {
 
 
   }
- 
+
   public articulos;
+
+
   public All() {
     this._ArticuloService.getAll(this.identity.token).subscribe(
       response => {
@@ -59,8 +62,20 @@ export class StockArticuloComponent implements OnInit {
           var table = $('#first-table').DataTable();
           table.clear().draw();
           table.destroy();
+
           this.articulos = response;
-          console.log(response);
+          this.articulos.sort(function (a, b) {
+            const genreA = a.articulo.toUpperCase();
+            const genreB = b.articulo.toUpperCase();
+
+            let comparison = 0;
+            if (genreA > genreB) {
+              comparison = 1;
+            } else if (genreA < genreB) {
+              comparison = -1;
+            }
+            return comparison;
+          });
 
           this.dtTriggerrr.next();
           $("#myModalSelect").modal("show");
@@ -84,7 +99,8 @@ export class StockArticuloComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align
@@ -147,15 +163,15 @@ export class StockArticuloComponent implements OnInit {
   public ArticuloStock;
   selectAriculo(value) {
     console.log(value.value);
-    this._Stock.getAllArticulos(this.identity.token,value.value).subscribe(
+    this._Stock.getAllArticulos(this.identity.token, value.value).subscribe(
       response => {
 
         if (response.estado != "ERROR") {
           var table = $('#first-table').DataTable();
           table.clear().draw();
           table.destroy();
-          this.ArticuloStock=response;
-
+          this.ArticuloStock = response;
+          console.log(this.ArticuloStock);
           this.dtTriggerrr.next();
           $("#myModalSelect").modal("hide");
 

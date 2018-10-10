@@ -42,7 +42,7 @@
                     </div>
                   </form>
                 </div>
-                <div *ngIf="FormActive" class="card">
+                <div *ngIf="FormActive && loginIngresa == false " class="card">
                   <h4 class="modal-title"> Ingreso a Sucursal</h4>
                   <form #formCategoria="ngForm" (ngSubmit)="onSubmit()" class="form">
                     <div class=" card-login card-hidden">
@@ -73,7 +73,7 @@
                               placeholder="Aticulo..." disabled />
                           </div>
                           <div class="col-md-6 ">
-                            <input  #cantidad="ngModel" name="cantidad" [(ngModel)]="DetalleIngresoSucursal.cantidad" step="0.00001" min="0" type="number"
+                            <input  #cantidad="ngModel" name="cantidad" [(ngModel)]="DetalleIngresoSucursal.cantidad"  min="0" type="number"
                               oninput="validity.valid||(value='');" class="form-control text-center" placeholder="Cantidad..." cantidad="true" required
                             />
                             <p for="" *ngIf="DetalleIngresoSucursal.cantidad <= 0" class="text-center text-danger">Ingrese una cantidad mayor a 0</p>
@@ -132,7 +132,7 @@
                     </div>
                   </form>
                 </div>
-                <div *ngIf="loginRecibe" class="card">
+                <div *ngIf="FormActive==false && loginIngresa == false" class="card">
                   <h4 class="modal-title"> ¿Quién recibe la mercadería?</h4>
 
                   <form #formRecibe="ngForm" (ngSubmit)="onSubmitRecibe()" class="form">

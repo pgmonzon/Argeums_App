@@ -11,6 +11,7 @@ import swal from 'sweetalert2';
 import { RubroService } from '../../services/rubro.service';
 
 declare const $: any;
+import { Time } from '../../models/time';
 
 @Component({
   selector: 'app-stock-sucursal',
@@ -21,8 +22,9 @@ declare const $: any;
 })
 export class StockSucursalComponent implements OnInit {
 
- 
-  constructor(private _SucursalService: SucursalService, private _Stock: StockService) { }
+  public time: number;
+
+  constructor(private _SucursalService: SucursalService, private _Stock: StockService) {this.time = Time.time  }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -79,7 +81,8 @@ export class StockSucursalComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align

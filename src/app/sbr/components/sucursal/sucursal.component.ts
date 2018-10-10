@@ -5,6 +5,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { SucursalService } from '../../services/sucursal.service';
 import { Sucursal } from '../../models/sucursal';
 import swal from 'sweetalert2';
+import { Time } from '../../models/time';
 
 declare const $: any;
 
@@ -16,8 +17,9 @@ declare const $: any;
 
 })
 export class SucursalComponent implements OnInit {
+  public time: number;
 
-  constructor(private _SucursalService: SucursalService) { }
+  constructor(private _SucursalService: SucursalService) {this.time = Time.time }
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   private identity;
@@ -165,7 +167,8 @@ export class SucursalComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align

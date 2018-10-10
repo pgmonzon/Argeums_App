@@ -21,7 +21,7 @@ export class ArticuloService {
 
   getAll(token) {
     this.headers.set('Authorization', token)
-    return this._http.post(this.url + 'sbrArticulos/-articulo/9999', {"articulo": ""}, { headers: this.headers })
+    return this._http.post(this.url + 'sbrArticulos/articulo/9999', {"articulo": ""}, { headers: this.headers })
       .map(res => res.json());
   }
 

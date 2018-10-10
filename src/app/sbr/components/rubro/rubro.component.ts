@@ -5,6 +5,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { RubroService } from '../../services/rubro.service';
 import { Rubro } from '../../models/rubro';
 import swal from 'sweetalert2';
+import { Time } from '../../models/time';
 
 declare const $: any;
 
@@ -16,8 +17,9 @@ declare const $: any;
 
 })
 export class RubroComponent implements OnInit {
+  public time: number;
 
-  constructor(private _RubroService: RubroService) { }
+  constructor(private _RubroService: RubroService) { this.time = Time.time }
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   private identity;
@@ -164,7 +166,8 @@ export class RubroComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align

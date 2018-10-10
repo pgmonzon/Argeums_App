@@ -19,7 +19,7 @@
               </div>
               <div class="modal-body">
                 <div *ngIf="loginIngresa" class="card">
-                  <h4 class="modal-title"> Ingrese su cuenta</h4>
+                  <h4 class="modal-title"> ¿Quién envía la mercadería?</h4>
 
                   <form #formLogin="ngForm" (ngSubmit)="onSubmitLogin()" class="form">
                     <br>
@@ -92,7 +92,7 @@
                               placeholder="Aticulo..." disabled />
                           </div>
                           <div class="col-md-6 ">
-                            <input #cantidad="ngModel" name="cantidad" [(ngModel)]="DetalleIngresoSucursal.cantidad" step="0.00001" min="0" type="number"
+                            <input #cantidad="ngModel" name="cantidad" [(ngModel)]="DetalleIngresoSucursal.cantidad"  min="0" type="number"
                               oninput="validity.valid||(value='');" class="form-control text-center" placeholder="Cantidad..."
                               cantidad="true" required />
                             <p for="" *ngIf="DetalleIngresoSucursal.cantidad <= 0" class="text-center text-danger">Ingrese una cantidad mayor a 0</p>
@@ -233,7 +233,7 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -276,7 +276,7 @@
   
               </div>
             </div>
-          </div>
+          </div> -->
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-rose card-header-icon">
@@ -311,7 +311,7 @@
                       <td style="cursor: pointer;" data-toggle="modal">{{row.aSucursal}}</td>
                       <td style="cursor: pointer;" data-toggle="modal">{{row.recibio}}</td>
                       <td class="text-center" *ngIf="row.estado == 'Enviado'">
-                        <span (click)="guardarId(row.id)" style="cursor: pointer;"  class="text-success" data-toggle="modal" data-target="#Confirmar">Confirmar</span>
+                        <span (click)="guardarId(row.id)"   class="text-success" data-toggle="modal" data-target="#Confirmar">Confirmar</span>
                       </td>
                       <td class="text-center" *ngIf="row.estado != 'Enviado'">
                        <span style="cursor: pointer;"   [ngClass]="{'text-success':row.estado=='Aceptado', 'text-danger': row.estado=='Rechazado', 'text-warning': row.estado=='Cancelado'}" >{{row.estado}}</span>

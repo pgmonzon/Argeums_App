@@ -12,13 +12,20 @@ import { RemitoSucursalComponent } from './remito-sucursal/remito-sucursal.compo
 import { RecepcionRemitoComponent } from './recepcion-remito/recepcion-remito.component';
 import { StockArticuloComponent } from './stock-articulo/stock-articulo.component';
 import { StockSucursalComponent } from './stock-sucursal/stock-sucursal.component';
+import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(ComponentsRoutes),
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule
   ],
   declarations: [
 

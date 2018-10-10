@@ -5,10 +5,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { ArticuloService } from '../../services/articulo.service';
 import { Articulo } from '../../models/articulo';
 import { Promo } from '../../models/promo';
-
 import swal from 'sweetalert2';
 import { RubroService } from '../../services/rubro.service';
-
+import { Time } from '../../models/time';
 declare const $: any;
 
 @Component({
@@ -19,8 +18,9 @@ declare const $: any;
 
 })
 export class ArticuloComponent implements OnInit {
+  public time: number;
 
-  constructor(private _ArticuloService: ArticuloService, private _RubroService: RubroService) { }
+  constructor(private _ArticuloService: ArticuloService, private _RubroService: RubroService) {this.time = Time.time }
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -179,7 +179,8 @@ export class ArticuloComponent implements OnInit {
       message: text
     }, {
         type: color,
-        timer: 2000,
+        timer: this.time,
+        delay: this.time,
         placement: {
           from: from,
           align: align
