@@ -114,6 +114,12 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
 
     }
     console.log(this.liquidaciones);
+   
+    this.liquidaciones.iva105=parseFloat($('#iva105').val());
+    this.liquidaciones.iva21=parseFloat($('#iva21').val());
+    this.liquidaciones.neto=parseFloat($('#neto').val());
+    this.liquidaciones.total=parseFloat($('#total').val()) ;
+    this.liquidaciones.liquidacion=0;
     this._LiquidacionService.crear(this.liquidaciones, this.identity.token).subscribe(
       response => {
         console.log(response);
@@ -178,6 +184,7 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
     this._LiquidacionService.getTransportistaAll(this.identity.token).subscribe(
       response => {
         this.transportistaAll = response;
+        console.log(this.transportistaAll);
       },
       error => {
         this.errorMessage = <any>error;
