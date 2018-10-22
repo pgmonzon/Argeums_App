@@ -389,10 +389,11 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
   }
 
   public viajesFactArray = [];
-  public agregarFactura(id, fechaHora, recorrido, valor, deviceValue) {
+  public agregarFactura(id, fechaHora, recorrido, valor,peajes, deviceValue) {
+    console.log(peajes);
     if (deviceValue.target.checked) {
-      this.viajesFactArray.push({ 'viaje_id': id, 'fechaHora': fechaHora, 'recorrido': recorrido, 'valor': valor });
-      this.tablatotal = this.tablatotal + valor;
+      this.viajesFactArray.push({ 'viaje_id': id, 'fechaHora': fechaHora, 'recorrido': recorrido, 'valor': valor +peajes});
+      this.tablatotal = this.tablatotal + valor+ peajes;
       if (this.tipofactura == "A") {
         $('#iva105').val(0);
         $('#iva21').val(this.tablatotal * 0.21);
@@ -406,7 +407,7 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
         $('#total').val(this.tablatotal);
       }
     } else {
-      this.tablatotal = this.tablatotal - valor;
+      this.tablatotal = this.tablatotal - valor - peajes;
 
       for (let index = 0; index < this.viajesFactArray.length; index++) {
         if (id == this.viajesFactArray[index].viaje_id) {

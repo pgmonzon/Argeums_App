@@ -99,6 +99,7 @@
                             <th>FechaHora</th>
                             <th>Recorrido</th>
                             <th>Costo</th>
+                            <th>Peaje</th>
                             <th>Seleccionar</th>
 
                           </tr>
@@ -108,10 +109,12 @@
                             <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
                             <td> {{row.recorrido}}</td>
                             <td>${{row.costoViaje}}</td>
+                            <td>${{row.peajes}}</td>
+
                             <th class="text-center">
                               <div class="form-check text-center">
                                 <label class="form-check-label text-center">
-                                  <input class="form-check-input text-center" (click)="agregarFactura(row.id,row.fechaHora,row.recorrido,row.costoViaje,$event)"
+                                  <input class="form-check-input text-center" (click)="agregarFactura(row.id,row.fechaHora,row.recorrido,row.costoViaje,row.peajes,$event)"
                                     type="checkbox" value="">
                                   <span class="form-check-sign text-center">
                                     <span class="check text-center"></span>

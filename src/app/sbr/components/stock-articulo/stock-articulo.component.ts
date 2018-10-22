@@ -162,8 +162,8 @@ export class StockArticuloComponent implements OnInit {
 
   public ArticuloStock;
   selectAriculo(value) {
-    console.log(value.value);
-    this._Stock.getAllArticulos(this.identity.token, value.value).subscribe(
+    console.log(value.target.value);
+    this._Stock.getAllArticulos(this.identity.token, value.target.value).subscribe(
       response => {
 
         if (response.estado != "ERROR") {

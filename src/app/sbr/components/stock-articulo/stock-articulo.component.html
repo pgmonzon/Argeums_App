@@ -15,8 +15,14 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-6 offset-3">
-                    <mat-form-field>
+                    <select class="form-control" name="" id="" (change)="selectAriculo($event)">
+                          <option  *ngFor="let row of articulos " value="{{row.id}}">                        
+                                  {{ row.articulo }}
+                            </option>
+                    </select>
+                    <!-- <mat-form-field>
                       <mat-select (change)="selectAriculo($event)" placeholder="Artículo">
+
                         <div *ngFor="let row of articulos ">
                           <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;"
                             [value]="row.id" disabled>
@@ -27,7 +33,7 @@
                           </mat-option>
                         </div>
                       </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
                   </div>
                 </div>
