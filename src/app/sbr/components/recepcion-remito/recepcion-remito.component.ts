@@ -90,12 +90,13 @@ export class RecepcionRemitoComponent implements OnInit {
   }
   public articulos;
   All(idSucursal) {
+    console.log(idSucursal);
     this._RemitoRecepcionService.getAll(idSucursal, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
-          var table = $('#first-table').DataTable();
-          table.clear().draw();
-          table.destroy();
+          // var table = $('#first-table').DataTable();
+          // table.clear().draw();
+          //  table.destroy();
           this.articulos = response;
           console.log(response);
           this.dtTriggerrr.next();
@@ -201,10 +202,20 @@ export class RecepcionRemitoComponent implements OnInit {
 
   }
   public confirmarOrechazar=false;
+  
+  public user={
+    recibio_id:null,
+    recibio:null
+  };
+ 
   public onSubmitLogin() {
     this._RemitoRecepcionService.checkUser(this.login, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
+          this.user.recibio_id=response.id;
+          this.user.recibio=response.usuario;
+          console.log(this.user);
+
           this.loginIngresa=false;
           this.confirmarOrechazar=true;
         } else {
@@ -326,7 +337,7 @@ export class RecepcionRemitoComponent implements OnInit {
 
   }
   CancelarRemito(){
-    this._RemitoRecepcionService.cancelarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.cancelarRemito(this.idRemito,this.user, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
@@ -347,7 +358,7 @@ export class RecepcionRemitoComponent implements OnInit {
   }
 
   Confirmar(){
-    this._RemitoRecepcionService.aceptarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.aceptarRemito(this.idRemito,this.user, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');
@@ -367,7 +378,7 @@ export class RecepcionRemitoComponent implements OnInit {
     );
   }
   Cancelar(){
-    this._RemitoRecepcionService.rechazarRemito(this.idRemito, this.identity.token).subscribe(
+    this._RemitoRecepcionService.rechazarRemito(this.idRemito,this.user, this.identity.token).subscribe(
       response => {
         if (response.estado = "OK") {
           this.showNotification('top', 'center', response.mensaje, 'success');

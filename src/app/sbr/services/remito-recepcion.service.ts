@@ -53,21 +53,21 @@ export class RemitoRecepcionService {
     return this._http.get(this.url + 'sbrArticuloCodBarras/'+codigo, {headers: this.headers})
                     .map(res => res.json());
   }
-  cancelarRemito(docID, token) {
+  cancelarRemito(docID,user, token) {
     this.headers.set('Authorization', token)
-    return this._http.put(this.url + 'sbrRemitoSucursalCancelar/' + docID,{}, { headers: this.headers })
+    return this._http.put(this.url + 'sbrRemitoSucursalCancelar/' + docID,user, { headers: this.headers })
       .map(res => res.json());
   }
   
-  aceptarRemito(docID, token) {
+  aceptarRemito(docID,user, token) {
     this.headers.set('Authorization', token)
-    return this._http.put(this.url + 'sbrRemitoSucursalAceptar/' + docID,{}, { headers: this.headers })
+    return this._http.put(this.url + 'sbrRemitoSucursalAceptar/' + docID,user, { headers: this.headers })
       .map(res => res.json());
   }
 
-  rechazarRemito(docID, token) {
+  rechazarRemito(docID,user, token) {
     this.headers.set('Authorization', token)
-    return this._http.put(this.url + 'sbrRemitoSucursalRechazar/' + docID,{}, { headers: this.headers })
+    return this._http.put(this.url + 'sbrRemitoSucursalRechazar/' + docID,user, { headers: this.headers })
       .map(res => res.json());
   }
 
