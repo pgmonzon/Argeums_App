@@ -437,6 +437,7 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
     this._LiquidacionService.getViajeExel(id, this.identity.token).subscribe(
       response => {
         this.verviajesFacturas = response;
+        console.log(this.verviajesFacturas);
       },
       error => {
         this.errorMessage = <any>error;

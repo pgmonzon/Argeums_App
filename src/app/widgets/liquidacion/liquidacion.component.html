@@ -173,8 +173,8 @@
                     <tr *ngFor="let row of verviajesFacturas">
                       <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
                       <td> {{row.recorrido}}</td>
-                      <td>{{row.peajes}}</td>
-                      <td> ${{row.valor}}</td>
+                      <td>$ {{row.peajes}}</td>
+                      <td> ${{row.costoViaje}}</td>
 
                     </tr>
 
