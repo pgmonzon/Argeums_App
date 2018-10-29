@@ -164,6 +164,7 @@
                     <tr>
                       <th>FechaHora</th>
                       <th>Recorrido</th>
+                      <th>Peaje</th>
                       <th>Costo</th>
 
                     </tr>
@@ -172,6 +173,7 @@
                     <tr *ngFor="let row of verviajesFacturas">
                       <td> {{row.fechaHora | date :'dd-MM-yy HH:mma'}}</td>
                       <td> {{row.recorrido}}</td>
+                      <td>{{row.peajes}}</td>
                       <td> ${{row.valor}}</td>
 
                     </tr>
@@ -208,6 +210,7 @@
                             <th>Recorrido</th>
                             <th>Liquidacion</th>
                             <th>Kilometraje</th>
+                            <th>Peajes</th>
                             <th>CostoViaje</th>
       
                           </tr>
@@ -224,6 +227,7 @@
                             <td> {{row.recorrido}}</td>
                             <td> {{row.liquidacion}}</td>
                             <td> {{row.kilometraje}}</td>
+                            <td>{{row.peajes}}</td>
                             <td> {{row.costoViaje}}</td>
     
                           </tr>
@@ -286,7 +290,7 @@
                       <th class="text-center">ver</th>
                       <th class="text-center">factura</th>
 
-                      <th class="text-center">Exel </th>
+                      <th class="text-center">Excel </th>
                     </tr>
                   </thead>
                   <tfoot *ngIf="donttable != false">

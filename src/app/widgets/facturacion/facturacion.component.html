@@ -373,29 +373,7 @@
                                   </tr>
 
                                 </tbody>
-                                <!-- <tfoot>
-                                  <tr>
-                                    <th>Campo obligatorio FAV=Factura Cuenta Corriente NCV=Nota de Crédito NDV=Nota de Débito FVC=Factura Contado</th>
-                                    <th>Campo obligatorio Ingresar un solo carácter con la letra A</th>
-                                    <th> B</th>
-                                    <th>C</th>
-                                    <th>E</th>
-                                    <th> Z o M</th>
-                                    <th>Campo obligatorio (salvo que se complete el CUIT) Razán Social del cliente tal como está cargado en Colppy . </th>
-                                    <th>Campo obligatorio (salvo que se complete la Razán Social)   </th>
-                                    <th>Campo obligatorio Formato 0000-00000000</th>
-                                    <th>Campo obligatorio  Formato  dd-mm-aaaa</th>
-                                    <th>Campo obligatorio  Formato  dd-mm-aaaa</th>
-                                    <th>Límite 100 Caracteres</th>
-                                    <th>Campo obligatorio Numérico 2 (dos) decimales. Debe ser igual a la suma de los importes Netos més IVA más Percepciones</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                    <th>Numúrico 2 (dos) decimales</th>
-                                  </tr>
-                                </tfoot> -->
+                      
                             </table>
                         </div>
                     </div>
@@ -434,7 +412,7 @@
                       <th class="text-center">total</th>
                       <th class="text-center">cuentaIngreso</th>
                       <th class="text-center">viajesFact</th>
-                      <th>Exel</th>
+                      <th>Excel</th>
                     </tr>
                   </thead>
                   <tfoot *ngIf="donttable != false">
@@ -452,7 +430,7 @@
                       <th class="text-center">total</th>
                       <th class="text-center">cuentaIngreso</th>
                       <th class="text-center">viajesFact</th>
-                      <th>Exel</th>
+                      <th>Excel</th>
                     </tr>
                   </tfoot>
                   <tbody *ngIf="donttable != false">
@@ -472,7 +450,7 @@
                       <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="verviajeFact(row.id)" data-target="#myModalVer">
                       ver </td>
                       <td class="text-center text-success" style="cursor: pointer;"  (click)="getExport(row.id)" data-toggle="modal" data-target="#modalexoport">
-                          Exel
+                        Excel
                       </td>
                     </tr>
                   </tbody>

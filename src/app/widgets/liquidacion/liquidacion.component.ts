@@ -371,6 +371,7 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
           this.facturasViajes = response;
           this.tipofactura = response.factura;
           this.tablatotal = 0;
+          this.viajesFactArray = [];
 
         } else {
           console.log(response);
@@ -432,12 +433,17 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
   public verviajesFacturas;
   public verviajeFact(id) {
     this.verviajesFacturas = [];
-    this.autorizacionArray.forEach(element => {
-      if (element.id == id) {
-        this.verviajesFacturas = element.viajesLiq;
 
-      }
-    });
+    this._LiquidacionService.getViajeExel(id, this.identity.token).subscribe(
+      response => {
+        this.verviajesFacturas = response;
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      });
+  
 
   }
   public idLiquidacion;
@@ -480,8 +486,6 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
         table.destroy();
         this.dtTrigger.next();
         this.exportTable = response;
-
-
       },
       error => {
         this.errorMessage = <any>error;

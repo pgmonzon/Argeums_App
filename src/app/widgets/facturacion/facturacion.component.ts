@@ -343,8 +343,8 @@ export class FacturacionComponent implements OnInit {
     this.clienteAll.forEach(element => {
       if(deviceValue.value==element.id){
         $('#cuitjquery').val(element.cuit);
-        console.log(element);
        this.factura.cuit=element.cuit;
+       this.viajesFactArray = [];
 
       }
     });
