@@ -14,6 +14,7 @@ import { StockArticuloComponent } from './stock-articulo/stock-articulo.componen
 import { StockSucursalComponent } from './stock-sucursal/stock-sucursal.component';
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { VentasComponent } from './ventas/ventas.component';
 
 
 @NgModule({
@@ -43,7 +44,9 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
       StockArticuloComponent,
 
-      StockSucursalComponent
+      StockSucursalComponent,
+
+      VentasComponent
   ]
 })
 

@@ -1,0 +1,45 @@
+
+     
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 1000px !important;
+        margin: 1.75rem auto;
+    }
+}
+.modal-dialog .modal-body {
+
+    padding-left: 1px !important;
+}
+
+.pading{
+    padding-right: 610px !important;
+
+}
+
+.table-responsive {
+    display: table;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
+@media only screen and (max-width: 700px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
+
+.mat-calendar-period-button{
+    display: none !important;
+}
+
+.mat-calendar-controls{
+    display: none !important;
+
+}

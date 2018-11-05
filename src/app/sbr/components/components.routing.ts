@@ -7,6 +7,8 @@ import { RemitoSucursalComponent } from './remito-sucursal/remito-sucursal.compo
 import { RecepcionRemitoComponent } from './recepcion-remito/recepcion-remito.component';
 import { StockArticuloComponent } from './stock-articulo/stock-articulo.component';
 import { StockSucursalComponent } from './stock-sucursal/stock-sucursal.component';
+import { VentasComponent } from './ventas/ventas.component';
+
 export const ComponentsRoutes: Routes = [
  
     {
@@ -69,6 +71,14 @@ export const ComponentsRoutes: Routes = [
         children: [ {
             path: 'sbrStockSucursal',
             component: StockSucursalComponent
+        }]
+    }
+    ,
+    {
+        path: '',
+        children: [ {
+            path: 'sbrVentas',
+            component: VentasComponent
         }]
     }
 ];

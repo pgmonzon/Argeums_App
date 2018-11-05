@@ -3,8 +3,9 @@
     <div class="row">
       <div class="col-md-12 text-center">
 
-        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button class="btn bg-success "
-          style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
+        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button
+          class="btn bg-success " style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal">
+          Agregá
           <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
         </button>
 
@@ -25,9 +26,11 @@
                       <div class="row">
                         <div class="col-md-6 offset-3">
                           <mat-form-field>
-                            <mat-select (change)="selectRubro($event)" placeholder="Rubro" #rubro_id="ngModel" name="rubro_id" [(ngModel)]="Articulo.rubro_id">
+                            <mat-select (change)="selectRubro($event)" placeholder="Rubro" #rubro_id="ngModel" name="rubro_id"
+                              [(ngModel)]="Articulo.rubro_id">
                               <div *ngFor="let row of rubros">
-                                <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="row.id" disabled>
+                                <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;"
+                                  [value]="row.id" disabled>
                                   <p> {{ row.rubro}} (inactivo)</p>
                                 </mat-option>
                                 <mat-option *ngIf=" row.activo==true" [value]="row.id">
@@ -41,28 +44,30 @@
                     </div>
                     <div class="row">
                       <div class="col-md-6 offset-3">
-                        <input #articulo="ngModel" name="articulo" [(ngModel)]="Articulo.articulo" type="text" class="form-control text-center" placeholder="Articulo...">
+                        <input #articulo="ngModel" name="articulo" [(ngModel)]="Articulo.articulo" type="text" class="form-control text-center"
+                          placeholder="Articulo...">
                       </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <input #codigoBarras="ngModel" name="codigoBarras" [(ngModel)]="Articulo.codigoBarras" type="text" class="form-control text-center"
-                              placeholder="Codigo Barras...">
-                          </div>
+                      <div class="col-md-6 offset-3">
+                        <input #codigoBarras="ngModel" name="codigoBarras" [(ngModel)]="Articulo.codigoBarras" type="text"
+                          class="form-control text-center" placeholder="Codigo Barras...">
+                      </div>
                     </div>
                     <br>
                     <div class="row">
                       <div class="col-md-6 offset-3">
-                        <input #precio="ngModel" name="precio" [(ngModel)]="Articulo.precio"  min="0" type="number" oninput="validity.valid||(value='');"
-                          class="form-control text-center" placeholder="Precio...">
+                        <input #precio="ngModel" name="precio" [(ngModel)]="Articulo.precio" min="0" type="number"
+                          oninput="validity.valid||(value='');" class="form-control text-center" placeholder="Precio...">
                       </div>
                     </div>
                     <br>
                     <div class="row">
                       <div class="col-md-6 offset-3">
                         <mat-form-field>
-                          <mat-select (change)="selectPromo($event)" placeholder="Promo" #esPromo="ngModel" name="esPromo" [(ngModel)]="Articulo.esPromo">
+                          <mat-select (change)="selectPromo($event)" placeholder="Promo" #esPromo="ngModel" name="esPromo"
+                            [(ngModel)]="Articulo.esPromo">
                             <mat-option [value]="true">
                               <p> Si</p>
                             </mat-option>
@@ -80,9 +85,11 @@
                           <div class="row">
                             <div class="col-md-6 offset-3">
                               <mat-form-field>
-                                <mat-select (change)="selectArticulo($event)" placeholder="Articulos" #rubro_id="ngModel" name="rubro_id" [(ngModel)]="Promo.articulo_id">
+                                <mat-select (change)="selectArticulo($event)" placeholder="Articulos" #rubro_id="ngModel"
+                                  name="rubro_id" [(ngModel)]="Promo.articulo_id">
                                   <div *ngFor="let row of articulos">
-                                    <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="row.id" disabled>
+                                    <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;"
+                                      [value]="row.id" disabled>
                                       <p> {{ row.articulo}} (inactivo)</p>
                                     </mat-option>
                                     <mat-option *ngIf=" row.activo==true" [value]="row.id">
@@ -95,8 +102,8 @@
                           </div>
                           <div class="row">
                             <div class="col-md-6 offset-3">
-                              <input #cantidad="ngModel" name="cantidad" [(ngModel)]="Promo.cantidad" min="0" type="number" oninput="validity.valid||(value='');"
-                                class="form-control text-center" placeholder="cantidad...">
+                              <input #cantidad="ngModel" name="cantidad" [(ngModel)]="Promo.cantidad" min="0" type="number"
+                                oninput="validity.valid||(value='');" class="form-control text-center" placeholder="cantidad...">
                             </div>
                           </div>
                           <br>
@@ -108,36 +115,37 @@
                         </form>
                       </div>
                       <div class="row">
-                          <div class="col-md-12 offset-6">
-                            
-                              <table class="table table-responsive">
-                                <thead>
-                                  <tr>
-                                    <th>Articulo</th>
-                                    <th>Cantidad</th>
-                                    <th>Eliminar</th>
-      
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let row of Articulo.promos;let i = index">
-                                    <td>
-                                      {{row.articulo}}
-                                    </td>
-                                    <td>
-                                      {{row.cantidad}}
-                                    </td>
-                                    <td>
-                                      <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)" class="btn btn-link btn-danger btn-just-icon remove">
-                                        <i class="material-icons">delete</i>
-                                      </a>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                        <div class="col-md-12 offset-6">
+
+                          <table class="table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>Articulo</th>
+                                <th>Cantidad</th>
+                                <th>Eliminar</th>
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of Articulo.promos;let i = index">
+                                <td>
+                                  {{row.articulo}}
+                                </td>
+                                <td>
+                                  {{row.cantidad}}
+                                </td>
+                                <td>
+                                  <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)"
+                                    class="btn btn-link btn-danger btn-just-icon remove">
+                                    <i class="material-icons">delete</i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                 
+
                     </div>
                     <hr>
 
@@ -168,143 +176,148 @@
               </div>
               <div class="modal-body">
                 <form #formSucursalEdit="ngForm" (ngSubmit)="onEdit()" class="form">
-                    <div class=" card-login card-hidden">
-                        <div class="card-body ">
-                          <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                  <div class=" card-login card-hidden">
+                    <div class="card-body ">
+                      <!-- <p class="card-description text-center">Or Be Classical</p> -->
+                      <div class="row">
+                        <div class="col-md-6 offset-3">
+                          <mat-form-field>
+                            <mat-select (change)="selectRubro($event)" placeholder="Rubro" #rubro_id="ngModel" name="rubro_id"
+                              [(ngModel)]="Articulo.rubro_id">
+                              <div *ngFor="let row of rubros">
+                                <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;"
+                                  [value]="row.id" disabled>
+                                  <p> {{ row.rubro}} (inactivo)</p>
+                                </mat-option>
+                                <mat-option *ngIf=" row.activo==true" [value]="row.id">
+                                  <p> {{ row.rubro }}</p>
+                                </mat-option>
+                              </div>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 offset-3">
+                        <input #articulo="ngModel" name="articulo" [(ngModel)]="Articulo.articulo" type="text" class="form-control text-center"
+                          placeholder="Articulo...">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6 offset-3">
+                        <input #codigoBarras="ngModel" name="codigoBarras" [(ngModel)]="Articulo.codigoBarras" type="text"
+                          class="form-control text-center" placeholder="Codigo Barras...">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6 offset-3">
+                        <input #precio="ngModel" name="precio" [(ngModel)]="Articulo.precio" min="0" type="number"
+                          oninput="validity.valid||(value='');" class="form-control text-center" placeholder="Precio...">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6 offset-3">
+                        <mat-form-field>
+                          <mat-select (change)="selectPromo($event)" placeholder="Promo" #esPromo="ngModel" name="esPromo"
+                            [(ngModel)]="Articulo.esPromo">
+                            <mat-option [value]="true">
+                              <p> Si</p>
+                            </mat-option>
+                            <mat-option [value]="false">
+                              <p> No</p>
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row" *ngIf="selectPromoActive">
+                      <div class="col-md-12">
+                        <form #formPromo="ngForm" (ngSubmit)="onSubmitPromo()" class="form">
                           <div class="row">
                             <div class="col-md-6 offset-3">
                               <mat-form-field>
-                                <mat-select (change)="selectRubro($event)" placeholder="Rubro" #rubro_id="ngModel" name="rubro_id" [(ngModel)]="Articulo.rubro_id">
-                                  <div *ngFor="let row of rubros">
-                                    <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="row.id" disabled>
-                                      <p> {{ row.rubro}} (inactivo)</p>
+                                <mat-select (change)="selectArticulo($event)" placeholder="Articulos" #rubro_id="ngModel"
+                                  name="rubro_id" [(ngModel)]="Promo.articulo_id">
+                                  <div *ngFor="let row of articulos">
+                                    <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;"
+                                      [value]="row.id" disabled>
+                                      <p> {{ row.articulo}} (inactivo)</p>
                                     </mat-option>
                                     <mat-option *ngIf=" row.activo==true" [value]="row.id">
-                                      <p> {{ row.rubro }}</p>
+                                      <p> {{ row.articulo }}</p>
                                     </mat-option>
                                   </div>
                                 </mat-select>
                               </mat-form-field>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 offset-3">
-                            <input #articulo="ngModel" name="articulo" [(ngModel)]="Articulo.articulo" type="text" class="form-control text-center" placeholder="Articulo...">
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6 offset-3">
-                                <input #codigoBarras="ngModel" name="codigoBarras" [(ngModel)]="Articulo.codigoBarras" type="text" class="form-control text-center"
-                                  placeholder="Codigo Barras...">
-                              </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-6 offset-3">
-                            <input #precio="ngModel" name="precio" [(ngModel)]="Articulo.precio"  min="0" type="number" oninput="validity.valid||(value='');"
-                              class="form-control text-center" placeholder="Precio...">
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-6 offset-3">
-                            <mat-form-field>
-                              <mat-select (change)="selectPromo($event)" placeholder="Promo" #esPromo="ngModel" name="esPromo" [(ngModel)]="Articulo.esPromo">
-                                <mat-option [value]="true">
-                                  <p> Si</p>
-                                </mat-option>
-                                <mat-option [value]="false">
-                                  <p> No</p>
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <hr>
-                        <div class="row" *ngIf="selectPromoActive">
-                          <div class="col-md-12">
-                            <form #formPromo="ngForm" (ngSubmit)="onSubmitPromo()" class="form">
-                              <div class="row">
-                                <div class="col-md-6 offset-3">
-                                  <mat-form-field>
-                                    <mat-select (change)="selectArticulo($event)" placeholder="Articulos" #rubro_id="ngModel" name="rubro_id" [(ngModel)]="Promo.articulo_id">
-                                      <div *ngFor="let row of articulos">
-                                        <mat-option *ngIf=" row.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="row.id" disabled>
-                                          <p> {{ row.articulo}} (inactivo)</p>
-                                        </mat-option>
-                                        <mat-option *ngIf=" row.activo==true" [value]="row.id">
-                                          <p> {{ row.articulo }}</p>
-                                        </mat-option>
-                                      </div>
-                                    </mat-select>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6 offset-3">
-                                  <input #cantidad="ngModel" name="cantidad" [(ngModel)]="Promo.cantidad"  min="0" type="number" oninput="validity.valid||(value='');"
-                                    class="form-control text-center" placeholder="cantidad...">
-                                </div>
-                              </div>
-                              <br>
-                              <div class="row">
-                                <div class="col-md-12">
-                                  <input type="submit" value="Agregá" class="btn btn-success pull-center">
-                                </div>
-                              </div>
-                            </form>
-                          </div>
                           <div class="row">
-                            <div class="col-md-12 offset-6">
-                              <table class="table table-responsive">
-                                <thead>
-                                  <tr>
-                                    <th>Articulo</th>
-                                    <th>Cantidad</th>
-                                    <th>Eliminar</th>
-      
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let row of Articulo.promos;let i = index">
-                                    <td>
-                                      {{row.articulo}}
-                                    </td>
-                                    <td>
-                                      {{row.cantidad}}
-                                    </td>
-                                    <td>
-                                      <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)" class="btn btn-link btn-danger btn-just-icon remove">
-                                        <i class="material-icons">delete</i>
-                                      </a>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                            <div class="col-md-6 offset-3">
+                              <input #cantidad="ngModel" name="cantidad" [(ngModel)]="Promo.cantidad" min="0" type="number"
+                                oninput="validity.valid||(value='');" class="form-control text-center" placeholder="cantidad...">
                             </div>
-                            </div>
-                        </div>
-                        <hr>
-    
-                        <div class="row">
-                          <div class="col-md-4 offset-4">
-                            <input type="submit" value="Guarda" class="btn btn-success ">
-    
                           </div>
-                        </div>
-                        <div class="modal-footer">
-                          <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                          <br>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input type="submit" value="Agregá" class="btn btn-success pull-center">
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 offset-6">
+                          <table class="table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>Articulo</th>
+                                <th>Cantidad</th>
+                                <th>Eliminar</th>
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of Articulo.promos;let i = index">
+                                <td>
+                                  {{row.articulo}}
+                                </td>
+                                <td>
+                                  {{row.cantidad}}
+                                </td>
+                                <td>
+                                  <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="EliminarPromo(index)"
+                                    class="btn btn-link btn-danger btn-just-icon remove">
+                                    <i class="material-icons">delete</i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4 offset-4">
+                        <input type="submit" value="Guarda" class="btn btn-success ">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
+                    </div>
+                  </div>
                 </form>
               </div>
-
             </div>
           </div>
         </div>
-        <div class="modal fade" id="myModalPromo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModalPromo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -320,25 +333,25 @@
                       <!-- <p class="card-description text-center">Or Be Classical</p> -->
                       <div class="row">
                         <div class="col-md-6 offset-3">
-                            <table class="table table-responsive">
-                                <thead>
-                                  <tr>
-                                    <th>Articulo</th>
-                                    <th>Cantidad</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let row of Articulo.promos;let i = index">
-                                    <td>
-                                      {{row.articulo}}
-                                    </td>
-                                    <td>
-                                      {{row.cantidad}}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                        </div>               
+                          <table class="table table-responsive">
+                            <thead>
+                              <tr>
+                                <th>Articulo</th>
+                                <th>Cantidad</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of Articulo.promos;let i = index">
+                                <td>
+                                  {{row.articulo}}
+                                </td>
+                                <td>
+                                  {{row.cantidad}}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -387,8 +400,8 @@
                       <td style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEdit">{{row.rubro}}</td>
                       <td style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEdit">${{row.precio}}</td>
 
-                      <td class="text-success" *ngIf="row.esPromo == true" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id,row.articulo)"
-                        data-target="#myModalPromo">Ver Promo</td>
+                      <td class="text-success" *ngIf="row.esPromo == true" style="cursor: pointer;" data-toggle="modal"
+                        (click)="editar(row.id,row.articulo)" data-target="#myModalPromo">Ver Promo</td>
                       <td class="text-warning" *ngIf="row.esPromo == false" style="cursor: pointer;"> </td>
 
                       <td class="text-center" *ngIf="row.activo == true">
@@ -396,12 +409,12 @@
                       </td>
                       <td class="text-center" *ngIf="row.activo == false">
                         <i (click)="habilitar(row.id)" style="cursor: pointer;" class="material-icons text-danger">close</i>
-                        <td class="text-center">
-                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
-                            <i class="material-icons">delete</i>
-                          </a>
+                      <td class="text-center">
+                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                          <i class="material-icons">delete</i>
+                        </a>
 
-                        </td>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

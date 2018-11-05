@@ -133,7 +133,6 @@ export class LiquidacionComponent implements OnDestroy, OnInit {
         } else {
           this.showNotification('top', 'center', response.mensaje, 'warning');
 
-
         }
       },
       error => {
