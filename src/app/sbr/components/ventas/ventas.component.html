@@ -15,7 +15,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title"> Sucursal a la que ingresa la mercadería</h4>
+                <h4 class="modal-title">Sucursal que vende</h4>
                 <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -107,7 +107,7 @@
                 <div class="row">
                   <div class="col-md-6 offset-3">
                     <mat-form-field >
-                      <mat-select (change)="selectUser($event)" placeholder="Sucursales" >
+                      <mat-select (change)="selectUser($event)" placeholder="Vendedor" >
                         <div *ngFor="let user of users">
                           <mat-option [value]="user.id">
                             <p> {{ user.usuario }}</p>
@@ -123,7 +123,7 @@
                   <div class="col-md-6 offset-3">
                     <label for="">Codigo de barra</label>
                     <input id="codigoB" (change)="CodigoBarra($event)" type="text" class="form-control text-center"
-                      placeholder="" />
+                      placeholder=""  />
                   </div>
                 </div>
                 <br>
@@ -133,17 +133,17 @@
                     <div class="col-md-3 offset-2 ">
                         <label for="">Importe</label>
                         <input #importe="ngModel" name="importe" [(ngModel)]="venta.importe" type="number" class="form-control text-center"
-                          disabled />
+                          disabled  required/>
                       </div>
                   <div class="col-md-3">
                     <label for="">Descuento</label>
                     <input (keyup)="DescuentoChange($event)" #descuento="ngModel" name="descuento" [(ngModel)]="venta.descuento"
-                      type="number" class="form-control text-center" />
+                      type="number" class="form-control text-center" required />
                   </div>
                   <div class="col-md-3">
                       <label for="">Cobrado</label>
                       <input #cobrado="ngModel" name="cobrado" [(ngModel)]="venta.cobrado" type="number" class="form-control text-center"
-                        disabled />
+                        disabled required />
                     </div>
                 </div>
                 <br>
@@ -151,7 +151,7 @@
                 <div class="row">
                   <div class="col-md-6 offset-3">
                     <mat-form-field>
-                      <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago">
+                      <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago" required>
                         <mat-option *ngFor="let forma of formaPagoArray" [value]="forma.value">
                           {{ forma.viewValue }}
                         </mat-option>
@@ -162,7 +162,7 @@
               </div>
               <div class="row">
                 <div class="col-md-1 offset-5">
-                  <input type="submit" value="Creá" class="btn btn-success ">
+                  <input type="submit" value="Creá"  [disabled]="!formVenta.form.valid"class="btn btn-success ">
 
                 </div>
               </div>
@@ -196,7 +196,7 @@
                           <td>{{row.formaPago}}</td>
                           <td>{{row.vendedor}}</td>
                           <td>
-                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="deleteDetalle(i)"
+                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(i)" 
                               class="btn btn-link btn-danger btn-just-icon remove">
                               <i class="material-icons">delete</i>
                             </a>

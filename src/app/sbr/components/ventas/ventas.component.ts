@@ -8,6 +8,7 @@ import { SucursalService } from '../../services/sucursal.service';
 import { Time } from '../../models/time';
 import { VentasService } from '../../services/ventas.service';
 
+import swal from 'sweetalert2';
 
 declare const $: any;
 
@@ -112,6 +113,7 @@ export class VentasComponent implements OnInit {
     );
   }
   agregar(){
+    console.log(this.sucursal);
     this._VentasService.sbrVentas(this.sucursal, this.identity.token).subscribe(
       response => {
         this.All(this.sucursal.sucursal_id);
@@ -176,7 +178,7 @@ export class VentasComponent implements OnInit {
     this.venta.importe=null;
     this.venta.descuento=null;
     this.venta.cobrado=null;
-
+    this.venta.descuento=0;
 
   }
 
@@ -202,6 +204,7 @@ export class VentasComponent implements OnInit {
           this.venta.importe=response.precio;
           this.venta.sbrArticulo=response.articulo;
           this.venta.sbrArticulo_id=response.id;
+          this.venta.cobrado=response.precio;
         }
       },
       error => {
@@ -276,5 +279,25 @@ export class VentasComponent implements OnInit {
 
     };
   }
+  public showSwal(index) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
 
+      buttonsStyling: false
+    }).then((isConfirm) => {
+
+      if (isConfirm.value == true) {
+        this.deleteDetalle(index);
+
+      }
+    }
+    ).catch(swal.noop);
+  }
 }

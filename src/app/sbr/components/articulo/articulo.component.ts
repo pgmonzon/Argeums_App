@@ -206,7 +206,7 @@ export class ArticuloComponent implements OnInit {
     // dtElement: DataTableDirective;
     this.dtOptionss = {
       dom: 'Bfrtip',
-      paging: false,
+      paging: true,
       searching: true,
 
 
