@@ -106,8 +106,8 @@
 
                 <div class="row">
                   <div class="col-md-6 offset-3">
-                    <mat-form-field >
-                      <mat-select (change)="selectUser($event)" placeholder="Vendedor" >
+                    <mat-form-field>
+                      <mat-select (change)="selectUser($event)" placeholder="Vendedor">
                         <div *ngFor="let user of users">
                           <mat-option [value]="user.id">
                             <p> {{ user.usuario }}</p>
@@ -121,37 +121,42 @@
                 <br>
                 <div class="row">
                   <div class="col-md-6 offset-3">
-                    <label for="">Codigo de barra</label>
-                    <input id="codigoB" (change)="CodigoBarra($event)" type="text" class="form-control text-center"
-                      placeholder=""  />
+                    <label for="">Articulo</label>
+                    <!-- <input id="codigoB" (change)="CodigoBarra($event)" type="text" class="form-control text-center"
+                      placeholder="" /> -->
+                      <ng-multiselect-dropdown name="articulo" [placeholder]="'Articulo'" [data]="articulos" 
+                      [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onFilterChange)="onFilterChange($event)">
+                    </ng-multiselect-dropdown>
                   </div>
+     
                 </div>
                 <br>
-            
+
                 <br>
                 <div class="row">
-                    <div class="col-md-3 offset-2 ">
-                        <label for="">Importe</label>
-                        <input #importe="ngModel" name="importe" [(ngModel)]="venta.importe" type="number" class="form-control text-center"
-                          disabled  required/>
-                      </div>
+                  <div class="col-md-3 offset-2 ">
+                    <label for="">Importe</label>
+                    <input #importe="ngModel" name="importe" [(ngModel)]="venta.importe" type="number" class="form-control text-center"
+                      disabled required />
+                  </div>
                   <div class="col-md-3">
                     <label for="">Descuento</label>
                     <input (keyup)="DescuentoChange($event)" #descuento="ngModel" name="descuento" [(ngModel)]="venta.descuento"
                       type="number" class="form-control text-center" required />
                   </div>
                   <div class="col-md-3">
-                      <label for="">Cobrado</label>
-                      <input #cobrado="ngModel" name="cobrado" [(ngModel)]="venta.cobrado" type="number" class="form-control text-center"
-                        disabled required />
-                    </div>
+                    <label for="">Cobrado</label>
+                    <input #cobrado="ngModel" name="cobrado" [(ngModel)]="venta.cobrado" type="number" class="form-control text-center"
+                      disabled required />
+                  </div>
                 </div>
                 <br>
-      
+
                 <div class="row">
                   <div class="col-md-6 offset-3">
                     <mat-form-field>
-                      <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago" required>
+                      <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago"
+                        required>
                         <mat-option *ngFor="let forma of formaPagoArray" [value]="forma.value">
                           {{ forma.viewValue }}
                         </mat-option>
@@ -162,7 +167,7 @@
               </div>
               <div class="row">
                 <div class="col-md-1 offset-5">
-                  <input type="submit" value="Creá"  [disabled]="!formVenta.form.valid"class="btn btn-success ">
+                  <input type="submit" value="Creá" [disabled]="!formVenta.form.valid" class="btn btn-success ">
 
                 </div>
               </div>
@@ -196,8 +201,7 @@
                           <td>{{row.formaPago}}</td>
                           <td>{{row.vendedor}}</td>
                           <td>
-                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(i)" 
-                              class="btn btn-link btn-danger btn-just-icon remove">
+                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(i)" class="btn btn-link btn-danger btn-just-icon remove">
                               <i class="material-icons">delete</i>
                             </a>
                           </td>

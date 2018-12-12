@@ -70,4 +70,11 @@ export class SucursalService {
     return this._http.put(this.url + 'sbrSucursal/'+docID, sucursal, {headers: this.headers})
                     .map(res => res.json());
   }
+
+
+  findByArticulo(articulo,token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'sbrArticulos/articulo/100', {"articulo":articulo}, { headers: this.headers })
+      .map(res => res.json());
+  }
 }

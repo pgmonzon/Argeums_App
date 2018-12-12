@@ -15,6 +15,7 @@ import { StockSucursalComponent } from './stock-sucursal/stock-sucursal.componen
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { VentasComponent } from './ventas/ventas.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { VentasComponent } from './ventas/ventas.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    NgMultiSelectDropDownModule.forRoot()
+
   ],
   declarations: [
 

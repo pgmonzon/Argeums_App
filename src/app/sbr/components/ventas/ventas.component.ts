@@ -7,6 +7,7 @@ import { Venta } from '../../models/venta';
 import { SucursalService } from '../../services/sucursal.service';
 import { Time } from '../../models/time';
 import { VentasService } from '../../services/ventas.service';
+import { ArticuloService } from '../../services/articulo.service';
 
 import swal from 'sweetalert2';
 
@@ -16,7 +17,7 @@ declare const $: any;
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.scss'],
-  providers: [IngresoSucursalService, SucursalService,VentasService]
+  providers: [IngresoSucursalService, SucursalService,VentasService,ArticuloService]
 
 })
 export class VentasComponent implements OnInit {
@@ -31,9 +32,13 @@ export class VentasComponent implements OnInit {
   public users;
   dtTriggerrr: Subject<any> = new Subject();
   dtOptionss: any = {};
+  public articulos=[{id:0,articulo:"",codigoBarras:""}];
 
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
  
-  constructor(private _SucursalService: SucursalService,private _VentasService: VentasService ) { this.time = Time.time }
+  constructor(private _ArticuloService: ArticuloService,private _SucursalService: SucursalService,private _VentasService: VentasService ) { this.time = Time.time }
 
   ngOnInit() {
     this.identity = JSON.parse(localStorage.getItem('identity'));
@@ -44,7 +49,55 @@ export class VentasComponent implements OnInit {
       { value: 'Efectivo', viewValue: 'Efectivo' },
       { value: 'Tarjeta', viewValue: 'Tarjeta' },  
     ];
+
+
+
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'articulo',
+      selectAllText: 'Seleccionar todos',
+      unSelectAllText: 'Deseleccionar todos',
+      itemsShowLimit: 6,
+      allowSearchFilter: true,
+      searchPlaceholderText: 'Buscar',
+      closeDropDownOnSelection:true,
+      clearSearchFilter:true,
+      defaultOpen:true
+    };
+   // this.AllArticulos();
   }
+  onItemSelect(item: any) {
+    this.venta.sbrArticulo=item.articulo;
+    this.venta.sbrArticulo_id=item.id;
+     var codigoBarra=this.articulos.find(x => x.id === item.id).codigoBarras;
+    this.CodigoBarra(codigoBarra);
+
+
+  }
+
+
+  onFilterChange($event){
+    if($event.length > 0){
+      this._SucursalService.findByArticulo($event,this.identity.token).subscribe(
+        response => {
+          if (response.estado != "ERROR") {
+            this.articulos = response;
+          }
+        },
+        error => {
+          this.errorMessage = <any>error;
+          if (this.errorMessage != null) {
+          }
+        }
+      );
+    }else{
+     this.articulos=[{id:0,articulo:"",codigoBarras:""}];
+    }
+   
+  }
+
+
   
   GetSucursal() {
     this._SucursalService.getAll(this.identity.token).subscribe(
@@ -94,7 +147,6 @@ export class VentasComponent implements OnInit {
   All(idSucursal) {
     this._VentasService.getAll(idSucursal, this.identity.token).subscribe(
       response => {
-        console.log(response);
         if (response.estado != "ERROR") {
           var table = $('#first-table').DataTable();
           table.clear().draw();
@@ -113,7 +165,6 @@ export class VentasComponent implements OnInit {
     );
   }
   agregar(){
-    console.log(this.sucursal);
     this._VentasService.sbrVentas(this.sucursal, this.identity.token).subscribe(
       response => {
         this.All(this.sucursal.sucursal_id);
@@ -159,7 +210,6 @@ export class VentasComponent implements OnInit {
     this._VentasService.sbrVentasDetalleTraer(id, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
-          console.log(response);
           this.detallesArray=response;
         }
  
@@ -182,12 +232,11 @@ export class VentasComponent implements OnInit {
 
   }
 
-  onSubmitVenta(){
+  onSubmitVenta(){ 
     this._VentasService.sbrVentasDetalle(this.venta, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.newVenta(this.venta.sbrVentas_id);
-          $("#codigoB").val("");
         }
       },
       error => {
@@ -198,12 +247,12 @@ export class VentasComponent implements OnInit {
     );
   }
   public CodigoBarra(codigo) {
-    this._VentasService.getCodigoArticulo(codigo.target.value, this.identity.token).subscribe(
+    this._VentasService.getCodigoArticulo(codigo, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
           this.venta.importe=response.precio;
-          this.venta.sbrArticulo=response.articulo;
-          this.venta.sbrArticulo_id=response.id;
+          //this.venta.sbrArticulo=response.articulo;
+          //this.venta.sbrArticulo_id=response.id;
           this.venta.cobrado=response.precio;
         }
       },

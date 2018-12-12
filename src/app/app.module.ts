@@ -123,7 +123,8 @@ export class MaterialModule { }
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDlQrBuIX1ZWk7jtxyweWc3VMvQG7dtbck',
       libraries: ["places"]
-    })
+    }),
+
     
 
   ],
