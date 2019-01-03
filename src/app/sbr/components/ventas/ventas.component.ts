@@ -4,10 +4,13 @@ import 'rxjs/add/operator/map';
 import { DataTableDirective } from 'angular-datatables';
 import { IngresoSucursalService } from '../../services/ingreso-sucursal.service';
 import { Venta } from '../../models/venta';
+import { Gastos } from '../../models/Gastos';
+
 import { SucursalService } from '../../services/sucursal.service';
 import { Time } from '../../models/time';
 import { VentasService } from '../../services/ventas.service';
 import { ArticuloService } from '../../services/articulo.service';
+import { Login } from '../../models/login';
 
 import swal from 'sweetalert2';
 
@@ -29,6 +32,9 @@ export class VentasComponent implements OnInit {
   public sucursales;
   public sucursal={sucursal_id:null,sucursal:null};
   public venta=new Venta();
+  public gastos=new Gastos();
+  public login = new Login();
+
   public users;
   dtTriggerrr: Subject<any> = new Subject();
   dtOptionss: any = {};
@@ -44,7 +50,7 @@ export class VentasComponent implements OnInit {
     this.identity = JSON.parse(localStorage.getItem('identity'));
     this.GetSucursal();
     this.GetUsuarios();
-
+    this.getCuentasGastos();
     this.formaPagoArray = [
       { value: 'Efectivo', viewValue: 'Efectivo' },
       { value: 'Tarjeta', viewValue: 'Tarjeta' },  
@@ -205,7 +211,9 @@ export class VentasComponent implements OnInit {
   }
 
   public detallesArray=[];
-  newVenta(id){
+  public statusVenta;
+  newVenta(id,status){
+    this.statusVenta = status;
     this.detallesArray=[];
     this._VentasService.sbrVentasDetalleTraer(id, this.identity.token).subscribe(
       response => {
@@ -231,12 +239,35 @@ export class VentasComponent implements OnInit {
     this.venta.descuento=0;
 
   }
+  public detallesGastos=[];
+  newGastos(id,status){
+    this.statusVenta = status;
+    this.detallesGastos=[];
+    this._VentasService.sbrVentasGastosTraer(id, this.identity.token).subscribe(
+      response => {
+        if (response.estado != "ERROR") {
+          this.detallesGastos=response;
+        }
+ 
 
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+    this.gastos.sbrVentas_id=id;
+    this.gastos.sucursal_id=this.sucursal.sucursal_id;
+    this.gastos.sucursal=this.sucursal.sucursal;
+    this.gastos.importe=null;
+  }
+  //VENTAS
   onSubmitVenta(){ 
     this._VentasService.sbrVentasDetalle(this.venta, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
-          this.newVenta(this.venta.sbrVentas_id);
+          this.newVenta(this.venta.sbrVentas_id,this.statusVenta);
         }
       },
       error => {
@@ -245,6 +276,51 @@ export class VentasComponent implements OnInit {
         }
       }
     );
+  }
+  //GASTOS
+  onSubmitGastos(){ 
+    this._VentasService.sbrVentasGastos(this.gastos, this.identity.token).subscribe(
+      response => {
+        if (response.estado != "ERROR") {
+          this.newGastos(this.gastos.sbrVentas_id,this.statusVenta);
+        }
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+
+  }
+
+  onSubmitLogin(){
+    this._VentasService.checkUser(this.login, this.identity.token).subscribe(
+      response => {
+        if (response.estado != "ERROR") {
+          $("#User").modal("hide");
+          this.login = new Login();
+            this._VentasService.sbrVentasCerrarCaja(this.ventaId,{rendidoA_id:response.id,rendidoA:response.apellido}, this.identity.token).subscribe(
+              response => {
+                if (response.estado != "ERROR") {
+                  this.All(this.sucursal.sucursal_id);
+                }
+              },
+            );
+        } else {
+          this.showNotification('top', 'center', response.mensaje, 'warning');
+        }
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+  }
+  public ventaId;
+  UserModal(id){
+    this.ventaId=id;
   }
   public CodigoBarra(codigo) {
     this._VentasService.getCodigoArticulo(codigo, this.identity.token).subscribe(
@@ -272,7 +348,7 @@ export class VentasComponent implements OnInit {
     this._VentasService.deleteDetalle(detalle.id,detalle, this.identity.token).subscribe(
       response => {
         if (response.estado != "ERROR") {
-          this.newVenta(this.venta.sbrVentas_id);
+          this.newVenta(this.venta.sbrVentas_id,this.statusVenta);
         }
       },
       error => {
@@ -286,6 +362,8 @@ export class VentasComponent implements OnInit {
   public selectUser(user) {
      this.venta.vendedor=user.source.triggerValue;
      this.venta.vendedor_id=user.value;
+     this.gastos.vendedor=user.source.triggerValue;
+     this.gastos.vendedor_id=user.value;
   }
   ngAfterViewInit() {
     // @ViewChild(DataTableDirective)
@@ -349,4 +427,59 @@ export class VentasComponent implements OnInit {
     }
     ).catch(swal.noop);
   }
+  public showSwalGastos(index) {
+    swal({
+      title: 'Estás seguro?',
+      text: '',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success ',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Si, estoy seguro!',
+      cancelButtonText: 'No',
+
+      buttonsStyling: false
+    }).then((isConfirm) => {
+
+      if (isConfirm.value == true) {
+        this.deleteGastos(index);
+
+      }
+    }
+    ).catch(swal.noop);
+  }
+  deleteGastos(index){
+    var detalle= this.detallesGastos[index];
+    this._VentasService.deleteGastos(detalle.id,detalle, this.identity.token).subscribe(
+      response => {
+        if (response.estado != "ERROR") {
+          this.newGastos(this.gastos.sbrVentas_id,this.statusVenta);
+        }
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+  }
+  public cuentasGastos=[];
+  getCuentasGastos(){
+    this._VentasService.getCuentasGastos(this.identity.token).subscribe(
+      response => {
+        this.cuentasGastos=response;
+        if (response.estado != "ERROR") {
+        }
+      },
+      error => {
+        this.errorMessage = <any>error;
+        if (this.errorMessage != null) {
+        }
+      }
+    );
+  }
+  public selectCuentasGastos(cuentasGastos) {
+     this.gastos.cuentaGasto=cuentasGastos.source.triggerValue;
+     this.gastos.cuentaGasto_id=cuentasGastos.value;
+ }
 }

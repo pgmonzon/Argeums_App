@@ -63,6 +63,14 @@
                       <td>RendidoA</td>
                       <td>Sucursal</td>
                       <td>Detalle</td>
+                      <td>Gastos</td>
+                      <td>Tarjeta</td>
+                      <td>Efectivo</td>
+                      <td>Total</td>
+                      <td>Gastos</td>
+                      <td>ImporteRendir</td>
+                      <td>Estado</td>
+
                     </tr>
 
                   </thead>
@@ -72,13 +80,33 @@
                       <td style="cursor: pointer;" data-toggle="modal">{{row.fecha | date :'dd-MM-yy '}}</td>
                       <td style="cursor: pointer;" data-toggle="modal">{{row.rendidoA}}</td>
                       <td style="cursor: pointer;" data-toggle="modal">{{row.sucursal}}</td>
-
+                      <!-- Detalles -->
                       <td class="text-center text-success" *ngIf="row.estado == 'Abierto'" style="cursor: pointer;"
-                        (click)="newVenta(row.id)" data-toggle="modal" data-target="#newVenta">
+                        (click)="newVenta(row.id,row.estado)" data-toggle="modal" data-target="#newVenta">
+                        ver
+                      </td>
+                      <td *ngIf="row.estado == 'Cerrado'" style="cursor: pointer;" class="text-success" (click)="newVenta(row.id,row.estado)"
+                        data-toggle="modal" data-target="#newVenta">ver</td>
+                      <!-- GASTOS -->
+                      <td class="text-center text-success" *ngIf="row.estado == 'Abierto'" style="cursor: pointer;"
+                        (click)="newGastos(row.id,row.estado)" data-toggle="modal" data-target="#Gastos">
+                        ver
+                      </td>
+                      <td *ngIf="row.estado == 'Cerrado'" style="cursor: pointer;" class="text-success" (click)="newGastos(row.id,row.estado)"
+                        data-toggle="modal" data-target="#Gastos">ver</td>
+                      <td style="cursor: pointer;" data-toggle="modal">{{row.tarjeta}}</td>
+                      <td style="cursor: pointer;" data-toggle="modal">{{row.efectivo}}</td>
+                      <td style="cursor: pointer;" data-toggle="modal">{{row.total}}</td>
+                      <td style="cursor: pointer;" data-toggle="modal">{{row.gastos}}</td>
+                      <td style="cursor: pointer;" data-toggle="modal">{{row.importeRendir}}</td>
+
+
+                      <!-- USUARIO -->
+                      <td class="text-center text-success" *ngIf="row.estado == 'Abierto'" style="cursor: pointer;"
+                         data-toggle="modal" data-target="#User" (click)="UserModal(row.id)">
                         {{row.estado}}
                       </td>
-                      <td *ngIf="row.estado == 'Cerrado'" style="cursor: pointer;" class="text-success" (click)="getDetalle(row.id)"
-                        data-toggle="modal" data-target="#detalle">{{row.estado}}</td>
+                      <td *ngIf="row.estado == 'Cerrado'" style="cursor: pointer;" >{{row.estado}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -100,77 +128,81 @@
           </button>
         </div>
         <div class="modal-body">
+
           <form #formVenta="ngForm" (ngSubmit)="onSubmitVenta()" class="form">
             <div class=" card-login card-hidden">
               <div class="card-body ">
+                <div *ngIf="statusVenta == 'Abierto' ">
+                  <div class="row">
+                    <div class="col-md-6 offset-3">
+                      <mat-form-field>
+                        <mat-select (change)="selectUser($event)" placeholder="Vendedor">
+                          <div *ngFor="let user of users">
+                            <mat-option [value]="user.id">
+                              <p> {{ user.usuario }}</p>
+                            </mat-option>
+                          </div>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
 
-                <div class="row">
-                  <div class="col-md-6 offset-3">
-                    <mat-form-field>
-                      <mat-select (change)="selectUser($event)" placeholder="Vendedor">
-                        <div *ngFor="let user of users">
-                          <mat-option [value]="user.id">
-                            <p> {{ user.usuario }}</p>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-6 offset-3">
+                      <label for="">Articulo</label>
+                      <!-- <input id="codigoB" (change)="CodigoBarra($event)" type="text" class="form-control text-center"
+                            placeholder="" /> -->
+                      <ng-multiselect-dropdown name="articulo" [placeholder]="'Articulo'" [data]="articulos" [settings]="dropdownSettings"
+                        (onSelect)="onItemSelect($event)" (onFilterChange)="onFilterChange($event)">
+                      </ng-multiselect-dropdown>
+                    </div>
+
+                  </div>
+                  <br>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-md-3 offset-2 ">
+                      <label for="">Importe</label>
+                      <input #importe="ngModel" name="importe" [(ngModel)]="venta.importe" type="number" class="form-control text-center"
+                        disabled required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="">Descuento</label>
+                      <input (keyup)="DescuentoChange($event)" #descuento="ngModel" name="descuento" [(ngModel)]="venta.descuento"
+                        type="number" class="form-control text-center" required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="">Cobrado</label>
+                      <input #cobrado="ngModel" name="cobrado" [(ngModel)]="venta.cobrado" type="number" class="form-control text-center"
+                        disabled required />
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                    <div class="col-md-6 offset-3">
+                      <mat-form-field>
+                        <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago"
+                          required>
+                          <mat-option *ngFor="let forma of formaPagoArray" [value]="forma.value">
+                            {{ forma.viewValue }}
                           </mat-option>
-                        </div>
-                      </mat-select>
-                    </mat-form-field>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-1 offset-5">
+                      <input type="submit" value="Creá" [disabled]="!formVenta.form.valid" class="btn btn-success ">
 
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-md-6 offset-3">
-                    <label for="">Articulo</label>
-                    <!-- <input id="codigoB" (change)="CodigoBarra($event)" type="text" class="form-control text-center"
-                      placeholder="" /> -->
-                      <ng-multiselect-dropdown name="articulo" [placeholder]="'Articulo'" [data]="articulos" 
-                      [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onFilterChange)="onFilterChange($event)">
-                    </ng-multiselect-dropdown>
+                    </div>
                   </div>
-     
                 </div>
-                <br>
 
-                <br>
-                <div class="row">
-                  <div class="col-md-3 offset-2 ">
-                    <label for="">Importe</label>
-                    <input #importe="ngModel" name="importe" [(ngModel)]="venta.importe" type="number" class="form-control text-center"
-                      disabled required />
-                  </div>
-                  <div class="col-md-3">
-                    <label for="">Descuento</label>
-                    <input (keyup)="DescuentoChange($event)" #descuento="ngModel" name="descuento" [(ngModel)]="venta.descuento"
-                      type="number" class="form-control text-center" required />
-                  </div>
-                  <div class="col-md-3">
-                    <label for="">Cobrado</label>
-                    <input #cobrado="ngModel" name="cobrado" [(ngModel)]="venta.cobrado" type="number" class="form-control text-center"
-                      disabled required />
-                  </div>
-                </div>
-                <br>
-
-                <div class="row">
-                  <div class="col-md-6 offset-3">
-                    <mat-form-field>
-                      <mat-select placeholder="Forma Pago" #formaPago="ngModel" name="formaPago" [(ngModel)]="venta.formaPago"
-                        required>
-                        <mat-option *ngFor="let forma of formaPagoArray" [value]="forma.value">
-                          {{ forma.viewValue }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                </div>
               </div>
-              <div class="row">
-                <div class="col-md-1 offset-5">
-                  <input type="submit" value="Creá" [disabled]="!formVenta.form.valid" class="btn btn-success ">
 
-                </div>
-              </div>
               <br><br>
               <div class="row">
                 <div class="col-md-10 offset-1">
@@ -186,7 +218,7 @@
                           <td>cobrado</td>
                           <td>formaPago</td>
                           <td>vendedor</td>
-                          <td>borrar</td>
+                          <td *ngIf="statusVenta == 'Abierto' ">borrar</td>
                         </tr>
 
                       </thead>
@@ -200,7 +232,7 @@
                           <td>${{row.cobrado}}</td>
                           <td>{{row.formaPago}}</td>
                           <td>{{row.vendedor}}</td>
-                          <td>
+                          <td *ngIf="statusVenta == 'Abierto' ">
                             <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(i)" class="btn btn-link btn-danger btn-just-icon remove">
                               <i class="material-icons">delete</i>
                             </a>
@@ -227,3 +259,156 @@
   </div>
 
   <!-- aaaaaaaaaaaa -->
+
+  <div class="modal fade" id="Gastos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> Gastos</h4>
+          <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="material-icons">clear</i>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form #formVenta="ngForm" (ngSubmit)="onSubmitGastos()" class="form">
+            <div class=" card-login card-hidden">
+              <div class="card-body ">
+                <div *ngIf="statusVenta == 'Abierto' ">
+                  <div class="row">
+                    <div class="col-md-6 offset-3">
+                      <mat-form-field>
+                        <mat-select (change)="selectUser($event)" placeholder="Vendedor">
+                          <div *ngFor="let user of users">
+                            <mat-option [value]="user.id">
+                              <p> {{ user.usuario }}</p>
+                            </mat-option>
+                          </div>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-6 offset-3">
+                      <mat-form-field>
+                        <mat-select (change)="selectCuentasGastos($event)" placeholder="Cuenta Gasto">
+                          <div *ngFor="let cg of cuentasGastos">
+                            <mat-option [value]="cg.id">
+                              <p> {{ cg.cuenta_gasto }}</p>
+                            </mat-option>
+                          </div>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <br>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-md-6 offset-3 ">
+                      <label for="">Importe</label>
+                      <input #importe="ngModel" name="importe" [(ngModel)]="gastos.importe" type="number" class="form-control text-center"
+                        required />
+                    </div>
+
+                  </div>
+                  <br>
+
+                  <div class="row">
+                    <div class="col-md-1 offset-5">
+                      <input type="submit" value="Creá" [disabled]="!formVenta.form.valid" class="btn btn-success ">
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <br><br>
+              <div class="row">
+                <div class="col-md-10 offset-1">
+                  <div class="material-datatables">
+                    <table class="table table-striped table-no-bordered table-hover table-responsive" cellspacing="6"
+                      width="100%" style="width:100%">
+                      <thead>
+                        <tr>
+                          <td>Sucursal</td>
+                          <td>cuentaGasto</td>
+                          <td>Importe</td>
+                          <td>vendedor</td>
+                          <td *ngIf="statusVenta == 'Abierto' ">borrar</td>
+                        </tr>
+
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let row of detallesGastos;let i = index">
+                          <td>{{row.sucursal}}</td>
+                          <td>{{row.cuentaGasto}}</td>
+                          <td>${{row.importe}}</td>
+                          <td>{{row.vendedor}}</td>
+                          <td *ngIf="statusVenta == 'Abierto' ">
+                            <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwalGastos(i)" class="btn btn-link btn-danger btn-just-icon remove">
+                              <i class="material-icons">delete</i>
+                            </a>
+                          </td>
+
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+
+
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="User" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> Rendido a</h4>
+          <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="material-icons">clear</i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #formLogin="ngForm" (ngSubmit)="onSubmitLogin()" class="form">
+            <br>
+            <div class="row">
+              <div class="col-md-6 offset-3">
+                <input #usuario="ngModel" name="usuario" [(ngModel)]="login.usuario" type="text" class="form-control text-center"
+                  placeholder="usuario...">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6 offset-3">
+                <input #clave="ngModel" name="clave" [(ngModel)]="login.clave" type="password" class="form-control text-center"
+                  placeholder="clave...">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6 offset-5">
+                <input type="submit" value="Login" class="btn btn-success pull-center ">
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>

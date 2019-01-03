@@ -46,15 +46,54 @@ export class VentasService {
       .map(res => res.json());
   }
 
+
+  sbrVentasGastos(gasto,token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'sbrVentasGastos', gasto, { headers: this.headers })
+      .map(res => res.json());
+  }
+  sbrVentasGastosTraer(id,token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'sbrVentasGastosTraer/'+id, {}, { headers: this.headers })
+      .map(res => res.json());
+  }
+
   deleteDetalle(id,detalle,token){
     this.headers.set('Authorization',token)
     return this._http.put(this.url + 'sbrVentasDetalle/'+id,detalle, {headers: this.headers})
                     .map(res => res.json());
   }
 
+  deleteGastos(id,detalle,token){
+    this.headers.set('Authorization',token)
+    return this._http.put(this.url + 'sbrVentasGastos/'+id,detalle, {headers: this.headers})
+                    .map(res => res.json());
+  }
   usuariosEmpresa(token) {
     this.headers.set('Authorization', token)
     return this._http.post(this.url + 'usuariosEmpresa',{}, { headers: this.headers })
       .map(res => res.json());
   }
+
+  
+
+  getCuentasGastos(token){
+    this.headers.set('Authorization',token)
+    return this._http.post(this.url + 'cuentaGastos/-cuenta_gasto/9999',{"tipo_unidad": ""} ,{headers: this.headers})
+                    .map(res => res.json());
+  }
+
+  checkUser(user, token) {
+    this.headers.set('Authorization', token)
+    return this._http.post(this.url + 'usuarioValidar', user, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  sbrVentasCerrarCaja(id,detalle,token){
+    this.headers.set('Authorization',token)
+    return this._http.put(this.url + 'sbrVentasCerrarCaja/'+id,detalle, {headers: this.headers})
+                    .map(res => res.json());
+  }
 }
+
+
