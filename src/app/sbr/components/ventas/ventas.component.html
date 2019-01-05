@@ -271,7 +271,7 @@
         </div>
         <div class="modal-body">
 
-          <form #formVenta="ngForm" (ngSubmit)="onSubmitGastos()" class="form">
+          <form #formGastos="ngForm" (ngSubmit)="onSubmitGastos()" class="form">
             <div class=" card-login card-hidden">
               <div class="card-body ">
                 <div *ngIf="statusVenta == 'Abierto' ">
@@ -318,7 +318,7 @@
 
                   <div class="row">
                     <div class="col-md-1 offset-5">
-                      <input type="submit" value="Creá" [disabled]="!formVenta.form.valid" class="btn btn-success ">
+                      <input type="submit" value="Creá" [disabled]="!formGastos.form.valid" class="btn btn-success ">
 
                     </div>
                   </div>
