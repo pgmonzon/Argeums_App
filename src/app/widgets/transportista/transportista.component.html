@@ -2,104 +2,177 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 text-center">
-        <button (click)="clear()" type="button" rel="tooltip" data-placement="bottom" title="Agregá" mat-raised-button class="btn bg-success "
-          style="color: white; font-size: 20px;" data-toggle="modal" data-target="#myModal"> Agregá
-          <i style=" color:white;cursor: pointer;font-size: 20px;" class="material-icons">add</i>
+        <button
+          (click)="clear()"
+          type="button"
+          rel="tooltip"
+          data-placement="bottom"
+          title="Agregá"
+          mat-raised-button
+          class="btn bg-success"
+          style="color: white; font-size: 20px"
+          data-toggle="modal"
+          data-target="#myModal"
+        >
+          Agregá
+          <i
+            style="color: white; cursor: pointer; font-size: 20px"
+            class="material-icons"
+            >add</i
+          >
         </button>
 
         <!-- Classic Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="myModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Transportistas</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button
+                  mat-button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
                   <i class="material-icons">clear</i>
                 </button>
               </div>
               <div class="modal-body">
-
                 <form #formUnidad="ngForm" (ngSubmit)="onSubmit()" class="form">
-                  <div class=" card-login card-hidden">
-                    <div class="card-body ">
+                  <div class="card-login card-hidden">
+                    <div class="card-body">
                       <!-- <p class="card-description text-center">Or Be Classical</p> -->
                       <span class="bmd-form-group">
                         <div class="">
                           <div class=" ">
-                            <div class="card-header ">
+                            <div class="card-header">
                               <h4 class="card-title">
                                 <small class="description">
                                   <div class="Row">
                                     <div class="col-md-6 offset-3">
-                                      <span class="text-center text-danger">{{completecampo}}</span>
+                                      <span class="text-center text-danger">{{
+                                        completecampo
+                                      }}</span>
 
                                       <span class="bmd-form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                              <i class="material-icons">account_circle
+                                              <i class="material-icons"
+                                                >account_circle
                                               </i>
                                             </span>
                                           </div>
-                                          <input #transportista="ngModel" name="transportista" [(ngModel)]="transportistas.transportista" type="text" class="form-control"
-                                            placeholder="transportista...">
-                                          <br>
+                                          <input
+                                            #transportista="ngModel"
+                                            name="transportista"
+                                            [(ngModel)]="
+                                              transportistas.transportista
+                                            "
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="transportista..."
+                                          />
+                                          <br />
                                         </div>
                                       </span>
                                       <span class="bmd-form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                              <i class="material-icons">mail
+                                              <i class="material-icons"
+                                                >mail
                                               </i>
                                             </span>
                                           </div>
-                                          <input #mail="ngModel" name="mail" [(ngModel)]="transportistas.mail" type="mail" class="form-control" placeholder="mail..."
-                                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                                          <input
+                                            #mail="ngModel"
+                                            name="mail"
+                                            [(ngModel)]="transportistas.mail"
+                                            type="mail"
+                                            class="form-control"
+                                            placeholder="mail..."
+                                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                            required
+                                          />
 
-                                          <span class="text-danger" *ngIf="  !mail.valid && mail.touched">Mail inválido</span>
+                                          <span
+                                            class="text-danger"
+                                            *ngIf="!mail.valid && mail.touched"
+                                            >Mail inválido</span
+                                          >
 
-                                          <br>
+                                          <br />
                                         </div>
                                       </span>
                                       <div class="col-md-11 offset-1">
                                         <mat-form-field>
-                                          <mat-select placeholder="Factura " #Factura="ngModel" name="Factura" [(ngModel)]="transportistas.Factura" >
-                                            <mat-option *ngFor="let tipFac of tipofactura" [value]="tipFac.value">
+                                          <mat-select
+                                            placeholder="Factura "
+                                            #Factura="ngModel"
+                                            name="Factura"
+                                            [(ngModel)]="transportistas.Factura"
+                                          >
+                                            <mat-option
+                                              *ngFor="let tipFac of tipofactura"
+                                              [value]="tipFac.value"
+                                            >
                                               {{ tipFac.viewValue }}
                                             </mat-option>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
-
                                     </div>
                                   </div>
                                 </small>
                               </h4>
                             </div>
-                            <div class="card-body ">
-                              <ul class="nav nav-pills nav-pills-warning" role="tablist">
-
+                            <div class="card-body">
+                              <ul
+                                class="nav nav-pills nav-pills-warning"
+                                role="tablist"
+                              >
                                 <li class="nav-item">
-                                  <a class="nav-link active" data-toggle="tab" href="#link2" role="tablist">
+                                  <a
+                                    class="nav-link active"
+                                    data-toggle="tab"
+                                    href="#link2"
+                                    role="tablist"
+                                  >
                                     Contactos
                                   </a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link " data-toggle="tab" href="#link3" role="tablist">
+                                  <a
+                                    class="nav-link"
+                                    data-toggle="tab"
+                                    href="#link3"
+                                    role="tablist"
+                                  >
                                     Tarifarios
                                   </a>
                                 </li>
                               </ul>
                               <div class="tab-content tab-space">
-                                <div class="tab-pane " id="link1">
-
-                                </div>
+                                <div class="tab-pane" id="link1"></div>
                                 <div class="tab-pane active" id="link2">
-                                  <hr>
+                                  <hr />
 
-                                  <p class="text-center"> Lista de contactos agregados</p>
-                                  <table id="contactotable" class="table table-responsive">
+                                  <p class="text-center">
+                                    Lista de contactos agregados
+                                  </p>
+                                  <table
+                                    id="contactotable"
+                                    class="table table-responsive"
+                                  >
                                     <thead>
                                       <tr>
                                         <th>Nombre</th>
@@ -110,15 +183,20 @@
                                     </thead>
                                     <tbody>
                                       <tr *ngFor="let row of contactosarray">
-                                        <td> {{row['nombre']}} </td>
-                                        <td> {{row['cargo']}} </td>
-                                        <td> {{row['telefono']}} </td>
+                                        <td>{{ row["nombre"] }}</td>
+                                        <td>{{ row["cargo"] }}</td>
+                                        <td>{{ row["telefono"] }}</td>
                                         <td>
-                                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="remove(row['telefono'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                          <a
+                                            rel="tooltip"
+                                            data-placement="bottom"
+                                            title="Borrar"
+                                            (click)="remove(row['telefono'])"
+                                            class="btn btn-link btn-danger btn-just-icon remove"
+                                          >
                                             <i class="material-icons">delete</i>
                                           </a>
                                         </td>
-
                                       </tr>
                                     </tbody>
                                     <tfoot>
@@ -130,37 +208,65 @@
                                       </tr>
                                     </tfoot>
                                   </table>
-                                  <br>
-                                  <hr>
+                                  <br />
+                                  <hr />
                                   <h4 class="text-center">Agregá Contacto</h4>
-                                  <form #formContacto="ngForm" (ngSubmit)="onContacto()" class="form">
+                                  <form
+                                    #formContacto="ngForm"
+                                    (ngSubmit)="onContacto()"
+                                    class="form"
+                                  >
                                     <div class="row">
                                       <div class="col-md-4">
-                                        <input #nombre="ngModel" name="nombre" [(ngModel)]="contactos.nombre" type="text" class="form-control" placeholder="Nombre...">
+                                        <input
+                                          #nombre="ngModel"
+                                          name="nombre"
+                                          [(ngModel)]="contactos.nombre"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Nombre..."
+                                        />
                                       </div>
                                       <div class="col-md-4">
-                                        <input #cargo="ngModel" name="cargo" [(ngModel)]="contactos.cargo" type="text" class="form-control" placeholder="Cargo...">
+                                        <input
+                                          #cargo="ngModel"
+                                          name="cargo"
+                                          [(ngModel)]="contactos.cargo"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Cargo..."
+                                        />
                                       </div>
-                                      <div class=" col-md-4">
-                                        <input #telefono="ngModel" name="telefono" [(ngModel)]="contactos.telefono" type="text" class="form-control" placeholder="Telefono...">
+                                      <div class="col-md-4">
+                                        <input
+                                          #telefono="ngModel"
+                                          name="telefono"
+                                          [(ngModel)]="contactos.telefono"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Telefono..."
+                                        />
                                       </div>
                                     </div>
-                                    <div class="row">
-
-                                    </div>
-                                    <br>
+                                    <div class="row"></div>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6 offset-3">
-                                        <input type="submit" value="Agregá" class="btn btn-success ">
+                                        <input
+                                          type="submit"
+                                          value="Agregá"
+                                          class="btn btn-success"
+                                        />
                                       </div>
                                     </div>
                                     <br />
                                   </form>
                                   <br />
-
                                 </div>
-                                <div class="tab-pane " id="link3">
-                                  <p class="text-center"> Lista de tarifario agregados</p>
+                                <div class="tab-pane" id="link3">
+                                  <p class="text-center">
+                                    Lista de tarifario agregados
+                                  </p>
                                   <table class="table table-responsive">
                                     <thead>
                                       <tr>
@@ -181,18 +287,34 @@
                                     </thead>
                                     <tbody>
                                       <tr *ngFor="let row of tarifariosarray">
-                                        <td> {{row['tarifario']}} </td>
-                                        <td> {{row['tipo']}} </td>
+                                        <td>{{ row["tarifario"] }}</td>
+                                        <td>{{ row["tipo"] }}</td>
                                         <div *ngFor="let tipo of tipounidades">
-                                          <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
+                                          <td
+                                            *ngIf="
+                                              tipo.id == row['tipoUnidad_id']
+                                            "
+                                          >
+                                            {{ tipo.tipo_unidad }}
+                                          </td>
                                         </div>
-                                        <td> {{row['importe']}} </td>
-                                        <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
-                                        <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
-                                        <td> {{row['kmDesde']}} </td>
-                                        <td> {{row['kmHasta']}} </td>
-                                        <td> {{row['vuelta']}} </td>
-                                        <td> {{row['tipoServicio']}} </td>
+                                        <td>{{ row["importe"] }}</td>
+                                        <td>
+                                          {{
+                                            row["vigenteDesde"]
+                                              | date: "dd-MM-yy"
+                                          }}
+                                        </td>
+                                        <td>
+                                          {{
+                                            row["vigenteHasta"]
+                                              | date: "dd-MM-yy"
+                                          }}
+                                        </td>
+                                        <td>{{ row["kmDesde"] }}</td>
+                                        <td>{{ row["kmHasta"] }}</td>
+                                        <td>{{ row["vuelta"] }}</td>
+                                        <td>{{ row["tipoServicio"] }}</td>
 
                                         <!-- <td>
                                               <tr *ngFor="let ren of row['recorrido']" >
@@ -200,11 +322,18 @@
                                               </tr>
                                             </td> -->
                                         <td>
-                                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="removeTarifario(row['tarifario'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                          <a
+                                            rel="tooltip"
+                                            data-placement="bottom"
+                                            title="Borrar"
+                                            (click)="
+                                              removeTarifario(row['tarifario'])
+                                            "
+                                            class="btn btn-link btn-danger btn-just-icon remove"
+                                          >
                                             <i class="material-icons">delete</i>
                                           </a>
                                         </td>
-
                                       </tr>
                                     </tbody>
                                     <tfoot>
@@ -223,33 +352,64 @@
                                       </tr>
                                     </tfoot>
                                   </table>
-                                  <form #formContacto="ngForm" (ngSubmit)="onTarifario()" class="form">
+                                  <form
+                                    #formContacto="ngForm"
+                                    (ngSubmit)="onTarifario()"
+                                    class="form"
+                                  >
                                     <div class="row">
                                       <div class="col-md-6 offset-3">
-                                        <input #tarifario="ngModel" name="tarifario" [(ngModel)]="tarifarios.tarifario" type="text" class="form-control text-center tarifario"
-                                          placeholder="Tarifario...">
+                                        <input
+                                          #tarifario="ngModel"
+                                          name="tarifario"
+                                          [(ngModel)]="tarifarios.tarifario"
+                                          type="text"
+                                          class="form-control text-center tarifario"
+                                          placeholder="Tarifario..."
+                                        />
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
-                                  
                                         <mat-form-field>
-                                          <mat-select placeholder="Cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="tarifarios.cliente_id">
-
-                                            <div *ngFor="let cliente of allCliente">
-                                              <mat-option *ngIf=" cliente.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cliente.id" disabled>
-                                                <p> {{ cliente.cliente }} (inactivo)</p>
+                                          <mat-select
+                                            placeholder="Cliente"
+                                            #cliente_id="ngModel"
+                                            name="cliente_id"
+                                            [(ngModel)]="tarifarios.cliente_id"
+                                          >
+                                            <div
+                                              *ngFor="let cliente of allCliente"
+                                            >
+                                              <mat-option
+                                                *ngIf="cliente.activo == false"
+                                                style="
+                                                  background-color: #c5c5c5;
+                                                  cursor: not-allowed;
+                                                "
+                                                [value]="cliente.id"
+                                                disabled
+                                              >
+                                                <p>
+                                                  {{
+                                                    cliente.cliente
+                                                  }}
+                                                  (inactivo)
+                                                </p>
                                               </mat-option>
-                                              <mat-option *ngIf=" cliente.activo==true" [value]="cliente.id">
-                                                <p> {{ cliente.cliente }}</p>
+                                              <mat-option
+                                                *ngIf="cliente.activo == true"
+                                                [value]="cliente.id"
+                                              >
+                                                <p>{{ cliente.cliente }}</p>
                                               </mat-option>
                                             </div>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
                                         <!-- <label for="">Tipo</label>
@@ -258,8 +418,17 @@
                                           </select> -->
 
                                         <mat-form-field>
-                                          <mat-select placeholder="Tipo " #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo" (change)="onChange($event)">
-                                            <mat-option *ngFor="let tip of tipotarifario" [value]="tip.value">
+                                          <mat-select
+                                            placeholder="Tipo "
+                                            #tipo="ngModel"
+                                            name="tipo"
+                                            [(ngModel)]="tarifarios.tipo"
+                                            (change)="onChange($event)"
+                                          >
+                                            <mat-option
+                                              *ngFor="let tip of tipotarifario"
+                                              [value]="tip.value"
+                                            >
                                               {{ tip.viewValue }}
                                             </mat-option>
                                           </mat-select>
@@ -270,47 +439,108 @@
                                                 <option *ngFor="let tipo of tipounidades" [value]="tipo.id">{{tipo.tipo_unidad}}</option>
                                               </select> -->
                                         <mat-form-field>
-                                          <mat-select placeholder="Tipo Unidad" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
-
-                                            <div *ngFor="let tipo of tipounidades">
-                                              <mat-option *ngIf=" tipo.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="tipo.id" disabled>
-                                                <p> {{ tipo.tipo_unidad }} (inactivo)</p>
+                                          <mat-select
+                                            placeholder="Tipo Unidad"
+                                            #tipoUnidad_id="ngModel"
+                                            name="tipoUnidad_id"
+                                            [(ngModel)]="
+                                              tarifarios.tipoUnidad_id
+                                            "
+                                          >
+                                            <div
+                                              *ngFor="let tipo of tipounidades"
+                                            >
+                                              <mat-option
+                                                *ngIf="tipo.activo == false"
+                                                style="
+                                                  background-color: #c5c5c5;
+                                                  cursor: not-allowed;
+                                                "
+                                                [value]="tipo.id"
+                                                disabled
+                                              >
+                                                <p>
+                                                  {{
+                                                    tipo.tipo_unidad
+                                                  }}
+                                                  (inactivo)
+                                                </p>
                                               </mat-option>
-                                              <mat-option *ngIf=" tipo.activo==true" [value]="tipo.id">
-                                                <p> {{ tipo.tipo_unidad }}</p>
+                                              <mat-option
+                                                *ngIf="tipo.activo == true"
+                                                [value]="tipo.id"
+                                              >
+                                                <p>{{ tipo.tipo_unidad }}</p>
                                               </mat-option>
                                             </div>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
-
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
                                         <mat-form-field>
-                                          <input #vigenteDesde="ngModel" name="vigenteDesde" [(ngModel)]="tarifarios.vigenteDesde" matInput [matDatepicker]="vigenteDesde"
-                                            placeholder="vigenteDesde" (click)="vigenteDesde.open()">
-                                          <mat-datepicker-toggle matSuffix [for]="vigenteDesde"></mat-datepicker-toggle>
-                                          <mat-datepicker #vigenteDesde></mat-datepicker>
+                                          <input
+                                            #vigenteDesde="ngModel"
+                                            name="vigenteDesde"
+                                            [(ngModel)]="
+                                              tarifarios.vigenteDesde
+                                            "
+                                            matInput
+                                            [matDatepicker]="vigenteDesde"
+                                            placeholder="vigenteDesde"
+                                            (click)="vigenteDesde.open()"
+                                          />
+                                          <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="vigenteDesde"
+                                          ></mat-datepicker-toggle>
+                                          <mat-datepicker
+                                            #vigenteDesde
+                                          ></mat-datepicker>
                                         </mat-form-field>
                                       </div>
                                       <div class="col-md-6">
-
                                         <mat-form-field>
-                                          <input class="vigenteDesde" #vigenteHasta="ngModel" name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHasta"
-                                            placeholder="vigenteHasta" (click)="vigenteHasta.open()">
-                                          <mat-datepicker-toggle matSuffix [for]="vigenteHasta"></mat-datepicker-toggle>
-                                          <mat-datepicker #vigenteHasta></mat-datepicker>
+                                          <input
+                                            class="vigenteDesde"
+                                            #vigenteHasta="ngModel"
+                                            name="vigenteHasta"
+                                            [(ngModel)]="
+                                              tarifarios.vigenteHasta
+                                            "
+                                            matInput
+                                            [matDatepicker]="vigenteHasta"
+                                            placeholder="vigenteHasta"
+                                            (click)="vigenteHasta.open()"
+                                          />
+                                          <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="vigenteHasta"
+                                          ></mat-datepicker-toggle>
+                                          <mat-datepicker
+                                            #vigenteHasta
+                                          ></mat-datepicker>
                                         </mat-form-field>
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
                                         <mat-form-field>
-                                          <mat-select placeholder="vuelta " #vuelta="ngModel" name="vuelta" [(ngModel)]="tarifarios.vuelta" >
-                                            <mat-option *ngFor="let tipoVuel of tipoVuelta" [value]="tipoVuel.value">
+                                          <mat-select
+                                            placeholder="vuelta "
+                                            #vuelta="ngModel"
+                                            name="vuelta"
+                                            [(ngModel)]="tarifarios.vuelta"
+                                          >
+                                            <mat-option
+                                              *ngFor="
+                                                let tipoVuel of tipoVuelta
+                                              "
+                                              [value]="tipoVuel.value"
+                                            >
                                               {{ tipoVuel.viewValue }}
                                             </mat-option>
                                           </mat-select>
@@ -318,55 +548,127 @@
                                       </div>
                                       <div class="col-md-6">
                                         <mat-form-field>
-                                          <mat-select placeholder="tipoServicio " #tipoServicio="ngModel" name="tipoServicio" [(ngModel)]="tarifarios.tipoServicio" >
-                                            <mat-option *ngFor="let tipoServi of tipoServicioar" [value]="tipoServi.value">
+                                          <mat-select
+                                            placeholder="tipoServicio "
+                                            #tipoServicio="ngModel"
+                                            name="tipoServicio"
+                                            [(ngModel)]="
+                                              tarifarios.tipoServicio
+                                            "
+                                          >
+                                            <mat-option
+                                              *ngFor="
+                                                let tipoServi of tipoServicioar
+                                              "
+                                              [value]="tipoServi.value"
+                                            >
                                               {{ tipoServi.viewValue }}
                                             </mat-option>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-4">
                                         <label for="">Importe</label>
-                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" oninput="validity.valid||(value='');"
-                                          class="form-control text-center importe" placeholder="Importe...">
+                                        <input
+                                          #importe="ngModel"
+                                          name="importe"
+                                          step="0.01"
+                                          [(ngModel)]="tarifarios.importe"
+                                          min="0"
+                                          type="number"
+                                          oninput="validity.valid||(value='');"
+                                          class="form-control text-center importe"
+                                          placeholder="Importe..."
+                                        />
                                       </div>
                                       <div class="col-md-4 kmDesde">
                                         <label for="">kmDesde</label>
-                                        <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" min="0" type="number" oninput="validity.valid||(value='');"
-                                          class="form-control text-center " placeholder="kmDesde...">
+                                        <input
+                                          #kmDesde="ngModel"
+                                          name="kmDesde"
+                                          step="0.01"
+                                          [(ngModel)]="tarifarios.kmDesde"
+                                          min="0"
+                                          type="number"
+                                          oninput="validity.valid||(value='');"
+                                          class="form-control text-center"
+                                          placeholder="kmDesde..."
+                                        />
                                       </div>
-                                      <div class="col-md-4 kmHasta ">
+                                      <div class="col-md-4 kmHasta">
                                         <label for="">kmHasta</label>
-                                        <input #kmHasta="ngModel" name="kmHasta" [(ngModel)]="tarifarios.kmHasta" step="0.01" min="0" type="number" oninput="validity.valid||(value='');"
-                                          class="form-control text-center " placeholder="kmHasta...">
+                                        <input
+                                          #kmHasta="ngModel"
+                                          name="kmHasta"
+                                          [(ngModel)]="tarifarios.kmHasta"
+                                          step="0.01"
+                                          min="0"
+                                          type="number"
+                                          oninput="validity.valid||(value='');"
+                                          class="form-control text-center"
+                                          placeholder="kmHasta..."
+                                        />
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="Locacion">
-                                      <hr>
-                                      <form #formRecorrido="ngForm" (ngSubmit)="onRecorrido()" class="form ">
+                                      <hr />
+                                      <form
+                                        #formRecorrido="ngForm"
+                                        (ngSubmit)="onRecorrido()"
+                                        class="form"
+                                      >
                                         <div class="row">
                                           <div class="col-md-4">
                                             <mat-form-field>
-                                              <mat-select placeholder="Locacion" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="recorrido.locacion_id">
-
-                                                <div *ngFor="let loca of getlocaciones">
-                                                  <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
-                                                    <p> {{ loca.locacion }} (inactivo)</p>
+                                              <mat-select
+                                                placeholder="Locacion"
+                                                #locacion_id="ngModel"
+                                                name="locacion_id"
+                                                [(ngModel)]="
+                                                  recorrido.locacion_id
+                                                "
+                                              >
+                                                <div
+                                                  *ngFor="
+                                                    let loca of getlocaciones
+                                                  "
+                                                >
+                                                  <mat-option
+                                                    *ngIf="loca.activo == false"
+                                                    style="
+                                                      background-color: #c5c5c5;
+                                                      cursor: not-allowed;
+                                                    "
+                                                    [value]="loca.id"
+                                                    disabled
+                                                  >
+                                                    <p>
+                                                      {{
+                                                        loca.locacion
+                                                      }}
+                                                      (inactivo)
+                                                    </p>
                                                   </mat-option>
-                                                  <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
-                                                    <p> {{ loca.locacion }}</p>
+                                                  <mat-option
+                                                    *ngIf="loca.activo == true"
+                                                    [value]="loca.id"
+                                                  >
+                                                    <p>{{ loca.locacion }}</p>
                                                   </mat-option>
                                                 </div>
                                               </mat-select>
                                             </mat-form-field>
                                           </div>
                                           <div class="col-md-4">
-                                            <input type="submit" value="Agregá" class="btn btn-success ">
-
+                                            <input
+                                              type="submit"
+                                              value="Agregá"
+                                              class="btn btn-success"
+                                            />
                                           </div>
                                           <div class="col-md-4">
                                             <table class="table">
@@ -376,9 +678,26 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                <tr *ngFor="let fal of recorridoarray">
-                                                  <div class="text-center" *ngFor="let loca of getlocaciones">
-                                                    <td class="text-center" *ngIf="fal['locacion_id']==loca.id">{{loca.locacion}}</td>
+                                                <tr
+                                                  *ngFor="
+                                                    let fal of recorridoarray
+                                                  "
+                                                >
+                                                  <div
+                                                    class="text-center"
+                                                    *ngFor="
+                                                      let loca of getlocaciones
+                                                    "
+                                                  >
+                                                    <td
+                                                      class="text-center"
+                                                      *ngIf="
+                                                        fal['locacion_id'] ==
+                                                        loca.id
+                                                      "
+                                                    >
+                                                      {{ loca.locacion }}
+                                                    </td>
                                                   </div>
                                                 </tr>
                                               </tbody>
@@ -388,98 +707,144 @@
                                       </form>
                                     </div>
 
-                                    <hr>
-                                    <br>
-                                    <input type="submit" value="Agregá" class="btn btn-success ">
+                                    <hr />
+                                    <br />
+                                    <input
+                                      type="submit"
+                                      value="Agregá"
+                                      class="btn btn-success"
+                                    />
 
                                     <br />
                                   </form>
                                   <br />
                                   <br />
-
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </span>
-
                     </div>
-                    <div class="card-footer justify-content-center">
-                    </div>
+                    <div class="card-footer justify-content-center"></div>
                     <div class="modal-footer">
-
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
                       <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
-                      <input type="submit" value="CREÁ" class="btn btn-success ">
-
+                      <input
+                        type="submit"
+                        value="CREÁ"
+                        class="btn btn-success"
+                      />
                     </div>
                   </div>
                 </form>
               </div>
-
             </div>
           </div>
         </div>
 
-        <div class="modal fade" id="myModalEDITAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="myModalEDITAR"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Transportistas</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button
+                  mat-button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
                   <i class="material-icons">clear</i>
                 </button>
               </div>
               <div class="modal-body">
-
                 <form #formUnidad="ngForm" (ngSubmit)="onEdit()" class="form">
-                  <div class=" card-login card-hidden">
-                    <div class="card-body ">
+                  <div class="card-login card-hidden">
+                    <div class="card-body">
                       <!-- <p class="card-description text-center">Or Be Classical</p> -->
                       <span class="bmd-form-group">
                         <div class="">
                           <div class=" ">
-                            <div class="card-header ">
+                            <div class="card-header">
                               <h4 class="card-title">
                                 <small class="description">
                                   <div class="Row">
                                     <div class="col-md-6 offset-3">
-                                      <span class="text-center text-danger">{{completecampo}}</span>
+                                      <span class="text-center text-danger">{{
+                                        completecampo
+                                      }}</span>
 
                                       <span class="bmd-form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                              <i class="material-icons">account_circle
+                                              <i class="material-icons"
+                                                >account_circle
                                               </i>
                                             </span>
                                           </div>
-                                          <input #transportista="ngModel" name="transportista" [(ngModel)]="transportistas.transportista" type="text" class="form-control"
-                                            placeholder="Transportista...">
-                                          <br>
+                                          <input
+                                            #transportista="ngModel"
+                                            name="transportista"
+                                            [(ngModel)]="
+                                              transportistas.transportista
+                                            "
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Transportista..."
+                                          />
+                                          <br />
                                         </div>
                                       </span>
                                       <span class="bmd-form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                              <i class="material-icons">mail
+                                              <i class="material-icons"
+                                                >mail
                                               </i>
                                             </span>
                                           </div>
-                                          <input #mail="ngModel" name="mail" [(ngModel)]="transportistas.mail" type="mail" class="form-control" placeholder="mail..."
-                                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                                          <input
+                                            #mail="ngModel"
+                                            name="mail"
+                                            [(ngModel)]="transportistas.mail"
+                                            type="mail"
+                                            class="form-control"
+                                            placeholder="mail..."
+                                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                            required
+                                          />
 
-                                          <span class="text-danger" *ngIf="  !mail.valid && mail.touched">Mail inválido</span>
+                                          <span
+                                            class="text-danger"
+                                            *ngIf="!mail.valid && mail.touched"
+                                            >Mail inválido</span
+                                          >
 
-                                          <br>
+                                          <br />
                                         </div>
                                       </span>
                                       <div class="col-md-11 offset-1">
                                         <mat-form-field>
-                                          <mat-select placeholder="Factura " #Factura="ngModel" name="Factura" [(ngModel)]="transportistas.Factura" >
-                                            <mat-option *ngFor="let tipFac of tipofactura" [value]="tipFac.value">
+                                          <mat-select
+                                            placeholder="Factura "
+                                            #Factura="ngModel"
+                                            name="Factura"
+                                            [(ngModel)]="transportistas.Factura"
+                                          >
+                                            <mat-option
+                                              *ngFor="let tipFac of tipofactura"
+                                              [value]="tipFac.value"
+                                            >
                                               {{ tipFac.viewValue }}
                                             </mat-option>
                                           </mat-select>
@@ -490,27 +855,42 @@
                                 </small>
                               </h4>
                             </div>
-                            <div class="card-body ">
-                              <ul class="nav nav-pills nav-pills-warning" role="tablist">
-
+                            <div class="card-body">
+                              <ul
+                                class="nav nav-pills nav-pills-warning"
+                                role="tablist"
+                              >
                                 <li class="nav-item">
-                                  <a class="nav-link active" data-toggle="tab" href="#link2edit" role="tablist">
+                                  <a
+                                    class="nav-link active"
+                                    data-toggle="tab"
+                                    href="#link2edit"
+                                    role="tablist"
+                                  >
                                     Contactos
                                   </a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link " data-toggle="tab" href="#link3edit" role="tablist">
+                                  <a
+                                    class="nav-link"
+                                    data-toggle="tab"
+                                    href="#link3edit"
+                                    role="tablist"
+                                  >
                                     Tarifarios
                                   </a>
                                 </li>
                               </ul>
                               <div class="tab-content tab-space">
-                                <div class="tab-pane " id="link1">
-
-                                </div>
+                                <div class="tab-pane" id="link1"></div>
                                 <div class="tab-pane active" id="link2edit">
-                                  <p class="text-center"> Lista de contactos agregados</p>
-                                  <table id="contactotable" class="table table-responsive">
+                                  <p class="text-center">
+                                    Lista de contactos agregados
+                                  </p>
+                                  <table
+                                    id="contactotable"
+                                    class="table table-responsive"
+                                  >
                                     <thead>
                                       <tr>
                                         <th>Nombre</th>
@@ -521,15 +901,20 @@
                                     </thead>
                                     <tbody>
                                       <tr *ngFor="let row of contactosarray">
-                                        <td> {{row['nombre']}} </td>
-                                        <td> {{row['cargo']}} </td>
-                                        <td> {{row['telefono']}} </td>
+                                        <td>{{ row["nombre"] }}</td>
+                                        <td>{{ row["cargo"] }}</td>
+                                        <td>{{ row["telefono"] }}</td>
                                         <td>
-                                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="remove(row['telefono'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                          <a
+                                            rel="tooltip"
+                                            data-placement="bottom"
+                                            title="Borrar"
+                                            (click)="remove(row['telefono'])"
+                                            class="btn btn-link btn-danger btn-just-icon remove"
+                                          >
                                             <i class="material-icons">delete</i>
                                           </a>
                                         </td>
-
                                       </tr>
                                     </tbody>
                                     <tfoot>
@@ -541,34 +926,62 @@
                                       </tr>
                                     </tfoot>
                                   </table>
-                                  <form #formContacto="ngForm" (ngSubmit)="onContacto()" class="form">
+                                  <form
+                                    #formContacto="ngForm"
+                                    (ngSubmit)="onContacto()"
+                                    class="form"
+                                  >
                                     <div class="row">
                                       <div class="col-md-4">
-                                        <input #nombre="ngModel" name="nombre" [(ngModel)]="contactos.nombre" type="text" class="form-control" placeholder="Nombre...">
+                                        <input
+                                          #nombre="ngModel"
+                                          name="nombre"
+                                          [(ngModel)]="contactos.nombre"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Nombre..."
+                                        />
                                       </div>
                                       <div class="col-md-4">
-                                        <input #cargo="ngModel" name="cargo" [(ngModel)]="contactos.cargo" type="text" class="form-control" placeholder="Cargo...">
+                                        <input
+                                          #cargo="ngModel"
+                                          name="cargo"
+                                          [(ngModel)]="contactos.cargo"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Cargo..."
+                                        />
                                       </div>
-                                      <div class=" col-md-4">
-                                        <input #telefono="ngModel" name="telefono" [(ngModel)]="contactos.telefono" type="text" class="form-control" placeholder="Telefono...">
+                                      <div class="col-md-4">
+                                        <input
+                                          #telefono="ngModel"
+                                          name="telefono"
+                                          [(ngModel)]="contactos.telefono"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Telefono..."
+                                        />
                                       </div>
                                     </div>
-                                    <div class="row">
-
-                                    </div>
-                                    <br>
+                                    <div class="row"></div>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6 offset-3">
-                                        <input type="submit" value="Agregá" class="btn btn-success ">
+                                        <input
+                                          type="submit"
+                                          value="Agregá"
+                                          class="btn btn-success"
+                                        />
                                       </div>
                                     </div>
                                     <br />
                                   </form>
                                   <br />
-
                                 </div>
-                                <div class="tab-pane " id="link3edit">
-                                  <p class="text-center"> Lista de tarifario agregados</p>
+                                <div class="tab-pane" id="link3edit">
+                                  <p class="text-center">
+                                    Lista de tarifario agregados
+                                  </p>
                                   <table class="table table-responsive">
                                     <thead>
                                       <tr>
@@ -589,29 +1002,52 @@
                                     </thead>
                                     <tbody>
                                       <tr *ngFor="let row of tarifariosarray">
-                                        <td> {{row['tarifario']}} </td>
-                                        <td> {{row['tipo']}} </td>
+                                        <td>{{ row["tarifario"] }}</td>
+                                        <td>{{ row["tipo"] }}</td>
                                         <div *ngFor="let tipo of tipounidades">
-                                          <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
+                                          <td
+                                            *ngIf="
+                                              tipo.id == row['tipoUnidad_id']
+                                            "
+                                          >
+                                            {{ tipo.tipo_unidad }}
+                                          </td>
                                         </div>
-                                        <td> {{row['importe']}} </td>
-                                        <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
-                                        <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
-                                        <td> {{row['kmDesde']}} </td>
-                                        <td> {{row['kmHasta']}} </td>
-                                        <td> {{row['vuelta']}} </td>
-                                        <td> {{row['tipoServicio']}} </td>
+                                        <td>{{ row["importe"] }}</td>
+                                        <td>
+                                          {{
+                                            row["vigenteDesde"]
+                                              | date: "dd-MM-yy"
+                                          }}
+                                        </td>
+                                        <td>
+                                          {{
+                                            row["vigenteHasta"]
+                                              | date: "dd-MM-yy"
+                                          }}
+                                        </td>
+                                        <td>{{ row["kmDesde"] }}</td>
+                                        <td>{{ row["kmHasta"] }}</td>
+                                        <td>{{ row["vuelta"] }}</td>
+                                        <td>{{ row["tipoServicio"] }}</td>
                                         <!-- <td>
                                                 <tr *ngFor="let ren of row['recorrido']" >
                                                       <td>{{ren['locacion_id']}}</td>
                                                 </tr>
                                               </td> -->
                                         <td>
-                                          <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="removeTarifario(row['tarifario'])" class="btn btn-link btn-danger btn-just-icon remove">
+                                          <a
+                                            rel="tooltip"
+                                            data-placement="bottom"
+                                            title="Borrar"
+                                            (click)="
+                                              removeTarifario(row['tarifario'])
+                                            "
+                                            class="btn btn-link btn-danger btn-just-icon remove"
+                                          >
                                             <i class="material-icons">delete</i>
                                           </a>
                                         </td>
-
                                       </tr>
                                     </tbody>
                                     <tfoot>
@@ -630,33 +1066,64 @@
                                       </tr>
                                     </tfoot>
                                   </table>
-                                  <form #formContacto="ngForm" (ngSubmit)="onTarifario()" class="form">
+                                  <form
+                                    #formContacto="ngForm"
+                                    (ngSubmit)="onTarifario()"
+                                    class="form"
+                                  >
                                     <div class="row">
                                       <div class="col-md-6 offset-3">
-                                        <input #tarifario="ngModel" name="tarifario" [(ngModel)]="tarifarios.tarifario" type="text" class="form-control text-center tarifario"
-                                          placeholder="Tarifario...">
+                                        <input
+                                          #tarifario="ngModel"
+                                          name="tarifario"
+                                          [(ngModel)]="tarifarios.tarifario"
+                                          type="text"
+                                          class="form-control text-center tarifario"
+                                          placeholder="Tarifario..."
+                                        />
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
-                                  
                                         <mat-form-field>
-                                          <mat-select placeholder="Cliente" #cliente_id="ngModel" name="cliente_id" [(ngModel)]="tarifarios.cliente_id">
-
-                                            <div *ngFor="let cliente of allCliente">
-                                              <mat-option *ngIf=" cliente.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="cliente.id" disabled>
-                                                <p> {{ cliente.cliente }} (inactivo)</p>
+                                          <mat-select
+                                            placeholder="Cliente"
+                                            #cliente_id="ngModel"
+                                            name="cliente_id"
+                                            [(ngModel)]="tarifarios.cliente_id"
+                                          >
+                                            <div
+                                              *ngFor="let cliente of allCliente"
+                                            >
+                                              <mat-option
+                                                *ngIf="cliente.activo == false"
+                                                style="
+                                                  background-color: #c5c5c5;
+                                                  cursor: not-allowed;
+                                                "
+                                                [value]="cliente.id"
+                                                disabled
+                                              >
+                                                <p>
+                                                  {{
+                                                    cliente.cliente
+                                                  }}
+                                                  (inactivo)
+                                                </p>
                                               </mat-option>
-                                              <mat-option *ngIf=" cliente.activo==true" [value]="cliente.id">
-                                                <p> {{ cliente.cliente }}</p>
+                                              <mat-option
+                                                *ngIf="cliente.activo == true"
+                                                [value]="cliente.id"
+                                              >
+                                                <p>{{ cliente.cliente }}</p>
                                               </mat-option>
                                             </div>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
                                         <!-- <label for="">Tipo</label>
@@ -665,118 +1132,256 @@
                                             </select> -->
 
                                         <mat-form-field>
-                                          <mat-select placeholder="Tipo " #tipo="ngModel" name="tipo" [(ngModel)]="tarifarios.tipo" (change)="onChange($event)">
-                                            <mat-option *ngFor="let tip of tipotarifario" [value]="tip.value">
+                                          <mat-select
+                                            placeholder="Tipo "
+                                            #tipo="ngModel"
+                                            name="tipo"
+                                            [(ngModel)]="tarifarios.tipo"
+                                            (change)="onChange($event)"
+                                          >
+                                            <mat-option
+                                              *ngFor="let tip of tipotarifario"
+                                              [value]="tip.value"
+                                            >
                                               {{ tip.viewValue }}
                                             </mat-option>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
-                                    
+
                                       <div class="col-md-6">
                                         <!-- <select class="form-control" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
                                                   <option *ngFor="let tipo of tipounidades" [value]="tipo.id">{{tipo.tipo_unidad}}</option>
                                                 </select> -->
                                         <mat-form-field>
-                                          <mat-select placeholder="Tipo Unidad" #tipoUnidad_id="ngModel" name="tipoUnidad_id" [(ngModel)]="tarifarios.tipoUnidad_id">
-
-                                            <div *ngFor="let tipo of tipounidades">
-                                              <mat-option *ngIf=" tipo.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="tipo.id" disabled>
-                                                <p> {{ tipo.tipo_unidad }} (inactivo)</p>
+                                          <mat-select
+                                            placeholder="Tipo Unidad"
+                                            #tipoUnidad_id="ngModel"
+                                            name="tipoUnidad_id"
+                                            [(ngModel)]="
+                                              tarifarios.tipoUnidad_id
+                                            "
+                                          >
+                                            <div
+                                              *ngFor="let tipo of tipounidades"
+                                            >
+                                              <mat-option
+                                                *ngIf="tipo.activo == false"
+                                                style="
+                                                  background-color: #c5c5c5;
+                                                  cursor: not-allowed;
+                                                "
+                                                [value]="tipo.id"
+                                                disabled
+                                              >
+                                                <p>
+                                                  {{
+                                                    tipo.tipo_unidad
+                                                  }}
+                                                  (inactivo)
+                                                </p>
                                               </mat-option>
-                                              <mat-option *ngIf=" tipo.activo==true" [value]="tipo.id">
-                                                <p> {{ tipo.tipo_unidad }}</p>
+                                              <mat-option
+                                                *ngIf="tipo.activo == true"
+                                                [value]="tipo.id"
+                                              >
+                                                <p>{{ tipo.tipo_unidad }}</p>
                                               </mat-option>
                                             </div>
                                           </mat-select>
                                         </mat-form-field>
                                       </div>
-
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-6">
                                         <mat-form-field>
-                                          <input name="vigenteDesde" [(ngModel)]="tarifarios.vigenteDesde" matInput [matDatepicker]="vigenteDesdeedit" placeholder="vigenteDesde"
-                                            (click)="vigenteDesdeedit.open()">
-                                          <mat-datepicker-toggle matSuffix [for]="vigenteDesdeedit"></mat-datepicker-toggle>
-                                          <mat-datepicker #vigenteDesdeedit></mat-datepicker>
+                                          <input
+                                            name="vigenteDesde"
+                                            [(ngModel)]="
+                                              tarifarios.vigenteDesde
+                                            "
+                                            matInput
+                                            [matDatepicker]="vigenteDesdeedit"
+                                            placeholder="vigenteDesde"
+                                            (click)="vigenteDesdeedit.open()"
+                                          />
+                                          <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="vigenteDesdeedit"
+                                          ></mat-datepicker-toggle>
+                                          <mat-datepicker
+                                            #vigenteDesdeedit
+                                          ></mat-datepicker>
                                         </mat-form-field>
                                       </div>
                                       <div class="col-md-6">
-
                                         <mat-form-field>
-                                          <input class="vigenteDesde" name="vigenteHasta" [(ngModel)]="tarifarios.vigenteHasta" matInput [matDatepicker]="vigenteHastaedit"
-                                            placeholder="vigenteHasta" (click)="vigenteHastaedit.open()">
-                                          <mat-datepicker-toggle matSuffix [for]="vigenteHastaedit"></mat-datepicker-toggle>
-                                          <mat-datepicker #vigenteHastaedit></mat-datepicker>
+                                          <input
+                                            class="vigenteDesde"
+                                            name="vigenteHasta"
+                                            [(ngModel)]="
+                                              tarifarios.vigenteHasta
+                                            "
+                                            matInput
+                                            [matDatepicker]="vigenteHastaedit"
+                                            placeholder="vigenteHasta"
+                                            (click)="vigenteHastaedit.open()"
+                                          />
+                                          <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="vigenteHastaedit"
+                                          ></mat-datepicker-toggle>
+                                          <mat-datepicker
+                                            #vigenteHastaedit
+                                          ></mat-datepicker>
                                         </mat-form-field>
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="row">
-                                        <div class="col-md-6">
-                                          <mat-form-field>
-                                            <mat-select placeholder="vuelta " #vuelta="ngModel" name="vuelta" [(ngModel)]="tarifarios.vuelta" >
-                                              <mat-option *ngFor="let tipoVuel of tipoVuelta" [value]="tipoVuel.value">
-                                                {{ tipoVuel.viewValue }}
-                                              </mat-option>
-                                            </mat-select>
-                                          </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-                                          <mat-form-field>
-                                            <mat-select placeholder="tipoServicio " #tipoServicio="ngModel" name="tipoServicio" [(ngModel)]="tarifarios.tipoServicio" >
-                                              <mat-option *ngFor="let tipoServi of tipoServicioar" [value]="tipoServi.value">
-                                                {{ tipoServi.viewValue }}
-                                              </mat-option>
-                                            </mat-select>
-                                          </mat-form-field>
-                                        </div>
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select
+                                            placeholder="vuelta "
+                                            #vuelta="ngModel"
+                                            name="vuelta"
+                                            [(ngModel)]="tarifarios.vuelta"
+                                          >
+                                            <mat-option
+                                              *ngFor="
+                                                let tipoVuel of tipoVuelta
+                                              "
+                                              [value]="tipoVuel.value"
+                                            >
+                                              {{ tipoVuel.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
                                       </div>
-                                      <br>
+                                      <div class="col-md-6">
+                                        <mat-form-field>
+                                          <mat-select
+                                            placeholder="tipoServicio "
+                                            #tipoServicio="ngModel"
+                                            name="tipoServicio"
+                                            [(ngModel)]="
+                                              tarifarios.tipoServicio
+                                            "
+                                          >
+                                            <mat-option
+                                              *ngFor="
+                                                let tipoServi of tipoServicioar
+                                              "
+                                              [value]="tipoServi.value"
+                                            >
+                                              {{ tipoServi.viewValue }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <br />
                                     <div class="row">
                                       <div class="col-md-4">
                                         <label for="">Importe</label>
-                                        <input #importe="ngModel" name="importe" step="0.01" [(ngModel)]="tarifarios.importe" min="0" type="number" onkeypress="return event.charCode >= 48"
-                                          class="form-control text-center importe" placeholder="Importe...">
+                                        <input
+                                          #importe="ngModel"
+                                          name="importe"
+                                          step="0.01"
+                                          [(ngModel)]="tarifarios.importe"
+                                          min="0"
+                                          type="number"
+                                          onkeypress="return event.charCode >= 48"
+                                          class="form-control text-center importe"
+                                          placeholder="Importe..."
+                                        />
                                       </div>
                                       <div class="col-md-4 kmDesde">
                                         <label for="">kmDesde</label>
-                                        <input #kmDesde="ngModel" name="kmDesde" step="0.01" [(ngModel)]="tarifarios.kmDesde" min="0" type="number" onkeypress="return event.charCode >= 48"
-                                          class="form-control text-center " placeholder="kmDesde...">
+                                        <input
+                                          #kmDesde="ngModel"
+                                          name="kmDesde"
+                                          step="0.01"
+                                          [(ngModel)]="tarifarios.kmDesde"
+                                          min="0"
+                                          type="number"
+                                          onkeypress="return event.charCode >= 48"
+                                          class="form-control text-center"
+                                          placeholder="kmDesde..."
+                                        />
                                       </div>
-                                      <div class="col-md-4 kmHasta ">
+                                      <div class="col-md-4 kmHasta">
                                         <label for="">kmHasta</label>
-                                        <input #kmHasta="ngModel" name="kmHasta" step="0.01" [(ngModel)]="tarifarios.kmHasta" min="0" type="number" onkeypress="return event.charCode >= 48"
-                                          class="form-control text-center " placeholder="kmHasta...">
+                                        <input
+                                          #kmHasta="ngModel"
+                                          name="kmHasta"
+                                          step="0.01"
+                                          [(ngModel)]="tarifarios.kmHasta"
+                                          min="0"
+                                          type="number"
+                                          onkeypress="return event.charCode >= 48"
+                                          class="form-control text-center"
+                                          placeholder="kmHasta..."
+                                        />
                                       </div>
                                     </div>
-                                    <br>
+                                    <br />
                                     <div class="Locacion">
-                                      <hr>
-                                      <form #formRecorrido="ngForm" (ngSubmit)="onRecorrido()" class="form ">
-
+                                      <hr />
+                                      <form
+                                        #formRecorrido="ngForm"
+                                        (ngSubmit)="onRecorrido()"
+                                        class="form"
+                                      >
                                         <div class="row">
-
                                           <div class="col-md-4">
                                             <mat-form-field>
-                                              <mat-select placeholder="Locacion" #locacion_id="ngModel" name="locacion_id" [(ngModel)]="recorrido.locacion_id">
-
-                                                <div *ngFor="let loca of getlocaciones">
-                                                  <mat-option *ngIf=" loca.activo==false" style="background-color: #C5C5C5; cursor: not-allowed;" [value]="loca.id" disabled>
-                                                    <p> {{ loca.locacion }} (inactivo)</p>
+                                              <mat-select
+                                                placeholder="Locacion"
+                                                #locacion_id="ngModel"
+                                                name="locacion_id"
+                                                [(ngModel)]="
+                                                  recorrido.locacion_id
+                                                "
+                                              >
+                                                <div
+                                                  *ngFor="
+                                                    let loca of getlocaciones
+                                                  "
+                                                >
+                                                  <mat-option
+                                                    *ngIf="loca.activo == false"
+                                                    style="
+                                                      background-color: #c5c5c5;
+                                                      cursor: not-allowed;
+                                                    "
+                                                    [value]="loca.id"
+                                                    disabled
+                                                  >
+                                                    <p>
+                                                      {{
+                                                        loca.locacion
+                                                      }}
+                                                      (inactivo)
+                                                    </p>
                                                   </mat-option>
-                                                  <mat-option *ngIf=" loca.activo==true" [value]="loca.id">
-                                                    <p> {{ loca.locacion }}</p>
+                                                  <mat-option
+                                                    *ngIf="loca.activo == true"
+                                                    [value]="loca.id"
+                                                  >
+                                                    <p>{{ loca.locacion }}</p>
                                                   </mat-option>
                                                 </div>
                                               </mat-select>
                                             </mat-form-field>
                                           </div>
                                           <div class="col-md-4">
-                                            <input type="submit" value="Agregá" class="btn btn-success ">
-
+                                            <input
+                                              type="submit"
+                                              value="Agregá"
+                                              class="btn btn-success"
+                                            />
                                           </div>
                                           <div class="col-md-4">
                                             <table class="table">
@@ -786,9 +1391,26 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                <tr *ngFor="let fal of recorridoarray">
-                                                  <div class="text-center" *ngFor="let loca of getlocaciones">
-                                                    <td class="text-center" *ngIf="fal['locacion_id']==loca.id">{{loca.locacion}}</td>
+                                                <tr
+                                                  *ngFor="
+                                                    let fal of recorridoarray
+                                                  "
+                                                >
+                                                  <div
+                                                    class="text-center"
+                                                    *ngFor="
+                                                      let loca of getlocaciones
+                                                    "
+                                                  >
+                                                    <td
+                                                      class="text-center"
+                                                      *ngIf="
+                                                        fal['locacion_id'] ==
+                                                        loca.id
+                                                      "
+                                                    >
+                                                      {{ loca.locacion }}
+                                                    </td>
                                                   </div>
                                                 </tr>
                                               </tbody>
@@ -798,45 +1420,60 @@
                                       </form>
                                     </div>
 
-                                    <hr>
-                                    <br>
-                                    <input type="submit" value="Agregá" class="btn btn-success ">
+                                    <hr />
+                                    <br />
+                                    <input
+                                      type="submit"
+                                      value="Agregá"
+                                      class="btn btn-success"
+                                    />
 
                                     <br />
                                   </form>
                                   <br />
                                   <br />
-
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </span>
-
                     </div>
-                    <div class="card-footer justify-content-center">
-                    </div>
+                    <div class="card-footer justify-content-center"></div>
                     <div class="modal-footer">
-
                       <!-- <button mat-raised-button type="button" class="btn btn-link">Nice Button</button> -->
                       <!-- <button mat-raised-button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button> -->
-                      <input type="submit" value="GUARDÁ" class="btn btn-success ">
-
+                      <input
+                        type="submit"
+                        value="GUARDÁ"
+                        class="btn btn-success"
+                      />
                     </div>
                   </div>
                 </form>
               </div>
-
             </div>
           </div>
         </div>
-        <div class="modal fade" id="myModalRecorrido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="myModalRecorrido"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
           <div class="modal-dialog modal-small">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Locaciones</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button
+                  mat-button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
                   <i class="material-icons">clear</i>
                 </button>
               </div>
@@ -846,14 +1483,24 @@
                     <thead>
                       <tr>
                         <th class="text-left">locacion</th>
-
                       </tr>
                     </thead>
                     <tbody>
-                      <div class="text-center " *ngFor="let fal of recorridoarray">
-                        <tr class="text-center" *ngFor="let loca of getlocaciones">
-                          <td class="text-center" *ngIf="fal['locacion_id']==loca.id">
-                            <p class="text-center pull-center">{{loca.locacion}}</p>
+                      <div
+                        class="text-center"
+                        *ngFor="let fal of recorridoarray"
+                      >
+                        <tr
+                          class="text-center"
+                          *ngFor="let loca of getlocaciones"
+                        >
+                          <td
+                            class="text-center"
+                            *ngIf="fal['locacion_id'] == loca.id"
+                          >
+                            <p class="text-center pull-center">
+                              {{ loca.locacion }}
+                            </p>
                           </td>
                         </tr>
                       </div>
@@ -861,28 +1508,49 @@
                     <tfoot>
                       <tr>
                         <th class="text-left">locacion</th>
-
                       </tr>
                     </tfoot>
                   </table>
                 </div>
-                <div *ngIf="modalcontactomensaje !=true ">
-                  <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                <div *ngIf="modalcontactomensaje != true">
+                  <p class="text-center text-danger">
+                    {{ modalcontactomensaje }}
+                  </p>
                 </div>
               </div>
               <div class="modal-footer">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">cerrá</button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-danger btn-link"
+                  data-dismiss="modal"
+                >
+                  cerrá
+                </button>
               </div>
             </div>
           </div>
         </div>
         <!-- MODAL CONTACTO -->
-        <div class="modal fade" id="myModalContacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="myModalContacto"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Contactos</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button
+                  mat-button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
                   <i class="material-icons">clear</i>
                 </button>
               </div>
@@ -898,9 +1566,9 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let row of modalContactoshow">
-                        <td> {{row['nombre']}} </td>
-                        <td> {{row['cargo']}} </td>
-                        <td> {{row['telefono']}} </td>
+                        <td>{{ row["nombre"] }}</td>
+                        <td>{{ row["cargo"] }}</td>
+                        <td>{{ row["telefono"] }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -912,29 +1580,52 @@
                     </tfoot>
                   </table>
                 </div>
-                <div *ngIf="modalcontactomensaje !=true ">
-                  <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                <div *ngIf="modalcontactomensaje != true">
+                  <p class="text-center text-danger">
+                    {{ modalcontactomensaje }}
+                  </p>
                 </div>
               </div>
               <div class="modal-footer">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">cerrá</button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-danger btn-link"
+                  data-dismiss="modal"
+                >
+                  cerrá
+                </button>
               </div>
             </div>
           </div>
         </div>
         <!-- MODAL TARIFARIO -->
 
-        <div id="tamaño" class="modal fade " tabindex="-1" id="myModalTarifario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-          aria-hidden="true">
-          <div class=" modal-dialog">
+        <div
+          id="tamaño"
+          class="modal fade"
+          tabindex="-1"
+          id="myModalTarifario"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title color">Tarifario</h4>
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button
+                  mat-button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
                   <i class="material-icons">clear</i>
                 </button>
               </div>
-              <div class="modal-body ">
+              <div class="modal-body">
                 <div class="">
                   <table class="table table-responsive">
                     <thead>
@@ -948,25 +1639,31 @@
                         <th>kmDesde</th>
                         <th>kmHasta</th>
                         <th>recorrido</th>
-
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let row of modaltarifarios">
-                        <td> {{row['tarifario']}} </td>
-                        <td> {{row['tipo']}} </td>
+                        <td>{{ row["tarifario"] }}</td>
+                        <td>{{ row["tipo"] }}</td>
                         <div *ngFor="let tipo of tipounidades">
-                          <td *ngIf="tipo.id ==row['tipoUnidad_id'] "> {{tipo.tipo_unidad}} </td>
-
+                          <td *ngIf="tipo.id == row['tipoUnidad_id']">
+                            {{ tipo.tipo_unidad }}
+                          </td>
                         </div>
-                        <td> {{row['importe']}} </td>
-                        <td> {{row['vigenteDesde'] | date :'dd-MM-yy'}} </td>
-                        <td> {{row['vigenteHasta'] | date :'dd-MM-yy'}} </td>
-                        <td> {{row['kmDesde']}} </td>
-                        <td> {{row['kmHasta']}} </td>
-                        <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalRecorrido(row['tarifario'])"
-                          data-target="#myModalRecorrido">Ver Detalle</td>
-
+                        <td>{{ row["importe"] }}</td>
+                        <td>{{ row["vigenteDesde"] | date: "dd-MM-yy" }}</td>
+                        <td>{{ row["vigenteHasta"] | date: "dd-MM-yy" }}</td>
+                        <td>{{ row["kmDesde"] }}</td>
+                        <td>{{ row["kmHasta"] }}</td>
+                        <td
+                          class="text-center text-success"
+                          style="cursor: pointer"
+                          data-toggle="modal"
+                          (click)="modalRecorrido(row['tarifario'])"
+                          data-target="#myModalRecorrido"
+                        >
+                          Ver Detalle
+                        </td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -980,17 +1677,25 @@
                         <th>kmDesde</th>
                         <th>kmHasta</th>
                         <th>recorrido</th>
-
                       </tr>
                     </tfoot>
                   </table>
                 </div>
-                <div *ngIf="modalcontactomensaje !=true ">
-                  <p class="text-center text-danger"> {{modalcontactomensaje}}</p>
+                <div *ngIf="modalcontactomensaje != true">
+                  <p class="text-center text-danger">
+                    {{ modalcontactomensaje }}
+                  </p>
                 </div>
               </div>
               <div class="modal-footer">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">cerrá</button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-danger btn-link"
+                  data-dismiss="modal"
+                >
+                  cerrá
+                </button>
               </div>
             </div>
           </div>
@@ -998,40 +1703,60 @@
       </div>
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-rose card-header-icon">
+          <div class="card-header card-header-danger card-header-icon">
             <div class="card-icon">
               <i class="material-icons">assignment</i>
             </div>
             <h4 class="card-title">Transportistas</h4>
-
           </div>
           <div class="card-body">
-            <div class="toolbar" *ngIf="showrecuperar== true">
-              <br>
-              <button (click)="Recuperar()" class="btn btn-warning"> Recuperá el ultimo borrado
-                <i class="material-icons ">replay</i>
+            <div class="toolbar" *ngIf="showrecuperar == true">
+              <br />
+              <button (click)="Recuperar()" class="btn btn-warning">
+                Recuperá el ultimo borrado
+                <i class="material-icons">replay</i>
               </button>
-
             </div>
             <div class="">
-
               <div class="material-datatables">
-                <table id="datatables" class="table table-striped table-no-bordered table-hover table-responsive " cellspacing="6" width="100%"
-                  style="width:100%">
+                <table
+                  id="datatables"
+                  class="table table-striped table-no-bordered table-hover table-responsive"
+                  cellspacing="6"
+                  width="100%"
+                  style="width: 100%"
+                >
                   <thead *ngIf="donttable != false">
                     <tr>
-                      <th *ngFor="let row of dataTable.headerRow" class="text-center">{{ row }}</th>
+                      <th
+                        *ngFor="let row of dataTable.headerRow"
+                        class="text-center"
+                      >
+                        {{ row }}
+                      </th>
                     </tr>
                   </thead>
                   <tfoot *ngIf="donttable != false">
                     <tr>
-                      <th *ngFor="let row of dataTable.footerRow" class="text-center">{{ row }}</th>
-
+                      <th
+                        *ngFor="let row of dataTable.footerRow"
+                        class="text-center"
+                      >
+                        {{ row }}
+                      </th>
                     </tr>
                   </tfoot>
                   <tbody *ngIf="donttable != false">
                     <tr *ngFor="let row of dataTable.dataRows">
-                      <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{row.transportista}}</td>
+                      <td
+                        class="text-center"
+                        style="cursor: pointer"
+                        data-toggle="modal"
+                        (click)="editar(row.id)"
+                        data-target="#myModalEDITAR"
+                      >
+                        {{ row.transportista }}
+                      </td>
                       <!-- <td>
                           <tr *ngFor="let contacto of row.contactos">
                             <td class="text-center" style="cursor: pointer;" data-toggle="modal" (click)="editar(row.id)" data-target="#myModalEDITAR">{{contacto.nombre}}</td>
@@ -1043,35 +1768,59 @@
                               data-target="#myModalEDITAR">{{a.tarifario}}</td>
                           </tr>
                         </td> -->
-                      <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalContacto(row.id)" data-target="#myModalContacto">Ver Detalle</td>
-                      <td class="text-center text-success" style="cursor: pointer;" data-toggle="modal" (click)="modalTarifario(row.id)" data-target="#myModalTarifario">Ver Detalle</td>
+                      <td
+                        class="text-center text-success"
+                        style="cursor: pointer"
+                        data-toggle="modal"
+                        (click)="modalContacto(row.id)"
+                        data-target="#myModalContacto"
+                      >
+                        Ver Detalle
+                      </td>
+                      <td
+                        class="text-center text-success"
+                        style="cursor: pointer"
+                        data-toggle="modal"
+                        (click)="modalTarifario(row.id)"
+                        data-target="#myModalTarifario"
+                      >
+                        Ver Detalle
+                      </td>
                       <td class="text-center" *ngIf="row.activo == true">
-                        <i style="cursor: pointer;" (click)="desabilitar(row.id)" class="material-icons text-success">check</i>
-
+                        <i
+                          style="cursor: pointer"
+                          (click)="desabilitar(row.id)"
+                          class="material-icons text-success"
+                          >check</i
+                        >
                       </td>
                       <td class="text-center" *ngIf="row.activo == false">
-                        <i (click)="habilitar(row.id)" style="cursor: pointer;" class="material-icons text-danger">close</i>
-
+                        <i
+                          (click)="habilitar(row.id)"
+                          style="cursor: pointer"
+                          class="material-icons text-danger"
+                          >close</i
+                        >
                       </td>
                       <td class="text-right">
-                        <a rel="tooltip" data-placement="bottom" title="Borrar" (click)="showSwal(row.id)" class="btn btn-link btn-danger btn-just-icon remove">
+                        <a
+                          rel="tooltip"
+                          data-placement="bottom"
+                          title="Borrar"
+                          (click)="showSwal(row.id)"
+                          class="btn btn-link btn-danger btn-just-icon remove"
+                        >
                           <i class="material-icons">delete</i>
                         </a>
-
                       </td>
-
-
                     </tr>
                   </tbody>
                 </table>
               </div>
-
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>
