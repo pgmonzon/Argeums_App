@@ -89,7 +89,7 @@
     "uninstall": "0.0.0",
     "validate": "3.0.1",
     "web-animations-js": "2.3.1",
-    "xlsx": "^0.13.0",
+    "xlsx": "^0.17.0",
     "zone.js": "0.8.4"
   },
   "devDependencies": {
